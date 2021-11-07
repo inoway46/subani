@@ -15,7 +15,9 @@
     <tr>
       <td><%= i %></td>
       <% 7.times do %>
-      <td class="align-middle" style="text-align: center;"><button type="button" class="btn btn-outline-secondary">追加</button></td>
+      <td class="align-middle" style="text-align: center;">
+        <%= link_to '追加', new_content_path, remote: true, class: "btn btn-outline-secondary" %>
+      </td>
       <% end %>
     </tr>
   <% end %>
