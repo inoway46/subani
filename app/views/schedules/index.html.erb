@@ -1,7 +1,6 @@
 <h1>サブスクアニメ時間割</h1>
 <p>現在の視聴リスト</p>
-<div>
-  <table border="1" width="1000" height="1000" text-align="center">
+  <table class="table" border="1" width="1000" height="700">
     <tr>
       <th width="10%">時間割</th>
       <th>月</th>
@@ -15,14 +14,9 @@
   <% 1.upto(5) do |i| %>
     <tr>
       <td><%= i %></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <% 7.times do %>
+      <td class="align-middle" style="text-align: center;"><button type="button" class="btn btn-outline-secondary">追加</button></td>
+      <% end %>
     </tr>
   <% end %>
   </table>
-</div>
