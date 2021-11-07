@@ -1,2 +1,28 @@
-<h1>Schedules#index</h1>
-<p>Find me in app/views/schedules/index.html.erb</p>
+<h1>サブスクアニメ時間割</h1>
+<p>現在の視聴リスト</p>
+<div>
+  <table border="1" width="1000" height="1000" text-align="center">
+    <tr>
+      <th width="10%">時間割</th>
+      <th>月</th>
+      <th>火</th>
+      <th>水</th>
+      <th>木</th>
+      <th>金</th>
+      <th>土</th>
+      <th>日</th>
+    </tr>
+  <% 1.upto(5) do |i| %>
+    <tr>
+      <td><%= i %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
