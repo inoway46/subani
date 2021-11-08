@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 2021_11_07_074555) do
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.string "day"
-    t.time "time"
+    t.string "day", null: false
+    t.integer "order", null: false
     t.integer "content_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
