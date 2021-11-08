@@ -1,2 +1,5 @@
-<h1>Contents#new</h1>
-<p>Find me in app/views/contents/new.html.erb</p>
+<h1>New Content</h1>
+
+<%= render 'form', content: @content %>
+
+<%= link_to 'Back', schedules_path %>
