@@ -3,8 +3,7 @@ class CreateSchedules < ActiveRecord::Migration[5.2]
     create_table :schedules do |t|
       t.string :day, null: false
       t.integer :order, null: false
-      t.integer :content_id, null: false
-      t.references :content, foreign_key: true
+      t.belongs_to :content
       t.timestamps
     end
   end

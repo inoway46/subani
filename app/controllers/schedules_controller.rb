@@ -5,6 +5,8 @@ class SchedulesController < ApplicationController
       format.html
       format.js
     end
+
+    @contents = Content.all
   end
 
   def index
@@ -15,6 +17,7 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = Schedule.new(schedule_params)
+    @contents = Content.all
 
     respond_to do |format|
       if @schedule.save

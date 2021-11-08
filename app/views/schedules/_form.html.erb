@@ -18,17 +18,21 @@
       </button>
     </div>
     <div class="modal-body">
-      <div class="form-group field">
-        <%= f.label :title , class: "form-control-label"%>
-        <%= f.text_field :title, class: "form-control" %>
+      <div class="form-group">
+        <%= f.label :content_id , class: "form-control-label"%>
+        <%= f.collection_select :content_id, @contents, :id, :title, { prompt: "選択してください" }, class: "form-control" %>
       </div>
-      <div class="form-group select">
+      <div class="form-group">
         <%= f.label :media, class: "form-control-label"%>
-        <%= f.select :media, [["Amazonプライム", "Amazonプライム"], ["Abemaビデオ", "Abemaビデオ"], ["Netflix", "Netflix"]], include_blank: "選択して下さい", class: "form-control" %>
+        <%= f.collection_select :content_id, @contents, :id, :media, { prompt: "選択してください" }, class: "form-control" %>
       </div>
-      <div class="form-group field">
-        <%= f.label :url , class: "form-control-label"%>
-        <%= f.text_field :url, class: "form-control" %>
+      <div class="form-group">
+        <%= f.label :day, class: "form-control-label"%>
+        <%= f.select :day, [["月","月"], ["火","火"], ["水","水"], ["木","木"], ["金","金"], ["土","土"], ["日","日"]], include_blank: "選択して下さい", class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :order, class: "form-control-label"%>
+        <%= f.select :order, [[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], include_blank: "選択して下さい", class: "form-control" %>
       </div>
     </div>
     <div class="modal-footer actions">
