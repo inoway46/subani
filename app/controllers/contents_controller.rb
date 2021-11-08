@@ -8,6 +8,7 @@ class ContentsController < ApplicationController
   end
 
   def index
+    @contents = Content.all
   end
 
   def show
@@ -28,6 +29,12 @@ class ContentsController < ApplicationController
   end
 
   def destroy
+    content = Content.find(params[:id])
+    if content.destroy
+      redirect_to contents_path, notice: "削除しました"
+    else
+      redirect_to contents_path, alert: "削除が失敗しました"
+    end
   end
 
   private

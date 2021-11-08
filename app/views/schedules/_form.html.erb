@@ -23,10 +23,6 @@
         <%= f.collection_select :content_id, @contents, :id, :title, { prompt: "選択してください" }, class: "form-control" %>
       </div>
       <div class="form-group">
-        <%= f.label :media, class: "form-control-label"%>
-        <%= f.collection_select :content_id, @contents, :id, :media, { prompt: "選択してください" }, class: "form-control" %>
-      </div>
-      <div class="form-group">
         <%= f.label :day, class: "form-control-label"%>
         <%= f.select :day, [["月","月"], ["火","火"], ["水","水"], ["木","木"], ["金","金"], ["土","土"], ["日","日"]], include_blank: "選択して下さい", class: "form-control" %>
       </div>

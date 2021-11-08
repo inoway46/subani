@@ -1,4 +1,28 @@
-<h1>Contents#index</h1>
-<p>Find me in app/views/contents/index.html.erb</p>
-<%= link_to 'タイトルを追加する', new_content_path, remote: true, class: "btn btn-outline-secondary" %>
-<div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div style="padding: 20px;">
+  <h1>Contents#index</h1>
+  <p>Find me in app/views/contents/index.html.erb</p>
+  <%= link_to 'タイトルを追加する', new_content_path, remote: true, class: "btn btn-outline-success" %>
+  <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+</div>
+<p><%= link_to "時間割リストへ", root_path %></p>
+
+<table class="table" border="2" style="table-layout:fixed;">
+  <tr>
+    <th style="width: 10%;">id</th>
+    <th>タイトル</th>
+    <th style="width: 17%;">メディア</th>
+    <th style="width: 15%;">登録日</th>
+    <th style="width: 15%;">URL</th>
+    <th style="width: 10%;">編集</th>
+  </tr>
+<% @contents.each do |content| %>
+  <tr>
+    <td><%= content.id %></td>
+    <td><%= content.title %></td>
+    <td><%= content.media %></td>
+    <td><%= content.created_at.strftime('%Y/%m/%d') %></td>
+    <td><%= link_to '再生ページ' ,content.url, target: :_blank, rel: "noopener noreferrer" %></td>
+    <td><%= link_to '削除', content_path(content.id), method: :delete, data: { confirm: "削除しますか？" }, type: "button", class: "btn btn-outline-danger" %></td>
+  </tr>
+<% end %>
+</table>
