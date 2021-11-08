@@ -13,9 +13,9 @@
 ActiveRecord::Schema.define(version: 2021_11_07_074555) do
 
   create_table "contents", force: :cascade do |t|
-    t.string "title"
-    t.string "media"
-    t.text "url"
+    t.string "title", null: false
+    t.string "media", null: false
+    t.text "url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
