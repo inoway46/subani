@@ -1,0 +1,23 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <%= form_with(model: @content, local: true) do |form| %>
+      <% if @content.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@content.errors.count, "error") %> prohibited this content from being saved:</h2>
+          <ul>
+          <% @content.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form.label :title %>
+      <%= form.text_field :title %>
+
+      <div class="actions">
+        <%= form.submit %>
+      </div>
+    <% end %>
+  </div>
+</div>
