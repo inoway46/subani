@@ -40,6 +40,6 @@ class ContentsController < ApplicationController
   private
 
   def content_params
-    params.require(:content).permit(:title, :media, :url)
+    params.require(:content).permit(:title, :media, :url, :stream)
   end
 end
