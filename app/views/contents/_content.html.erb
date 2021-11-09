@@ -1,0 +1,6 @@
+<td><%= content.id %></td>
+<td><%= content.title %></td>
+<td><%= content.media %></td>
+<td><%= content.stream_i18n %></td>
+<td><%= link_to '再生ページ' ,content.url, target: :_blank, rel: "noopener noreferrer" %></td>
+<td><%= link_to '削除', content_path(content.id), method: :delete, data: { confirm: "削除しますか？" }, type: "button", class: "btn btn-outline-danger" %></td>

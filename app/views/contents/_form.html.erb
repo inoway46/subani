@@ -30,6 +30,10 @@
         <%= f.label :url , class: "form-control-label"%>
         <%= f.text_field :url, class: "form-control" %>
       </div>
+      <div class="form-group select">
+        <%= f.label :stream, class: "form-control-label"%>
+        <%= f.select :stream, Content.streams.keys.map {|k| [I18n.t("enums.content.stream.#{k}"), k]}, class: "form-control" %>
+      </div>
     </div>
     <div class="modal-footer actions">
       <%= f.submit class: "btn btn-primary"%>

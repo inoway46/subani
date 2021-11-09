@@ -15,12 +15,12 @@ class ContentsController < ApplicationController
   end
 
   def create
+    @contents = Content.all
     @content = Content.new(content_params)
 
     respond_to do |format|
       if @content.save
         format.html
-        format.json
         format.js
       else
         format.js { render :new }
