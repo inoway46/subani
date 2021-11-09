@@ -10,6 +10,8 @@ class SchedulesController < ApplicationController
   end
 
   def index
+    @contents = Content.all
+    @schedules = Schedule.all
   end
 
   def show
