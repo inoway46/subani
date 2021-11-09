@@ -1,2 +1,2 @@
-$("#contents").html("<%= j (render 'index') %>")
+$("tbody").append("<%= j (render 'content', content: @content) %>")
 $("#content-modal").modal("hide");
