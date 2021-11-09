@@ -33,6 +33,12 @@ class SchedulesController < ApplicationController
   end
 
   def destroy
+    schedule = Schedule.find(params[:id])
+    if schedule.destroy
+      redirect_to schedules_path, notice: "削除しました"
+    else
+      redirect_to schedules_path, alert: "削除が失敗しました"
+    end
   end
 
   private

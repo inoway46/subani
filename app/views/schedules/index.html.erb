@@ -35,7 +35,7 @@
 
 <script>
 <% @schedules.each do |schedule| %>
-$('#<%= "#{schedule.day}" + "#{schedule.order}" %>').html('<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+$('#<%= "#{schedule.day}" + "#{schedule.order}" %>').html('<%= link_to schedule_path(schedule.id), method: :delete, data: { confirm: "削除しますか？" } do %><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button><% end %>');
 $('#<%= "#{schedule.day}" + "#{schedule.order}" %>').append('<%= link_to schedule.content.title, schedule.content.url, target: :_blank, rel: "noopener noreferrer", type: "button", class: "btn btn-outline-primary", style: "font-size: 0.75rem;" %>');
 <% end %>
 </script>
