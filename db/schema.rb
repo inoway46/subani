@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2021_11_07_074555) do
     t.string "title", null: false
     t.string "media", null: false
     t.text "url", null: false
+    t.integer "stream", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
