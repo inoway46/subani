@@ -6,20 +6,17 @@ class SchedulesController < ApplicationController
       format.js
     end
 
-    @contents = Content.all
+    @contents = Content.all.includes(:user)
   end
 
   def index
-    @contents = Content.all
-    @schedules = Schedule.all
+    @schedules = Schedule.all.includes(:user)
   end
 
-  def show
-  end
+  def show; end
 
   def create
-    @schedule = Schedule.new(schedule_params)
-    @contents = Content.all
+    @schedule = current_user.schedules.build(schedule_params)
 
     respond_to do |format|
       if @schedule.save
@@ -33,7 +30,7 @@ class SchedulesController < ApplicationController
   end
 
   def destroy
-    schedule = Schedule.find(params[:id])
+    schedule = current_user.schedules.find(params[:id])
     if schedule.destroy
       redirect_to schedules_path, notice: "削除しました"
     else
