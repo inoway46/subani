@@ -1,5 +1,6 @@
 class Schedule < ApplicationRecord
   belongs_to :content
+  belongs_to :user
 
   validates :day, presence: true
   validates :order, presence: true, uniqueness: { scope: :day }
