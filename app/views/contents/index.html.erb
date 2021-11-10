@@ -1,7 +1,7 @@
 <p>タイトル一覧</p>
 <%= link_to 'タイトルを追加する', new_content_path, remote: true, class: "btn btn-outline-success" %>
 <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<p style="padding-top: 20px;"><%= link_to "時間割リストへ", root_path %></p>
+<p style="padding-top: 20px;"><%= link_to "時間割リストへ", schedules_path %></p>
 
 <table class="table" id="contents" border="2" style="table-layout:fixed;">
   <tr>
