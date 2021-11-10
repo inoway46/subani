@@ -16,15 +16,22 @@ class ContentsController < ApplicationController
 
   def edit
     @content = Content.find_by(id: params[:id])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def update
     @content = Content.find(params[:id])
     
-    if @content.update(content_params)
-      redirect_to contents_path, notice: "更新しました"
-    else
-      render :edit
+    respond_to do |format|
+      if @content.update(content_params)
+        format.html
+        format.js
+      else
+        format.js { render :edit }
+      end
     end
   end
 
