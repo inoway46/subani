@@ -8,7 +8,7 @@ class ContentsController < ApplicationController
   end
 
   def index
-    @contents = Content.all.includes(:user).order(stream: :asc)
+    @contents = current_user.contents.order(stream: :asc)
   end
 
   def show
@@ -36,7 +36,6 @@ class ContentsController < ApplicationController
   end
 
   def create
-    @contents = Content.all.includes(:user)
     @content = current_user.contents.build(content_params)
 
     respond_to do |format|

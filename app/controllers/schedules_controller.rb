@@ -6,11 +6,11 @@ class SchedulesController < ApplicationController
       format.js
     end
 
-    @contents = Content.all.includes(:user)
+    @contents = current_user.contents
   end
 
   def index
-    @schedules = Schedule.all.includes(:user)
+    @schedules = current_user.schedules
   end
 
   def show; end
