@@ -8,7 +8,7 @@ class ContentsController < ApplicationController
   end
 
   def index
-    @contents = Content.all
+    @contents = Content.all.order(stream: :asc)
   end
 
   def show
