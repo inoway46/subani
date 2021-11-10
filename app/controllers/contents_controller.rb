@@ -8,14 +8,14 @@ class ContentsController < ApplicationController
   end
 
   def index
-    @contents = Content.all.order(stream: :asc)
+    @contents = Content.all.includes(:user).order(stream: :asc)
   end
 
   def show
   end
 
   def edit
-    @content = Content.find_by(id: params[:id])
+    @content = current_user.contents.find(params[:id])
     respond_to do |format|
       format.html
       format.js
@@ -23,7 +23,7 @@ class ContentsController < ApplicationController
   end
 
   def update
-    @content = Content.find(params[:id])
+    @content = current_user.contents.find(params[:id])
     
     respond_to do |format|
       if @content.update(content_params)
@@ -36,8 +36,8 @@ class ContentsController < ApplicationController
   end
 
   def create
-    @contents = Content.all
-    @content = Content.new(content_params)
+    @contents = Content.all.includes(:user)
+    @content = current_user.contents.build(content_params)
 
     respond_to do |format|
       if @content.save
@@ -50,7 +50,7 @@ class ContentsController < ApplicationController
   end
 
   def destroy
-    content = Content.find(params[:id])
+    content = current_user.contents.find(params[:id])
     if content.destroy
       redirect_to contents_path, notice: "削除しました"
     else
