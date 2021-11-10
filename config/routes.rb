@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'schedules#index'
+  root 'top#index'
   devise_for :users
   resources :schedules
   resources :contents
