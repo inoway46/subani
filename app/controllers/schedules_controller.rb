@@ -21,7 +21,6 @@ class SchedulesController < ApplicationController
     respond_to do |format|
       if @schedule.save
         format.html
-        format.json
         format.js
       else
         format.js { render :new }
