@@ -36,11 +36,16 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+#bootstrapの導入
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
+
 #enumの日本語化
 gem 'enum_help'
 gem 'rails-i18n'
+
+#ログイン機能の実装
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
