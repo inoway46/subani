@@ -11,14 +11,18 @@
 
   <body>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-      <h5 class="my-0 mr-md-auto font-weight-normal">Company name</h5>
+      <h5 class="my-0 mr-md-auto font-weight-normal">サブスクアニメ時間割</h5>
       <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="#">Features</a>
-        <a class="p-2 text-dark" href="#">Enterprise</a>
-        <a class="p-2 text-dark" href="#">Support</a>
-        <a class="p-2 text-dark" href="#">Pricing</a>
+        <% if user_signed_in? %>
+          <%= link_to "時間割", schedules_path, class: "p-2 text-dark" %>
+          <%= link_to "タイトル一覧", contents_path, class: "p-2 text-dark" %>
+          <%= link_to "マイページ", user_path(current_user.id), class: "p-2 text-dark" %>
+          <%= link_to "ログアウト", destroy_user_session_path, class: "p-2 text-dark" %>
+        <% else %>
+          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-success" %>
+          <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary" %>
+        <% end %>
       </nav>
-      <a class="btn btn-outline-primary" href="#">Sign up</a>
     </div>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
