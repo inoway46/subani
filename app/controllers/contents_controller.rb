@@ -14,6 +14,20 @@ class ContentsController < ApplicationController
   def show
   end
 
+  def edit
+    @content = Content.find_by(id: params[:id])
+  end
+
+  def update
+    @content = Content.find(params[:id])
+    
+    if @content.update(content_params)
+      redirect_to contents_path, notice: "更新しました"
+    else
+      render :edit
+    end
+  end
+
   def create
     @contents = Content.all
     @content = Content.new(content_params)
