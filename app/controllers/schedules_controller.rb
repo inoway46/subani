@@ -1,4 +1,5 @@
 class SchedulesController < ApplicationController
+  before_action :authenticate_user!
   def new
     @schedule = Schedule.new
     respond_to do |format|
