@@ -16,6 +16,7 @@ class SchedulesController < ApplicationController
   def show; end
 
   def create
+    @contents = current_user.contents
     @schedule = current_user.schedules.build(schedule_params)
 
     respond_to do |format|
