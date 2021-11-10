@@ -1,10 +1,7 @@
-<div style="padding: 20px;">
-  <h1>サブスクアニメ時間割</h1>
-  <p>現在の視聴リスト</p>
-  <%= link_to '時間割を追加する', new_schedule_path, remote: true, class: "btn btn-outline-success" %>
-</div>
+<p>現在の視聴リスト</p>
+<%= link_to '時間割を追加する', new_schedule_path, remote: true, class: "btn btn-outline-success" %>
 
-<p><%= link_to 'タイトルリストへ', contents_path %></p>
+<p style="padding-top: 20px;"><%= link_to 'タイトルリストへ', contents_path %></p>
 
 <table class="table" border="1" width="1000" height="700">
   <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
