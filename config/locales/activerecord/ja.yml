@@ -1,0 +1,41 @@
+ja:
+  activerecord:
+    models:
+      user: 'ユーザー'
+      content: 'コンテンツ'
+      schedule: 'スケジュール'
+    attributes:
+      user:
+        email: 'メールアドレス'
+        password: 'パスワード'
+        password_confirmation: 'パスワード確認用'
+      content:
+        title: 'タイトル'
+        media: '配信メディア'
+        url: 'URL'
+        stream: '配信曜日'
+      schedule:
+        content_id: '作品タイトル'
+        content: '作品'
+        day: '曜日'
+        order: '登録順'
+  attributes:
+    id: 'ID'
+    created_at: '作成日時'
+    updated_at: '更新日時'
+
+  enums:
+    user:
+      role:
+        general: '一般'
+        admin: '管理者'
+    content:
+      stream:
+        default: "--"
+        Mon: "月曜日"
+        Tue: "火曜日"
+        Wed: "水曜日"
+        Thu: "木曜日"
+        Fri: "金曜日"
+        Sat: "土曜日"
+        Sun: "日曜日"
