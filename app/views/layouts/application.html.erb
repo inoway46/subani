@@ -14,6 +14,7 @@
       <h5 class="my-0 mr-md-auto font-weight-normal"><%= link_to "サブスクアニメ時間割", root_path, class: "p-2 text-dark" %></h5>
       <nav class="my-2 my-md-0 mr-md-3">
         <% if user_signed_in? %>
+          <%= link_to "アンケート", "https://forms.gle/rsUDHwDYFWkmn1pc6", target: :_blank, rel: "noopener noreferrer", type: "button", class: "btn btn-outline-info" %>
           <%= link_to "時間割", schedules_path, class: "p-2 text-dark" %>
           <%= link_to "タイトル一覧", contents_path, class: "p-2 text-dark" %>
           <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "p-2 text-dark" %>
