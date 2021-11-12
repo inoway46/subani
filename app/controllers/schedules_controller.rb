@@ -19,7 +19,6 @@ class SchedulesController < ApplicationController
   def create
     @contents = current_user.contents
     @schedule = current_user.schedules.build(schedule_params)
-    @msg = "時間割を追加しました"
 
     respond_to do |format|
       if @schedule.save
