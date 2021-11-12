@@ -19,6 +19,7 @@ class SchedulesController < ApplicationController
   def create
     @contents = current_user.contents
     @schedule = current_user.schedules.build(schedule_params)
+    @msg = "時間割を追加しました"
 
     respond_to do |format|
       if @schedule.save
@@ -33,7 +34,7 @@ class SchedulesController < ApplicationController
   def destroy
     schedule = current_user.schedules.find(params[:id])
     if schedule.destroy
-      redirect_to schedules_path, notice: "削除しました"
+      redirect_to schedules_path, alert: "削除しました"
     else
       redirect_to schedules_path, alert: "削除が失敗しました"
     end
