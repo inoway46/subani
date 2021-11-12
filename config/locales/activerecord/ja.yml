@@ -16,7 +16,7 @@ ja:
         stream: '配信曜日'
       schedule:
         content_id: '作品タイトル'
-        content: '作品'
+        content: '作品タイトル'
         day: '曜日'
         order: '登録順'
   attributes:

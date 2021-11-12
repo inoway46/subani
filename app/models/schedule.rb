@@ -4,5 +4,5 @@ class Schedule < ApplicationRecord
 
   validates :day, presence: true
   validates :order, presence: true, uniqueness: { scope: [:day, :user_id] }
-  validates :content_id, presence: true, uniqueness: true
+  validates :content_id, uniqueness: true
 end
