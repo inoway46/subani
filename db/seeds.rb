@@ -11,4 +11,6 @@
   Content.create!(
     { title: title, media: media, url: url, stream: stream, user_id: user_id }
   )
+
+  User.create!(email: 'admin@example.com', password: 'yuuya416', password_confirmation: 'yuuya416', admin: true)
 end
