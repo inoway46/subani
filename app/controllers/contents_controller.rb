@@ -15,6 +15,10 @@ class ContentsController < ApplicationController
   def show
   end
 
+  def ranking
+    @works = result.data.to_h["searchWorks"]["edges"]
+  end
+
   def edit
     @content = current_user.contents.find(params[:id])
     respond_to do |format|
@@ -66,5 +70,9 @@ class ContentsController < ApplicationController
 
   def content_params
     params.require(:content).permit(:title, :media, :url, :stream, :user_id)
+  end
+
+  def result
+    response = Subani::Client.query(Query)
   end
 end
