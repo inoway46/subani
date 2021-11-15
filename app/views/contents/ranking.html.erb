@@ -1,0 +1,19 @@
+<table class="table">
+  <tr>
+    <th>タイトル</th>
+    <th>視聴登録数</th>
+    <th>配信話数</th>
+    <th>評価点</th>
+    <th>URL</th>
+  </tr>
+<% @works.each do |content| %>
+  <tr>
+    <td><%= content["node"]["title"] %></td>
+    <td><%= content["node"]["watchersCount"] %></td>
+    <td><%= content["node"]["episodesCount"] %></td>
+    <td><%= content["node"]["satisfactionRate"] %></td>
+    <td><%= link_to '公式サイト', content["node"]["officialSiteUrl"], target: :_blank, rel: "noopener noreferrer" %></td>
+  </tr>
+<% end %>
+</table>
+<p>※情報は<%= link_to 'Annict様', 'https://annict.com/', target: :_blank, rel: "noopener noreferrer" %>より取得</p>
