@@ -12,7 +12,7 @@ ja:
       content:
         title: 'タイトル'
         media: '配信メディア'
-        url: 'URL'
+        url: '配信ページのURL'
         stream: '配信曜日'
       schedule:
         content_id: '作品タイトル'
