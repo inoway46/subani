@@ -58,7 +58,7 @@ class SchedulesController < ApplicationController
   def destroy
     schedule = current_user.schedules.find(params[:id])
     if schedule.destroy
-      redirect_to schedules_path, alert: "削除しました"
+      redirect_to schedules_path
     else
       redirect_to schedules_path, alert: "削除が失敗しました"
     end
