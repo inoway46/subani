@@ -30,6 +30,31 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def edit
+    @contents = current_user.contents
+    schedule = current_user.schedules.find(params[:id])
+    @schedule = current_user.schedules.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
+  def update
+    @contents = current_user.contents
+    schedule = current_user.schedules.find(params[:id])
+    @schedule = current_user.schedules.find(params[:id])
+    
+    respond_to do |format|
+      if schedule.update(schedule_params)
+        format.html
+        format.js
+      else
+        format.js { render :edit }
+      end
+    end
+  end
+
   def destroy
     schedule = current_user.schedules.find(params[:id])
     if schedule.destroy

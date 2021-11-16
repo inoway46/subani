@@ -33,6 +33,7 @@
 <script>
 <% @schedules.each do |schedule| %>
 $('#<%= "#{schedule.day}" + "#{schedule.order}" %>').append('<%= link_to schedule_path(schedule), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt float-right" style="padding:5px; color:gray;"></i><% end %>');
+$('#<%= "#{schedule.day}" + "#{schedule.order}" %>').append('<%= link_to edit_schedule_path(schedule.id), remote: true do %><i class="far fa-edit float-right" style="padding:5px; color:gray;"></i><% end %>');
 $('#<%= "#{schedule.day}" + "#{schedule.order}" %>').append('<%= link_to schedule.content.title, schedule.content.url, target: :_blank, rel: "noopener noreferrer", type: "button", class: "btn btn-outline-primary", style: "font-size: 0.75rem;" %>');
 <% end %>
 </script>
