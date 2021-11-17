@@ -17,7 +17,7 @@ ja:
       schedule:
         content_id: '作品タイトル'
         content: '作品タイトル'
-        day: '曜日'
+        day: '登録曜日'
         order: '登録順'
   attributes:
     id: 'ID'
@@ -32,10 +32,10 @@ ja:
     content:
       stream:
         default: "--"
-        Mon: "月曜日"
-        Tue: "火曜日"
-        Wed: "水曜日"
-        Thu: "木曜日"
-        Fri: "金曜日"
-        Sat: "土曜日"
-        Sun: "日曜日"
+        Mon: "月"
+        Tue: "火"
+        Wed: "水"
+        Thu: "木"
+        Fri: "金"
+        Sat: "土"
+        Sun: "日"
