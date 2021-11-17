@@ -1,12 +1,5 @@
 class ContentsController < ApplicationController
   before_action :authenticate_user!
-  def new
-    @content = Content.new
-    respond_to do |format|
-      format.html
-      format.js
-    end
-  end
 
   def index
     @contents = current_user.contents.order(stream: :asc)
@@ -17,6 +10,28 @@ class ContentsController < ApplicationController
 
   def ranking
     @works = result.data.to_h["searchWorks"]["edges"]
+  end
+
+  def new
+    @content = Content.new
+    @content.build_schedule
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
+  def create
+    @content = current_user.contents.build(content_params)
+
+    respond_to do |format|
+      if @content.save
+        format.html
+        format.js
+      else
+        format.js { render :new }
+      end
+    end
   end
 
   def edit
@@ -40,19 +55,6 @@ class ContentsController < ApplicationController
     end
   end
 
-  def create
-    @content = current_user.contents.build(content_params)
-
-    respond_to do |format|
-      if @content.save
-        format.html
-        format.js
-      else
-        format.js { render :new }
-      end
-    end
-  end
-
   def destroy
     @content = current_user.contents.find(params[:id])
 
@@ -69,7 +71,7 @@ class ContentsController < ApplicationController
   private
 
   def content_params
-    params.require(:content).permit(:title, :media, :url, :stream, :user_id)
+    params.require(:content).permit(:title, :media, :url, :stream, :user_id, schedule_attributes: [:day, :order, :user_id])
   end
 
   def result

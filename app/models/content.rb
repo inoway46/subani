@@ -1,5 +1,6 @@
 class Content < ApplicationRecord
   has_one :schedule, dependent: :destroy
+  accepts_nested_attributes_for :schedule
   belongs_to :user
 
   enum stream: { default: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 }
