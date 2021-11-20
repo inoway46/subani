@@ -7,7 +7,7 @@ class SchedulesController < ApplicationController
       format.js
     end
 
-    @contents = current_user.contents
+    @contents = current_user.contents.where(registered: false)
   end
 
   def index
@@ -17,11 +17,12 @@ class SchedulesController < ApplicationController
   def show; end
 
   def create
-    @contents = current_user.contents
+    @contents = current_user.contents.where(registered: false)
     @schedule = current_user.schedules.build(schedule_params)
 
     respond_to do |format|
       if @schedule.save
+        @contents.find(params[:schedule][:content_id]).update_attributes(registered: true)
         format.html
         format.js
       else
@@ -57,7 +58,9 @@ class SchedulesController < ApplicationController
 
   def destroy
     schedule = current_user.schedules.find(params[:id])
+    @content = current_user.contents.find(schedule.content_id)
     if schedule.destroy
+      @content.update_attributes(registered: false)
       redirect_to schedules_path
     else
       redirect_to schedules_path, alert: "削除が失敗しました"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_14_072224) do
+ActiveRecord::Schema.define(version: 2021_11_20_055138) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2021_11_14_072224) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.boolean "registered", default: false, null: false
     t.index ["user_id"], name: "index_contents_on_user_id"
   end
 
