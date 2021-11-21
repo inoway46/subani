@@ -26,6 +26,10 @@ class ContentsController < ApplicationController
 
     respond_to do |format|
       if @content.save
+        unless Schedule.where(position: 5).where(day: @content.stream_i18n).exists?
+          Schedule.create!(content_id: @content.id, day: @content.stream_i18n, user_id: current_user.id)
+          @content.update(registered: true)
+        end
         format.html
         format.js
       else
@@ -71,7 +75,7 @@ class ContentsController < ApplicationController
   private
 
   def content_params
-    params.require(:content).permit(:title, :media, :url, :stream, :user_id, schedule_attributes: [:day, :order, :user_id])
+    params.require(:content).permit(:title, :media, :url, :stream, :user_id)
   end
 
   def result

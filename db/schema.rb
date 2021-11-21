@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_20_055138) do
+ActiveRecord::Schema.define(version: 2021_11_21_044742) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -26,11 +26,11 @@ ActiveRecord::Schema.define(version: 2021_11_20_055138) do
 
   create_table "schedules", force: :cascade do |t|
     t.string "day", null: false
-    t.integer "order", null: false
     t.integer "content_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "position"
     t.index ["content_id"], name: "index_schedules_on_content_id"
     t.index ["user_id"], name: "index_schedules_on_user_id"
   end
