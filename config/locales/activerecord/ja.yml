@@ -18,7 +18,7 @@ ja:
         content_id: '作品タイトル'
         content: '作品タイトル'
         day: '登録曜日'
-        order: '登録順'
+        position: '登録順'
   attributes:
     id: 'ID'
     created_at: '作成日時'
