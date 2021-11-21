@@ -21,19 +21,20 @@ class SchedulesController < ApplicationController
     @schedule = current_user.schedules.build(schedule_params)
 
     respond_to do |format|
-      if @schedule.save
+      if Schedule.where(position: 5).where(day: params[:schedule][:day]).exists?
+        @schedule.errors.add(:base, "時間割に空きがありません")
+        format.js { render :new }
+      else
+        @schedule.save
         @contents.find(params[:schedule][:content_id]).update_attributes(registered: true)
         format.html
         format.js
-      else
-        format.js { render :new }
       end
     end
   end
 
   def edit
     @contents = current_user.contents
-    schedule = current_user.schedules.find(params[:id])
     @schedule = current_user.schedules.find(params[:id])
     respond_to do |format|
       format.html
@@ -43,15 +44,16 @@ class SchedulesController < ApplicationController
 
   def update
     @contents = current_user.contents
-    schedule = current_user.schedules.find(params[:id])
     @schedule = current_user.schedules.find(params[:id])
     
     respond_to do |format|
-      if schedule.update(schedule_params)
+      if Schedule.where(position: 5).where(day: params[:schedule][:day]).exists?
+        @schedule.errors.add(:base, "時間割に空きがありません")
+        format.js { render :edit }
+      else
+        @schedule.update(schedule_params)
         format.html
         format.js
-      else
-        format.js { render :edit }
       end
     end
   end
@@ -70,6 +72,6 @@ class SchedulesController < ApplicationController
   private
 
   def schedule_params
-    params.require(:schedule).permit(:content_id, :day, :order, :user_id)
+    params.require(:schedule).permit(:content_id, :day, :user_id)
   end
 end
