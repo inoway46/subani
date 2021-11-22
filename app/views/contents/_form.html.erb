@@ -34,18 +34,6 @@
         <%= f.label :stream, class: "form-control-label"%>
         <%= f.select :stream, Content.streams.keys.map {|k| [I18n.t("enums.content.stream.#{k}"), k]}, class: "form-control" %>
       </div>
-      <h5 style="padding-bottom:20px; text-align:center;">時間割登録</h6>
-      <%= f.fields_for :schedule do |schedule| %>
-        <div class="form-group">
-          <%= schedule.label :day, class: "form-control-label"%>
-          <%= schedule.select :day, [["月","月"], ["火","火"], ["水","水"], ["木","木"], ["金","金"], ["土","土"], ["日","日"]], include_blank: "選択して下さい", class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= schedule.label :order, class: "form-control-label"%>
-          <%= schedule.select :order, [[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], include_blank: "選択して下さい", class: "form-control" %>
-        </div>
-        <%= schedule.hidden_field :user_id, value: current_user.id %>
-      <% end %>
     </div>
     <div class="modal-footer actions">
       <%= f.submit class: "btn btn-primary"%>
