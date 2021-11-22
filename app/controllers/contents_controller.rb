@@ -14,7 +14,6 @@ class ContentsController < ApplicationController
 
   def new
     @content = Content.new
-    @content.build_schedule
     respond_to do |format|
       format.html
       format.js

@@ -21,7 +21,7 @@ class SchedulesController < ApplicationController
     @schedule = current_user.schedules.build(schedule_params)
 
     respond_to do |format|
-      if Schedule.where(position: 5).where(day: params[:schedule][:day]).exists?
+      if current_user.schedules.where(position: 5).where(day: params[:schedule][:day]).exists?
         @schedule.errors.add(:base, "時間割に空きがありません")
         format.js { render :new }
       else
@@ -47,7 +47,7 @@ class SchedulesController < ApplicationController
     @schedule = current_user.schedules.find(params[:id])
     
     respond_to do |format|
-      if Schedule.where(position: 5).where(day: params[:schedule][:day]).exists?
+      if current_user.schedules.where(position: 5).where(day: params[:schedule][:day]).exists?
         @schedule.errors.add(:base, "時間割に空きがありません")
         format.js { render :edit }
       else
