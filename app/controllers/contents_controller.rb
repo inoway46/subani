@@ -26,7 +26,7 @@ class ContentsController < ApplicationController
 
     respond_to do |format|
       if @content.save
-        unless Schedule.where(position: 5).where(day: @content.stream_i18n).exists?
+        unless current_user.schedules.where(position: 5).where(day: @content.stream_i18n).exists?
           Schedule.create!(content_id: @content.id, day: @content.stream_i18n, user_id: current_user.id)
           @content.update(registered: true)
         end
