@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_21_044742) do
+ActiveRecord::Schema.define(version: 2021_11_22_075859) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2021_11_21_044742) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.boolean "registered", default: false, null: false
+    t.integer "master_id"
     t.index ["user_id"], name: "index_contents_on_user_id"
   end
 

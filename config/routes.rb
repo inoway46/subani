@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :contents do
     collection do
       get 'ranking'
+      get 'master'
     end
   end
   resources :users

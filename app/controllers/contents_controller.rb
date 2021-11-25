@@ -12,6 +12,10 @@ class ContentsController < ApplicationController
     @works = result.data.to_h["searchWorks"]["edges"]
   end
 
+  def master
+    @content = Content.new
+  end
+
   def new
     @content = Content.new
     respond_to do |format|
@@ -22,17 +26,29 @@ class ContentsController < ApplicationController
 
   def create
     @content = current_user.contents.build(content_params)
-
-    respond_to do |format|
-      if @content.save
-        unless current_user.schedules.where(position: 5).where(day: @content.stream_i18n).exists?
-          Schedule.create!(content_id: @content.id, day: @content.stream_i18n, user_id: current_user.id)
-          @content.update(registered: true)
+    # binding.pry
+    
+    unless params[:content][:master_id] #タイトル一覧からの追加（マスタ登録ではない時）
+      #binding.pry
+      respond_to do |format|
+        if @content.save
+          unless current_user.schedules.where(position: 5).where(day: @content.stream_i18n).exists?
+            current_user.schedules.create!(content_id: @content.id, day: @content.stream_i18n)
+            @content.update(registered: true)
+          end
+          format.html
+          format.js
+        else
+          format.js { render :new }
         end
-        format.html
-        format.js
-      else
-        format.js { render :new }
+      end
+
+    else #マスタ登録からの追加
+      @master_ids = params[:content][:master_id]
+      @master_ids.each do |master_id|
+        master = Master.find(master_id.to_i)
+        @content = current_user.contents.create!(title: master.title, media: master.media, url: master.url, stream: master.stream)
+        current_user.schedules.create!(content_id: @content.id, day: @content.stream_i18n)
       end
     end
   end
@@ -74,7 +90,7 @@ class ContentsController < ApplicationController
   private
 
   def content_params
-    params.require(:content).permit(:title, :media, :url, :stream, :user_id)
+    params.require(:content).permit(:title, :media, :url, :stream, :user_id, :master_id => [])
   end
 
   def result

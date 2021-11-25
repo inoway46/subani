@@ -19,6 +19,7 @@
           <%= link_to "時間割", schedules_path, class: "p-2 text-dark" %>
           <%= link_to "タイトル一覧", contents_path, class: "p-2 text-dark" %>
           <%= link_to "ランキング", ranking_contents_path, class: "p-2 text-dark" %>
+          <%= link_to "マスタ登録", master_contents_path, class: "p-2 text-dark" %>
           <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "p-2 text-dark" %>
         <% else %>
           <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-success" %>
