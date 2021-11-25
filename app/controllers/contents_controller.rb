@@ -26,10 +26,8 @@ class ContentsController < ApplicationController
 
   def create
     @content = current_user.contents.build(content_params)
-    # binding.pry
     
     unless params[:content][:master_id] #タイトル一覧からの追加（マスタ登録ではない時）
-      #binding.pry
       respond_to do |format|
         if @content.save
           unless current_user.schedules.where(position: 5).where(day: @content.stream_i18n).exists?
@@ -50,6 +48,7 @@ class ContentsController < ApplicationController
         @content = current_user.contents.create!(title: master.title, media: master.media, url: master.url, stream: master.stream)
         current_user.schedules.create!(content_id: @content.id, day: @content.stream_i18n)
       end
+      redirect_to contents_path, alert: "#{@master_ids.size}件のタイトルと時間割を登録しました"
     end
   end
 
