@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_22_075859) do
+ActiveRecord::Schema.define(version: 2021_11_27_032515) do
+
+  create_table "content_statuses", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "content_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["content_id"], name: "index_content_statuses_on_content_id"
+    t.index ["user_id"], name: "index_content_statuses_on_user_id"
+  end
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -19,10 +28,8 @@ ActiveRecord::Schema.define(version: 2021_11_22_075859) do
     t.integer "stream", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.boolean "registered", default: false, null: false
     t.integer "master_id"
-    t.index ["user_id"], name: "index_contents_on_user_id"
   end
 
   create_table "schedules", force: :cascade do |t|
