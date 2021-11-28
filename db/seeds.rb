@@ -10,7 +10,7 @@ user1 = User.find(1)
   ['白い砂のアクアトープ', 'Abemaビデオ', 'https://abema.tv/video/title/194-23', 5],
   ['ブルーピリオド', 'Netflix', 'https://www.netflix.com/title/81318842', 7]
 ].each do |title, media, url, stream|
-  @content = Content.create!(
+  @content = Content.find_or_create_by!(
     { title: title, media: media, url: url, stream: stream }
   )
   user1.contents << @content
