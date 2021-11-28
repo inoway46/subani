@@ -2,7 +2,7 @@ class ContentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @contents = Content.all #current_user.contents.order(stream: :asc)
+    @contents = current_user.contents.order(stream: :asc)
   end
 
   def show
@@ -30,6 +30,7 @@ class ContentsController < ApplicationController
     unless params[:content][:master_id] #タイトル一覧からの追加（マスタ登録ではない時）
       respond_to do |format|
         if @content.save
+          current_user.contents << @content
           unless current_user.schedules.where(position: 5).where(day: @content.stream_i18n).exists?
             current_user.schedules.create!(content_id: @content.id, day: @content.stream_i18n)
             @content.update(registered: true)
