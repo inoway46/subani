@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  media: MyString
+  url: MyText
+  stream: 1
+  rank: 1
+
+two:
+  title: MyString
+  media: MyString
+  url: MyText
+  stream: 1
+  rank: 1
