@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :contents do
     collection do
       get 'ranking'
-      get 'master'
+      get 'amazon_list'
     end
   end
   resources :users
