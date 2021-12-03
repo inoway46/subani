@@ -27,22 +27,7 @@ class ContentsController < ApplicationController
   def create
     @content = current_user.contents.build(content_params)
     
-    unless params[:content][:master_id] #タイトル一覧からの追加（マスタ登録ではない時）
-      respond_to do |format|
-        if @content.save
-          current_user.contents << @content
-          unless current_user.schedules.where(position: 5).where(day: @content.stream_i18n).exists?
-            current_user.schedules.create!(content_id: @content.id, day: @content.stream_i18n)
-            @content.update(registered: true)
-          end
-          format.html
-          format.js
-        else
-          format.js { render :new }
-        end
-      end
-
-    else #マスタ登録からの追加
+    if params[:content][:master_id] #マスタからの登録
       @master_ids = params[:content][:master_id]
       @master_ids.each do |master_id|
         master = Master.find(master_id.to_i)
@@ -50,6 +35,18 @@ class ContentsController < ApplicationController
         current_user.schedules.create!(content_id: @content.id, day: @content.stream_i18n)
       end
       redirect_to contents_path, alert: "#{@master_ids.size}件のタイトルと時間割を登録しました"
+
+    else #手動入力による登録
+      if @content.save
+        current_user.contents << @content
+        unless current_user.schedules.where(position: 5).where(day: @content.stream_i18n).exists?
+          current_user.schedules.create!(content_id: @content.id, day: @content.stream_i18n)
+          @content.update(registered: true)
+        end
+        redirect_to contents_path, alert: "#{@content.title}を登録しました"
+      else
+        render :new
+      end
     end
   end
 
