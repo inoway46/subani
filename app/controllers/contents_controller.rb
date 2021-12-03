@@ -12,7 +12,7 @@ class ContentsController < ApplicationController
     @works = result.data.to_h["searchWorks"]["edges"]
   end
 
-  def master
+  def amazon_list
     @content = Content.new
   end
 
