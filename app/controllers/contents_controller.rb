@@ -16,6 +16,10 @@ class ContentsController < ApplicationController
     @content = Content.new
   end
 
+  def abema_list
+    @content = Content.new
+  end
+
   def new
     @content = Content.new
     respond_to do |format|

@@ -1,0 +1,24 @@
+<%= form_with(model: @content) do |f| %>
+    <% if @content.errors.any? %>
+    <div id="error_explanation">
+      <h2 style="padding: 15px;"><%= pluralize(@content.errors.count, "件の入力エラー") %>:</h2>
+      <ul>
+        <% @content.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+    <div class="modal-header">
+      <h5 class="modal-title">Abemaビデオのタイトル登録</h5>
+      <%= f.submit class: "btn btn-primary"%>
+    </div>
+    <div class="modal-body">
+        <%= f.collection_check_boxes :master_id, Master.all.where(media: "Abemaビデオ").order(rank: :asc), :id, :title, include_hidden: false do |master| %>
+        <p>
+          <%= master.check_box %>
+          <%= master.text %>
+        </p>
+        <% end %>
+    </div>
+    <% end %>
