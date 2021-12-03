@@ -1,39 +1,67 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Subani</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="https://kit.fontawesome.com/66cb772eea.js" crossorigin="anonymous"></script>
-  </head>
+<head>
+  <title>Subani</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-  <body>
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-      <h5 class="my-0 mr-md-auto font-weight-normal"><%= link_to "サブスクアニメ時間割", root_path, class: "p-2 text-dark" %></h5>
-      <nav class="my-2 my-md-0 mr-md-3">
-        <% if user_signed_in? %>
-          <%= link_to "アンケート", "https://forms.gle/rsUDHwDYFWkmn1pc6", target: :_blank, rel: "noopener noreferrer", type: "button", class: "btn btn-outline-info" %>
-          <%= link_to "時間割", schedules_path, class: "p-2 text-dark" %>
-          <%= link_to "タイトル一覧", contents_path, class: "p-2 text-dark" %>
-          <%= link_to "Amazonから登録", amazon_list_contents_path, class: "p-2 text-dark" %>
-          <%= link_to "ランキング", ranking_contents_path, class: "p-2 text-dark" %>
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "p-2 text-dark" %>
-        <% else %>
-          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-success" %>
-          <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary" %>
-        <% end %>
-      </nav>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <script src="https://kit.fontawesome.com/66cb772eea.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <%= link_to "サブスクアニメ時間割", root_path, class: "navbar-brand" %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <%= link_to "My時間割", schedules_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "タイトル一覧", contents_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            タイトル登録
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <%= link_to "Amazonから登録", amazon_list_contents_path, class: "dropdown-item" %>
+            <%= link_to "Abemaから登録", abema_list_contents_path, class: "dropdown-item" %>
+          </div>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ランキング", ranking_contents_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
+        </li>
+      <% else %>  
+        <li class="nav-item">
+          <%= link_to "新規登録", new_user_registration_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
+        </li>
+      <% end %>
+      </ul>
     </div>
-    <p class="notice"><%= notice %></p>
-    <% if alert %>
-      <p id="alert-message" class="alert alert-info"><%= alert %></p>
-    <% end %>
-    <div class="container">
-      <%= yield %>
-    </div>
-    <%= render 'shared/footer' %>
-  </body>
+  </nav>
+  <p class="notice"><%= notice %></p>
+  <% if alert %>
+  <p id="alert-message" class="alert alert-info"><%= alert %></p>
+  <% end %>
+  <div class="container">
+    <%= yield %>
+  </div>
+  <%= render 'shared/footer' %>
+</body>
+
 </html>
