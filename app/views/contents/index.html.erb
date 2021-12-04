@@ -3,14 +3,13 @@
 <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <p style="padding-top: 20px;"><%= link_to "時間割リストへ", schedules_path %></p>
 
-<table class="table" id="contents" border="2" style="table-layout:fixed;">
+<table class="table" id="contents" border="2" style="table-layout:fixed; text-align:center;">
   <tr id="t-header">
-    <th style="width: 33%;">タイトル</th>
-    <th style="width: 17%;">メディア</th>
-    <th style="width: 10%;">配信曜日</th>
-    <th style="width: 15%;">URL</th>
-    <th style="width: 10%;">編集</th>
-    <th style="width: 10%;">削除</th>
+    <th>タイトル</th>
+    <th>メディア</th>
+    <th>配信曜日</th>
+    <th>URL</th>
+    <th>編集</th>
   </tr>
   <%= render @contents %>
 </table>

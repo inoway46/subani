@@ -1,8 +1,10 @@
 <tr id='<%= content.id %>'>
-  <td><%= content.title %></td>
-  <td><%= content.media %></td>
-  <td><%= content.stream_i18n %></td>
-  <td><%= link_to '再生ページ' ,content.url, target: :_blank, rel: "noopener noreferrer" %></td>
-  <td><%= link_to '編集', edit_content_path(content.id), remote: true, type: "button", class: "btn btn-outline-success" %></td>
-  <td><%= link_to '削除', content_path(content), method: :delete, data: { confirm: "削除しますか？" }, remote: true, type: "button", class: "btn btn-outline-danger" %></td>
+  <td class="align-middle" style="font-size: 0.9rem;"><%= content.title.truncate(20) %></td>
+  <td class="align-middle" ><%= content.media %></td>
+  <td class="align-middle"><%= content.stream_i18n %></td>
+  <td class="align-middle"><%= link_to '再生する' ,content.url, target: :_blank, rel: "noopener noreferrer" %></td>
+  <td class="align-middle">
+    <%= link_to edit_content_path(content.id), remote: true do %><i class="far fa-edit" style="padding-right: 4px; color:gray;"></i><% end %>
+    <%= link_to schedule_path(content), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt" style="color:gray;"></i><% end %>
+  </td>
 </tr>
