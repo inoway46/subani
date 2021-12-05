@@ -1,5 +1,5 @@
 <tr id='<%= content.id %>'>
-  <td class="align-middle" style="font-size: 0.9rem;"><%= content.title.truncate(20) %></td>
+  <td class="align-middle" style="font-size: 0.9rem;"><%= content.title.truncate(15) %></td>
   <td class="align-middle" ><%= content.media %></td>
   <td class="align-middle"><%= content.stream_i18n %></td>
   <td class="align-middle"><%= link_to '再生する' ,content.url, target: :_blank, rel: "noopener noreferrer" %></td>
