@@ -3,23 +3,25 @@
 
 <p style="padding-top: 20px;"><%= link_to 'タイトルリストへ', contents_path %></p>
 
-<div class="t-area">
-<table class="table" border="1" width="1000" height="700">
+<table class="table table-bordered table-responsive">
   <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
   <div id="schedule-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-    <tr height="10%">
-      <th width="9%">時間割</th>
-      <th class="align-middle" width="13%">月</th>
-      <th class="align-middle" width="13%">火</th>
-      <th class="align-middle" width="13%">水</th>
-      <th class="align-middle" width="13%">木</th>
-      <th class="align-middle" width="13%">金</th>
-      <th class="align-middle" width="13%">土</th>
-      <th class="align-middle" width="13%">日</th>
+  <thead class="thead-dark">
+    <tr height="50px">
+      <th width="9%"></th>
+      <th class="align-middle" width="13%" scope="col">月</th>
+      <th class="align-middle" width="13%" scope="col">火</th>
+      <th class="align-middle" width="13%" scope="col">水</th>
+      <th class="align-middle" width="13%" scope="col">木</th>
+      <th class="align-middle" width="13%" scope="col">金</th>
+      <th class="align-middle" width="13%" scope="col">土</th>
+      <th class="align-middle" width="13%" scope="col">日</th>
     </tr>
+  </thead>
+  <tbody>
   <% 1.upto(5) do |i| %>
-    <tr height="18%">
-      <td class="align-middle"><%= i %></td>
+    <tr>
+      <th height="100px"><%= i %></th>
       <td id="月<%= i %>" class="align-middle"></td>
       <td id="火<%= i %>" class="align-middle"></td>
       <td id="水<%= i %>" class="align-middle"></td>
@@ -29,25 +31,25 @@
       <td id="日<%= i %>" class="align-middle"></td>
     </tr>
   <% end %>
+  </tbody>
 </table>
-</div>
 
 <script>
 <% @schedules.each do |schedule| %>
 $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').html('<%= link_to schedule_path(schedule), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt float-right" style="color:gray;"></i><% end %>');
 $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<%= link_to edit_schedule_path(schedule.id), remote: true do %><i class="far fa-edit float-right" style="padding-bottom: 5px; padding-right: 4px; color:gray;"></i><% end %>');
-$('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", type: "button", class: "btn btn-outline-primary", style: "font-size: 0.5rem;" do %><p><%= schedule.content.title.truncate(10) %></p><% end %>');
+$('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", type: "button", class: "btn btn-outline-primary", style: "font-size: 0.5rem;" do %><p><%= schedule.content.title.truncate(8) %></p><% end %>');
 <% end %>
 </script>
 
 <style>
-.t-area {
-  width: 100%;
+.table {
   text-align: center;
 }
 
 td p {
   line-height: 100%;
   padding-top: 10px;
+  white-space: nowrap;
 }
 </style>
