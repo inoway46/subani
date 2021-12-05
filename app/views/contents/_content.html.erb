@@ -5,6 +5,6 @@
   <td class="align-middle"><%= link_to '再生する' ,content.url, target: :_blank, rel: "noopener noreferrer" %></td>
   <td class="align-middle">
     <%= link_to edit_content_path(content.id), remote: true do %><i class="far fa-edit" style="padding-right: 4px; color:gray;"></i><% end %>
-    <%= link_to schedule_path(content), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt" style="color:gray;"></i><% end %>
+    <%= link_to content_path(content), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt" style="color:gray;"></i><% end %>
   </td>
 </tr>
