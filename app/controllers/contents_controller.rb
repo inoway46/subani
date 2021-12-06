@@ -75,6 +75,16 @@ class ContentsController < ApplicationController
     end
   end
 
+  def flag_off
+    @content = current_user.contents.find(params[:id])
+
+    if @content.update(content_params)
+      redirect_to schedules_path
+    else
+      redirect_to schedules_path, alert: "処理が失敗しました"
+    end
+  end
+
   def destroy
     @content = current_user.contents.find(params[:id])
 
@@ -91,7 +101,7 @@ class ContentsController < ApplicationController
   private
 
   def content_params
-    params.require(:content).permit(:title, :media, :url, :stream, :master_id => [])
+    params.require(:content).permit(:title, :media, :url, :stream, :new_flag, :master_id => [])
   end
 
   def result

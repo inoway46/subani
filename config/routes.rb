@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   devise_for :users
   resources :schedules
   resources :contents do
+    member do
+      patch 'flag_off'
+    end
+
     collection do
       get 'ranking'
       get 'amazon_list'
