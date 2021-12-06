@@ -11,7 +11,7 @@ class SchedulesController < ApplicationController
   end
 
   def index
-    @schedules = current_user.schedules
+    @schedules = current_user.schedules.preload(:content)
   end
 
   def show; end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_02_065124) do
+ActiveRecord::Schema.define(version: 2021_12_06_070957) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2021_12_02_065124) do
     t.datetime "updated_at", null: false
     t.boolean "registered", default: false, null: false
     t.integer "master_id"
+    t.boolean "new_flag", default: false, null: false
   end
 
   create_table "masters", force: :cascade do |t|

@@ -1,10 +1,9 @@
 <tr id='<%= content.id %>'>
-  <td class="align-middle" style="font-size: 0.9rem;"><%= content.title.truncate(15) %></td>
-  <td class="align-middle" ><%= content.media %></td>
-  <td class="align-middle"><%= content.stream_i18n %></td>
-  <td class="align-middle"><%= link_to '再生する' ,content.url, target: :_blank, rel: "noopener noreferrer" %></td>
-  <td class="align-middle">
+  <td>
     <%= link_to edit_content_path(content.id), remote: true do %><i class="far fa-edit" style="padding-right: 4px; color:gray;"></i><% end %>
     <%= link_to content_path(content), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt" style="color:gray;"></i><% end %>
   </td>
+  <td><%= link_to content.url, target: :_blank, rel: "noopener noreferrer", class: "title" do %><%= content.title %><i class="fas fa-external-link-alt" style="padding-left: 5px;"></i><% end %></td>
+  <td ><%= content.media %></td>
+  <td><%= content.stream_i18n %></td>
 </tr>
