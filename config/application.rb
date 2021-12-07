@@ -19,13 +19,4 @@ module Subani
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
   end
-
-  AUTH_HEADER = 'Bearer h_8hL5ksxI8u5WBOF5biD7wuBqJUTGf3XzBaULhuSzw'
-  HTTP = GraphQL::Client::HTTP.new('https://api.annict.com/graphql') do
-    def headers(context)
-      { 'Authorization': AUTH_HEADER }
-    end
-  end
-  Schema = GraphQL::Client.load_schema(HTTP)
-  Client = GraphQL::Client.new(schema: Schema, execute: HTTP)
 end
