@@ -22,3 +22,9 @@
         <% end %>
     </div>
     <% end %>
+
+<script>
+<% @contents.each do |content| %>
+  $('#<%= "content_master_id_" + "#{content.master_id}" %>').parent().hide();
+<% end %>
+</script>

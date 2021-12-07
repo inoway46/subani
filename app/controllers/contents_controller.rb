@@ -14,10 +14,12 @@ class ContentsController < ApplicationController
 
   def amazon_list
     @content = Content.new
+    @contents = current_user.contents
   end
 
   def abema_list
     @content = Content.new
+    @contents = current_user.contents
   end
 
   def new
