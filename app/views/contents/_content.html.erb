@@ -3,6 +3,6 @@
   <td><%= content.media %></td>
   <td style="text-align:center;"><%= content.stream_i18n %></td>
   <td style="text-align:center;">
-    <%= link_to content_path(content), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt fa-lg" style="color:gray;"></i><% end %>
+    <%= link_to content_path(content), method: :delete, data: { confirm: "削除しますか？" } do %><i class="far fa-trash-alt fa-lg" style="color:gray;"></i><% end %>
   </td>
 </tr>

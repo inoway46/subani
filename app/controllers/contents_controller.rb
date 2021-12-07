@@ -88,13 +88,10 @@ class ContentsController < ApplicationController
   def destroy
     @content = current_user.contents.find(params[:id])
 
-    respond_to do |format|
-      if @content.destroy
-        format.html
-        format.js
-      else
-        redirect_to contents_path, alert: "削除が失敗しました"
-      end
+    if @content.destroy
+      redirect_to contents_path, alert: "削除しました"
+    else
+      redirect_to contents_path, alert: "削除が失敗しました"
     end
   end
 
