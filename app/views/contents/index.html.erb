@@ -1,21 +1,20 @@
+<p><%= link_to "<< 時間割リストへ", schedules_path, style: "color: gray; font-size:0.9rem;" %></p>
 <div class="add-area">
   <span class="box-title">タイトル登録</span>
     <p>
       <%= link_to "Abemaビデオ", abema_list_contents_path, class: "btn btn-dark" %>
       <%= link_to "Amazonプライム", amazon_list_contents_path, class: "btn btn-primary" %>
     </p>
-    <p><%= link_to '手動で入力する', new_content_path, remote: true, class: "btn btn-outline-secondary" %></p>
 </div>
 <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<p><%= link_to "<< 時間割リストへ", schedules_path, style: "color: gray;" %></p>
 
 <table class="table table-bordered" id="contents">
   <thead class="thead-dark">
   <tr id="t-header">
-    <th>編集</th>
     <th>タイトル</th>
     <th>メディア</th>
     <th>配信曜日</th>
+    <th>編集</th>
   </tr>
   </thead>
   <tbody>
@@ -30,7 +29,7 @@
     padding: 0.5em 1em;
     border: solid 3px gray;
     border-radius: 8px;
-    max-width: 600px;
+    max-width: 340px;
 }
 .add-area .box-title {
     position: absolute;
@@ -39,7 +38,7 @@
     left: 10px;
     padding: 0 9px;
     line-height: 1;
-    font-size: 19px;
+    font-size: 0.9rem;
     background: #FFF;
     color: gray;
     font-weight: bold;

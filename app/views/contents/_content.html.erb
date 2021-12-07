@@ -1,9 +1,8 @@
 <tr id='<%= content.id %>'>
-  <td>
-    <%= link_to edit_content_path(content.id), remote: true do %><i class="far fa-edit" style="padding-right: 4px; color:gray;"></i><% end %>
-    <%= link_to content_path(content), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt" style="color:gray;"></i><% end %>
-  </td>
   <td><%= link_to content.url, target: :_blank, rel: "noopener noreferrer", class: "title" do %><%= content.title %><i class="fas fa-external-link-alt" style="padding-left: 5px;"></i><% end %></td>
-  <td ><%= content.media %></td>
-  <td><%= content.stream_i18n %></td>
+  <td><%= content.media %></td>
+  <td style="text-align:center;"><%= content.stream_i18n %></td>
+  <td style="text-align:center;">
+    <%= link_to content_path(content), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt fa-lg" style="color:gray;"></i><% end %>
+  </td>
 </tr>
