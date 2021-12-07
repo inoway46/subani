@@ -29,6 +29,9 @@
     </div>
     <div class="modal-footer actions">
       <%= f.submit class: "btn btn-primary"%>
+      <% if @schedule.id %>
+        <%= link_to "削除する", schedule_path(@schedule), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-danger" %>
+      <% end %>
     </div>
     <% end %>
   </div>
