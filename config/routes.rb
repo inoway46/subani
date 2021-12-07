@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     end
 
     collection do
-      get 'ranking'
       get 'amazon_list'
       get 'abema_list'
     end
