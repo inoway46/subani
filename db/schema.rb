@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_051322) do
+ActiveRecord::Schema.define(version: 2021_12_08_094135) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_051322) do
     t.boolean "registered", default: false, null: false
     t.integer "master_id"
     t.boolean "new_flag", default: false, null: false
-    t.integer "episode"
+    t.integer "episode", default: 0
   end
 
   create_table "masters", force: :cascade do |t|
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_051322) do
     t.integer "rank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "episode", default: 0
   end
 
   create_table "schedules", force: :cascade do |t|
