@@ -37,7 +37,7 @@
 $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to edit_schedule_path(schedule.id), remote: true do %><i class="far fa-edit float-right"></i><% end %></div>');
 $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-outline-primary" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
 <% if schedule.content.new_flag %>
-$('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag"><%= 'New!' %></div>');
+$('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag"><%= "New! #{schedule.content.episode}話" %></div>');
 $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="flag-off"><%= link_to 'みた', flag_off_content_path(schedule.content.id, params: { content: { new_flag: false } }), :method => :patch %></div>');
 <% end %>
 <% end %>
@@ -59,7 +59,6 @@ td i {
 td p {
   line-height: 100%;
   padding-top: 10px;
-  white-space: ;
   font-size: 0.7rem;
   text-align: center;
   min-width: 60px;
