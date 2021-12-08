@@ -9,8 +9,10 @@ namespace :scraping_episode do
     
     abema_urls = Master.where(media: "Abemaビデオ").where(stream: [1, 7])
 
+    #Masterのエピソード数を更新
     abema_urls.each do |master|
       current_episode = master.episode
+      @contents = Content.where(master_id: master.id)
 
       sleep 1
 
@@ -36,8 +38,14 @@ namespace :scraping_episode do
         target = @titles.select { |e| e =~ %r{^.*#{key}.*} }
         target.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
         unless target.empty?
-          if current_episode < target.size
-            master.update(episode: target.size)
+          new_episode = target.size
+          if current_episode < new_episode
+            master.update(episode: new_episode)
+            #Contentのepisodeを更新、new_flagをtrueに
+            @contents.update_all(episode: new_episode)
+            @contents.update_all(new_flag: true)
+          else
+            @contents.update_all(episode: master.episode)
           end
         end
       end
@@ -56,6 +64,7 @@ namespace :scraping_episode do
 
     abema_urls.each do |master|
       current_episode = master.episode
+      @contents = Content.where(master_id: master.id)
 
       sleep 1
 
@@ -81,8 +90,14 @@ namespace :scraping_episode do
         target = @titles.select { |e| e =~ %r{^.*#{key}.*} }
         target.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
         unless target.empty?
-          if current_episode < target.size
-            master.update(episode: target.size)
+          new_episode = target.size
+          if current_episode < new_episode
+            master.update(episode: new_episode)
+            #Contentのepisodeを更新、new_flagをtrueに
+            @contents.update_all(episode: new_episode)
+            @contents.update_all(new_flag: true)
+          else
+            @contents.update_all(episode: master.episode)
           end
         end
       end
@@ -101,6 +116,7 @@ namespace :scraping_episode do
 
     abema_urls.each do |master|
       current_episode = master.episode
+      @contents = Content.where(master_id: master.id)
 
       sleep 1
 
@@ -126,8 +142,14 @@ namespace :scraping_episode do
         target = @titles.select { |e| e =~ %r{^.*#{key}.*} }
         target.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
         unless target.empty?
-          if current_episode < target.size
-            master.update(episode: target.size)
+          new_episode = target.size
+          if current_episode < new_episode
+            master.update(episode: new_episode)
+            #Contentのepisodeを更新、new_flagをtrueに
+            @contents.update_all(episode: new_episode)
+            @contents.update_all(new_flag: true)
+          else
+            @contents.update_all(episode: master.episode)
           end
         end
       end
@@ -146,6 +168,7 @@ namespace :scraping_episode do
 
     abema_urls.each do |master|
       current_episode = master.episode
+      @contents = Content.where(master_id: master.id)
 
       sleep 1
 
@@ -171,8 +194,14 @@ namespace :scraping_episode do
         target = @titles.select { |e| e =~ %r{^.*#{key}.*} }
         target.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
         unless target.empty?
-          if current_episode < target.size
-            master.update(episode: target.size)
+          new_episode = target.size
+          if current_episode < new_episode
+            master.update(episode: new_episode)
+            #Contentのepisodeを更新、new_flagをtrueに
+            @contents.update_all(episode: new_episode)
+            @contents.update_all(new_flag: true)
+          else
+            @contents.update_all(episode: master.episode)
           end
         end
       end
@@ -191,6 +220,7 @@ namespace :scraping_episode do
 
     abema_urls.each do |master|
       current_episode = master.episode
+      @contents = Content.where(master_id: master.id)
 
       sleep 1
 
@@ -216,8 +246,14 @@ namespace :scraping_episode do
         target = @titles.select { |e| e =~ %r{^.*#{key}.*} }
         target.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
         unless target.empty?
-          if current_episode < target.size
-            master.update(episode: target.size)
+          new_episode = target.size
+          if current_episode < new_episode
+            master.update(episode: new_episode)
+            #Contentのepisodeを更新、new_flagをtrueに
+            @contents.update_all(episode: new_episode)
+            @contents.update_all(new_flag: true)
+          else
+            @contents.update_all(episode: master.episode)
           end
         end
       end
@@ -236,6 +272,7 @@ namespace :scraping_episode do
 
     abema_urls.each do |master|
       current_episode = master.episode
+      @contents = Content.where(master_id: master.id)
 
       sleep 1
 
@@ -261,8 +298,14 @@ namespace :scraping_episode do
         target = @titles.select { |e| e =~ %r{^.*#{key}.*} }
         target.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
         unless target.empty?
-          if current_episode < target.size
-            master.update(episode: target.size)
+          new_episode = target.size
+          if current_episode < new_episode
+            master.update(episode: new_episode)
+            #Contentのepisodeを更新、new_flagをtrueに
+            @contents.update_all(episode: new_episode)
+            @contents.update_all(new_flag: true)
+          else
+            @contents.update_all(episode: master.episode)
           end
         end
       end
@@ -281,6 +324,7 @@ namespace :scraping_episode do
 
     abema_urls.each do |master|
       current_episode = master.episode
+      @contents = Content.where(master_id: master.id)
 
       sleep 1
 
@@ -306,8 +350,14 @@ namespace :scraping_episode do
         target = @titles.select { |e| e =~ %r{^.*#{key}.*} }
         target.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
         unless target.empty?
-          if current_episode < target.size
-            master.update(episode: target.size)
+          new_episode = target.size
+          if current_episode < new_episode
+            master.update(episode: new_episode)
+            #Contentのepisodeを更新、new_flagをtrueに
+            @contents.update_all(episode: new_episode)
+            @contents.update_all(new_flag: true)
+          else
+            @contents.update_all(episode: master.episode)
           end
         end
       end
