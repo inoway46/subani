@@ -38,11 +38,9 @@ namespace :scraping_episode do
         unless target.empty?
           if current_episode < target.size
             master.update(episode: target.size)
-            p "#{master.title}の最新話が更新されました"
           end
         end
       end
-      p "#{master.title} => #{master.episode}話"
     end
   end
 
@@ -85,11 +83,9 @@ namespace :scraping_episode do
         unless target.empty?
           if current_episode < target.size
             master.update(episode: target.size)
-            p "#{master.title}の最新話が更新されました"
           end
         end
       end
-      p "#{master.title} => #{master.episode}話"
     end
   end
 
@@ -132,11 +128,9 @@ namespace :scraping_episode do
         unless target.empty?
           if current_episode < target.size
             master.update(episode: target.size)
-            p "#{master.title}の最新話が更新されました"
           end
         end
       end
-      p "#{master.title} => #{master.episode}話"
     end
   end
 
@@ -179,11 +173,9 @@ namespace :scraping_episode do
         unless target.empty?
           if current_episode < target.size
             master.update(episode: target.size)
-            p "#{master.title}の最新話が更新されました"
           end
         end
       end
-      p "#{master.title} => #{master.episode}話"
     end
   end
 
@@ -226,11 +218,9 @@ namespace :scraping_episode do
         unless target.empty?
           if current_episode < target.size
             master.update(episode: target.size)
-            p "#{master.title}の最新話が更新されました"
           end
         end
       end
-      p "#{master.title} => #{master.episode}話"
     end
   end
 
@@ -273,11 +263,9 @@ namespace :scraping_episode do
         unless target.empty?
           if current_episode < target.size
             master.update(episode: target.size)
-            p "#{master.title}の最新話が更新されました"
           end
         end
       end
-      p "#{master.title} => #{master.episode}話"
     end
   end
 
@@ -320,11 +308,9 @@ namespace :scraping_episode do
         unless target.empty?
           if current_episode < target.size
             master.update(episode: target.size)
-            p "#{master.title}の最新話が更新されました"
           end
         end
       end
-      p "#{master.title} => #{master.episode}話"
     end
   end
 end
