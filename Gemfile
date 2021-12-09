@@ -56,9 +56,11 @@ gem 'cancancan'
 #GraphQLの導入
 gem 'graphql-client'
 
+#時間割の自動配置
 gem 'acts_as_list'
 
-gem 'active_hash'
+#rake_taskの定期実行
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
