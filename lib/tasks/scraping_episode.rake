@@ -7,7 +7,7 @@ namespace :scraping_episode do
     opt = {}
     opt['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     
-    abema_urls = Master.where(media: "Abemaビデオ").where(stream: [1, 7])
+    abema_urls = Master.where(media: "Abemaビデオ").where(stream: 1)
 
     #Masterのエピソード数を更新
     abema_urls.each do |master|
@@ -60,7 +60,7 @@ namespace :scraping_episode do
     opt = {}
     opt['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     
-    abema_urls = Master.where(media: "Abemaビデオ").where(stream: [1, 2])
+    abema_urls = Master.where(media: "Abemaビデオ").where(stream: 2)
 
     abema_urls.each do |master|
       current_episode = master.episode
@@ -112,7 +112,7 @@ namespace :scraping_episode do
     opt = {}
     opt['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     
-    abema_urls = Master.where(media: "Abemaビデオ").where(stream: [2, 3])
+    abema_urls = Master.where(media: "Abemaビデオ").where(stream: 3)
 
     abema_urls.each do |master|
       current_episode = master.episode
@@ -164,7 +164,7 @@ namespace :scraping_episode do
     opt = {}
     opt['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     
-    abema_urls = Master.where(media: "Abemaビデオ").where(stream: [3, 4])
+    abema_urls = Master.where(media: "Abemaビデオ").where(stream: 4)
 
     abema_urls.each do |master|
       current_episode = master.episode
@@ -216,7 +216,7 @@ namespace :scraping_episode do
     opt = {}
     opt['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     
-    abema_urls = Master.where(media: "Abemaビデオ").where(stream: [4, 5])
+    abema_urls = Master.where(media: "Abemaビデオ").where(stream: 5)
 
     abema_urls.each do |master|
       current_episode = master.episode
@@ -268,7 +268,7 @@ namespace :scraping_episode do
     opt = {}
     opt['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     
-    abema_urls = Master.where(media: "Abemaビデオ").where(stream: [5, 6])
+    abema_urls = Master.where(media: "Abemaビデオ").where(stream: 6)
 
     abema_urls.each do |master|
       current_episode = master.episode
@@ -320,7 +320,7 @@ namespace :scraping_episode do
     opt = {}
     opt['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     
-    abema_urls = Master.where(media: "Abemaビデオ").where(stream: [6, 7])
+    abema_urls = Master.where(media: "Abemaビデオ").where(stream: 7)
 
     abema_urls.each do |master|
       current_episode = master.episode
