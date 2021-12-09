@@ -1,4 +1,57 @@
 namespace :scraping_episode do
+  desc '本番環境のマスタデータにepisodeを登録する'
+  task abema_all: :environment do
+    require 'open-uri'
+    require 'nokogiri'
+
+    opt = {}
+    opt['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
+    
+    abema_urls = Master.where(media: "Abemaビデオ")
+
+    #Masterのエピソード数を更新
+    abema_urls.each do |master|
+      current_episode = master.episode
+      @contents = Content.where(master_id: master.id)
+
+      sleep 1
+
+      charset = nil
+      html = open(master.url, opt) do |f|
+        charset = f.charset
+        f.read
+      end
+
+      doc = Nokogiri::HTML.parse(html, nil, charset)
+
+      @titles = []
+
+      doc.css('.com-video-EpisodeList__title').each do |node|
+        @titles << node.text
+      end
+
+      target = []
+      keys = ['話', '#', 'その']
+      ngword = ['PV', 'スペシャル']
+
+      keys.each do |key|
+        target = @titles.select { |e| e =~ %r{^.*#{key}.*} }
+        target.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
+        unless target.empty?
+          new_episode = target.size
+          if current_episode < new_episode
+            master.update(episode: new_episode)
+            #Contentのepisodeを更新、new_flagをtrueに
+            @contents.update_all(episode: new_episode)
+            @contents.update_all(new_flag: true)
+          else
+            @contents.update_all(episode: master.episode)
+          end
+        end
+      end
+    end
+  end
+
   desc '月曜配信：Abemaビデオの再生ページから話数を取得し、Masterのepisodeカラムに保存'
   task abema_mon: :environment do
     require 'open-uri'
