@@ -34,10 +34,14 @@
 
 <script>
 <% @schedules.each do |schedule| %>
-$('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to edit_schedule_path(schedule.id), remote: true do %><i class="far fa-edit float-right"></i><% end %></div>');
-$('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-outline-primary" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
+  $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to edit_schedule_path(schedule.id), remote: true do %><i class="far fa-edit float-right"></i><% end %></div>');
   <% if schedule.content.new_flag %>
-  $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag"><%= "New! #{schedule.content.episode}話 " %><%= link_to flag_off_content_path(schedule.content.id, params: { content: { new_flag: false } }), :method => :patch do %><span class="flag-off"><i class="far fa-check-circle"></i>みた<% end %></div>');
+    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-primary" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
+  <% else %>
+    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-outline-secondary" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
+  <% end %>
+  <% if schedule.content.new_flag %>
+    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag"><%= "New! #{schedule.content.episode}話 " %><%= link_to flag_off_content_path(schedule.content.id, params: { content: { new_flag: false } }), :method => :patch do %><span class="flag-off"><i class="far fa-check-circle"></i>みた<% end %></div>');
   <% end %>
 <% end %>
 </script>
