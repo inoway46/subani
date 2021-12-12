@@ -62,7 +62,11 @@ gem 'acts_as_list'
 #rake_taskの定期実行
 gem 'whenever', require: false
 
+#スクレイピングでHeadless Chromeを使用
 gem "selenium-webdriver"
+
+#LINEで最新話の更新を通知する
+gem 'line-bot-api'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
