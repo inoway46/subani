@@ -9,11 +9,11 @@ namespace :scraping_episode do
 
     options = Selenium::WebDriver::Chrome::Options.new(
       args: ["--headless", "--disable-gpu", "--incognito", "--no-sandbox", "--disable-setuid-sandbox",
-        "--user-agent=#{USER_AGENT}", "window-size=1280x800"]
+        "--user-agent=#{USER_AGENT}"]
     )
     driver = Selenium::WebDriver.for :chrome, options: options
     
-    abema_urls = Master.where(media: "Abemaビデオ")
+    abema_urls = Master.where(media: "Abemaビデオ").limit(5)
 
     #Masterのエピソード数を更新
     abema_urls.each do |master|
