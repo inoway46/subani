@@ -13,7 +13,7 @@ namespace :scraping_episode do
     )
     driver = Selenium::WebDriver.for :chrome, options: options
     
-    abema_urls = Master.where(media: "Abemaビデオ").limit(5)
+    abema_urls = Master.where(media: "Abemaビデオ")
 
     #Masterのエピソード数を更新
     abema_urls.each do |master|
@@ -51,7 +51,7 @@ namespace :scraping_episode do
       @contents.update_all(episode: new_episode)
 
       #デバッグ用
-      #p "#{master.title}の話数：master=#{master.episode}, content=#{@contents.first.episode}"
+      p "#{master.title}の話数：master=#{master.episode}, content=#{@contents.first.episode}"
     end
   end
 end
