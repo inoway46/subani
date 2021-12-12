@@ -9,7 +9,7 @@ namespace :scraping_episode do
 
     options = Selenium::WebDriver::Chrome::Options.new(
       args: ["--headless", "--disable-gpu", "--incognito", "--no-sandbox", "--disable-setuid-sandbox",
-        "--user-agent=#{USER_AGENT}", "window-size=4000x4000"]
+        "--user-agent=#{USER_AGENT}", "window-size=1920,1080", "start-maximized"]
     )
     driver = Selenium::WebDriver.for :chrome, options: options
     
