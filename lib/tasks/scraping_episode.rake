@@ -25,17 +25,22 @@ namespace :scraping_episode do
       current_episode = master.episode
       @contents = Content.where(master_id: master.id)
 
-      sleep 1
-
       driver.get(master.url)
+
+      sleep 2
 
       #スクロールして全話表示
       loop do
         if driver.find_elements(:class, "com-video-EpisodeList__title").size > 0
+          3.times do
+            sleep 1
+            driver.execute_script('window.scroll(0,1000000);')
+          end
           break
         else
           sleep 1
           3.times do
+            sleep 1
             driver.execute_script('window.scroll(0,1000000);')
           end
         end
@@ -83,7 +88,7 @@ namespace :scraping_episode do
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    abema_urls = Master.where(media: "Abemaビデオ").limit(5)
+    abema_urls = Master.where(media: "Abemaビデオ")
 
     abema_urls.each do |master|
 
@@ -91,10 +96,15 @@ namespace :scraping_episode do
 
       loop do
         if driver.find_elements(:class, "com-video-EpisodeList__title").size > 0
+          3.times do
+            sleep 1
+            driver.execute_script('window.scroll(0,1000000);')
+          end
           break
         else
           sleep 1
           3.times do
+            sleep 1
             driver.execute_script('window.scroll(0,1000000);')
           end
         end
