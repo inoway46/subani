@@ -70,13 +70,14 @@ namespace :scraping_episode do
         "--user-agent=#{USER_AGENT}", "window-size=1920,1080", "start-maximized"]
     )
     driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
     driver.get('https://abema.tv/video/title/149-11')
 
-    sleep 3
+    element = driver.find_element(:class, "com-video-EpisodeList__title")
 
-    p driver.title
+    wait.until {element.displayed?}
 
-    p driver.find_element(:class, "com-video-EpisodeList__title").text
+    p element.text
   end
 end
