@@ -103,8 +103,6 @@ GEM
     erubi (1.10.0)
     execjs (2.8.1)
     ffi (1.15.4)
-    geckodriver-helper (0.24.0)
-      archive-zip (~> 0.7)
     globalid (0.5.2)
       activesupport (>= 5.0)
     graphql (1.12.19)
@@ -301,7 +299,6 @@ DEPENDENCIES
   devise
   devise-i18n
   enum_help
-  geckodriver-helper
   graphql-client
   jbuilder (~> 2.5)
   jquery-rails
@@ -314,7 +311,7 @@ DEPENDENCIES
   rails_admin
   rails_admin-i18n
   sass-rails (~> 5.0)
-  selenium-webdriver (= 3.142.7)
+  selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
