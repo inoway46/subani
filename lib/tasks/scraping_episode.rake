@@ -13,7 +13,7 @@ namespace :scraping_episode do
     )
     driver = Selenium::WebDriver.for :chrome, options: options
     
-    abema_urls = Master.where(media: "Abemaビデオ").limit(3)
+    abema_urls = Master.where(media: "Abemaビデオ")
 
     #Masterのエピソード数を更新
     abema_urls.each do |master|
@@ -53,7 +53,30 @@ namespace :scraping_episode do
       @contents.update_all(episode: new_episode)
 
       #デバッグ用
-      p "#{master.title}の話数：master=#{master.episode}, content=#{@contents.first.episode}"
+      #p "#{master.title}の話数：master=#{master.episode}, content=#{@contents.first.episode}"
     end
+  end
+
+  desc 'herokuのselenium動作確認'
+  task test: :environment do
+    require 'open-uri'
+    require 'nokogiri'
+    require "selenium-webdriver"
+
+    USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'.freeze
+
+    options = Selenium::WebDriver::Chrome::Options.new(
+      args: ["--headless", "--disable-gpu", "--incognito", "--no-sandbox", "--disable-setuid-sandbox",
+        "--user-agent=#{USER_AGENT}", "window-size=1920,1080", "start-maximized"]
+    )
+    driver = Selenium::WebDriver.for :chrome, options: options
+
+    driver.get('https://abema.tv/video/title/149-11')
+
+    sleep 3
+
+    p driver.title
+
+    p driver.find_element(:class, "com-video-EpisodeList__title").text
   end
 end
