@@ -21,9 +21,6 @@ namespace :scraping_episode do
 
       driver.get(master.url)
 
-      element = driver.find_element(:class, 'com-o-Footer__copyright')
-      wait.until { element.displayed? }
-
       #スクロールして全話表示
       3.times do
         sleep(1)
@@ -32,7 +29,9 @@ namespace :scraping_episode do
 
       @titles = []
 
-      titles = driver.find_elements(:class, "com-video-EpisodeList__title")
+      wait.until { driver.find_elements(:xpath, "//p[@class='com-video-EpisodeList__title']") }
+
+      titles = driver.find_elements(:xpath, "//p[@class='com-video-EpisodeList__title']")
 
       titles.each do |node|
         @titles << node.text
@@ -68,9 +67,6 @@ namespace :scraping_episode do
 
     driver.get('https://abema.tv/video/title/149-11')
 
-    element = driver.find_element(:class, 'com-o-Footer__copyright')
-    wait.until { element.displayed? }
-
     3.times do
       sleep(1)
       driver.execute_script('window.scroll(0,1000000);')
@@ -78,7 +74,9 @@ namespace :scraping_episode do
 
     @titles = []
 
-    titles = driver.find_elements(:class, 'com-video-EpisodeList__title')
+    wait.until { driver.find_elements(:xpath, "//p[@class='com-video-EpisodeList__title']") }
+
+    titles = driver.find_elements(:xpath, "//p[@class='com-video-EpisodeList__title']")
 
     titles.each do |node|
       @titles << node.text
