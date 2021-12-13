@@ -30,10 +30,20 @@ namespace :scraping_episode do
       element = driver.find_element(:class, "com-video-EpisodeList__title")
       wait.until {element.displayed?}
 
+      p element.text
+
       #スクロールして全話表示
       3.times do
         sleep(1)
         driver.execute_script('window.scroll(0,1000000);')
+      end
+
+      loop do
+        if driver.find_elements(:class, "com-video-EpisodeList__title").size > 0
+          break
+        else
+          sleep 0.5
+        end
       end
 
       @titles = []
@@ -83,6 +93,29 @@ namespace :scraping_episode do
     wait.until {element.displayed?}
 
     p element.text
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    loop do
+      if driver.find_elements(:class, "com-video-EpisodeList__title").size > 0
+        break
+      else
+        sleep 0.5
+      end
+    end
+
+    @titles = []
+
+    titles = driver.find_elements(:class, "com-video-EpisodeList__title")
+
+    titles.each do |node|
+      @titles << node.text
+    end
+
+    p @titles
   end
 
   desc 'firefoxでテスト'
@@ -112,6 +145,30 @@ namespace :scraping_episode do
     wait.until {element.displayed?}
 
     p element.text
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    loop do
+      if driver.find_elements(:class, "com-video-EpisodeList__title").size > 0
+        break
+      else
+        sleep 0.5
+      end
+    end
+
+    @titles = []
+
+    titles = driver.find_elements(:class, "com-video-EpisodeList__title")
+
+    titles.each do |node|
+      @titles << node.text
+    end
+
+    p @titles
+    
     driver.quit
   end
 end
