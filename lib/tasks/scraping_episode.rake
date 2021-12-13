@@ -13,6 +13,8 @@ namespace :scraping_episode do
     Selenium::WebDriver::Firefox::Binary.path=ENV['FIREFOX_BIN']
     Selenium::WebDriver::Firefox::Service.driver_path=ENV['GECKODRIVER_PATH']
 
+    Selenium::WebDriver.logger.level = :info
+
     driver = Selenium::WebDriver.for :firefox, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
@@ -27,22 +29,15 @@ namespace :scraping_episode do
 
       driver.get(master.url)
 
-      element = driver.find_element(:class, "com-video-EpisodeList__title")
-      wait.until {element.displayed?}
-
-      p element.text
-
       #スクロールして全話表示
-      3.times do
-        sleep(1)
-        driver.execute_script('window.scroll(0,1000000);')
-      end
-
       loop do
-        if driver.find_elements(:class, "com-video-EpisodeList__title").size > 0
+        if driver.find_elements(:class, "com-video-EpisodeList__title").size > 1
           break
         else
-          sleep 0.5
+          sleep 1
+          3.times do
+            driver.execute_script('window.scroll(0,1000000);')
+          end
         end
       end
 
@@ -53,6 +48,8 @@ namespace :scraping_episode do
       titles.each do |node|
         @titles << node.text
       end
+
+      p @titles
 
       #取得したタイトルからPVやスペシャル回を除去
       ngword = ['PV', 'スペシャル']
@@ -67,7 +64,7 @@ namespace :scraping_episode do
       @contents.update_all(episode: new_episode)
 
       #デバッグ用
-      #p "#{master.title}の話数：master=#{master.episode}, content=#{@contents.first.episode}"
+      p "#{master.title}の話数：master=#{master.episode}, content=#{@contents.first.episode}"
     end
 
     driver.quit
@@ -88,22 +85,14 @@ namespace :scraping_episode do
 
     driver.get('https://abema.tv/video/title/149-11')
 
-    element = driver.find_element(:class, "com-video-EpisodeList__title")
-
-    wait.until {element.displayed?}
-
-    p element.text
-
-    3.times do
-      sleep(1)
-      driver.execute_script('window.scroll(0,1000000);')
-    end
-
     loop do
-      if driver.find_elements(:class, "com-video-EpisodeList__title").size > 0
+      if driver.find_elements(:class, "com-video-EpisodeList__title").size > 1
         break
       else
-        sleep 0.5
+        sleep 1
+        3.times do
+          driver.execute_script('window.scroll(0,1000000);')
+        end
       end
     end
 
@@ -133,7 +122,7 @@ namespace :scraping_episode do
     Selenium::WebDriver::Firefox::Service.driver_path=ENV['GECKODRIVER_PATH']
       
     # use argument `:debug` instead of `:info` for detailed logs in case of an error
-    #Selenium::WebDriver.logger.level = :info 
+    Selenium::WebDriver.logger.level = :info 
 
     driver = Selenium::WebDriver.for :firefox, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
