@@ -12,6 +12,7 @@ namespace :scraping_episode do
         "--user-agent=#{USER_AGENT}", "window-size=1920,1080", "start-maximized"]
     )
     driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
     abema_urls = Master.where(media: "Abemaビデオ")
 
@@ -24,7 +25,8 @@ namespace :scraping_episode do
 
       driver.get(master.url)
 
-      sleep 3
+      element = driver.find_element(:class, "com-video-EpisodeList__title")
+      wait.until {element.displayed?}
 
       #スクロールして全話表示
       3.times do
