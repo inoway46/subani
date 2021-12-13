@@ -1,4 +1,6 @@
 class LineBotController < ApplicationController
+  require 'line/bot'
+
   protect_from_forgery except: :callback
 
   OMAJINAI = /アブラカタブラ|チチンプイプイ|ヒラケゴマ/
