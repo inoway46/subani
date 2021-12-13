@@ -21,8 +21,8 @@ namespace :scraping_episode do
 
       driver.get(master.url)
 
-      element = driver.find_element(:class, "com-video-EpisodeList__title")
-      wait.until {element.displayed?}
+      element = driver.find_elements(:class, "com-video-EpisodeList__title")
+      wait.until {element.size > 0}
 
       #スクロールして全話表示
       3.times do
@@ -68,9 +68,9 @@ namespace :scraping_episode do
 
     driver.get('https://abema.tv/video/title/149-11')
 
-    element = driver.find_element(:class, "com-video-EpisodeList__title")
+    element = driver.find_elements(:class, "com-video-EpisodeList__title")
 
-    wait.until {element.displayed?}
+    wait.until {element.size > 0}
 
     p element.text
 
