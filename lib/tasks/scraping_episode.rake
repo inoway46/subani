@@ -25,9 +25,9 @@ namespace :scraping_episode do
       current_episode = master.episode
       @contents = Content.where(master_id: master.id)
 
-      driver.get(master.url)
+      sleep 1
 
-      sleep 2
+      driver.get(master.url)
 
       #スクロールして全話表示
       loop do
@@ -39,10 +39,7 @@ namespace :scraping_episode do
           break
         else
           sleep 1
-          3.times do
-            sleep 1
-            driver.execute_script('window.scroll(0,1000000);')
-          end
+          driver.execute_script('window.scroll(0,1000000);')
         end
       end
 
@@ -103,10 +100,7 @@ namespace :scraping_episode do
           break
         else
           sleep 1
-          3.times do
-            sleep 1
-            driver.execute_script('window.scroll(0,1000000);')
-          end
+          driver.execute_script('window.scroll(0,1000000);')
         end
       end
 
