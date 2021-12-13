@@ -3,12 +3,10 @@ namespace :scraping_episode do
   task abema_all: :environment do
     require "selenium-webdriver"
 
-    USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'.freeze
-
-    options = Selenium::WebDriver::Chrome::Options.new(
-      args: ["--headless", "--disable-gpu", "--incognito", "--no-sandbox", "--disable-setuid-sandbox",
-        "--user-agent=#{USER_AGENT}", "window-size=1920,1080", "start-maximized"]
-    )
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
@@ -75,6 +73,21 @@ namespace :scraping_episode do
     wait.until {element.displayed?}
 
     p element.text
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    @titles = []
+
+    titles = driver.find_elements(:class, "com-video-EpisodeList__title")
+
+    titles.each do |node|
+      @titles << node.text
+    end
+
+    p @titles
   end
 
   desc 'firefoxでテスト'
