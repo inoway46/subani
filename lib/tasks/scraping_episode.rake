@@ -13,12 +13,12 @@ namespace :scraping_episode do
     Selenium::WebDriver::Firefox::Binary.path=ENV['FIREFOX_BIN']
     Selenium::WebDriver::Firefox::Service.driver_path=ENV['GECKODRIVER_PATH']
 
-    Selenium::WebDriver.logger.level = :info
+    #Selenium::WebDriver.logger.level = :info   #ログの表示
 
     driver = Selenium::WebDriver.for :firefox, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
-    abema_urls = Master.where(media: "Abemaビデオ").limit(3)
+    abema_urls = Master.where(media: "Abemaビデオ")
 
     #Masterのエピソード数を更新
     abema_urls.each do |master|
@@ -31,7 +31,7 @@ namespace :scraping_episode do
 
       #スクロールして全話表示
       loop do
-        if driver.find_elements(:class, "com-video-EpisodeList__title").size > 1
+        if driver.find_elements(:class, "com-video-EpisodeList__title").size > 0
           break
         else
           sleep 1
@@ -83,28 +83,34 @@ namespace :scraping_episode do
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    driver.get('https://abema.tv/video/title/149-11')
+    abema_urls = Master.where(media: "Abemaビデオ").limit(5)
 
-    loop do
-      if driver.find_elements(:class, "com-video-EpisodeList__title").size > 1
-        break
-      else
-        sleep 1
-        3.times do
-          driver.execute_script('window.scroll(0,1000000);')
+    abema_urls.each do |master|
+
+      driver.get(master.url)
+
+      loop do
+        if driver.find_elements(:class, "com-video-EpisodeList__title").size > 0
+          break
+        else
+          sleep 1
+          3.times do
+            driver.execute_script('window.scroll(0,1000000);')
+          end
         end
       end
+
+      @titles = []
+
+      titles = driver.find_elements(:class, "com-video-EpisodeList__title")
+
+      titles.each do |node|
+        @titles << node.text
+      end
+
+      p @titles
+
     end
-
-    @titles = []
-
-    titles = driver.find_elements(:class, "com-video-EpisodeList__title")
-
-    titles.each do |node|
-      @titles << node.text
-    end
-
-    p @titles
   end
 
   desc 'firefoxでテスト'
