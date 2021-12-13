@@ -1,20 +1,22 @@
 namespace :scraping_episode do
   desc '本番環境のマスタデータにepisodeを登録する'
   task abema_all: :environment do
-    require 'open-uri'
-    require 'nokogiri'
     require "selenium-webdriver"
 
-    USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'.freeze
+    options = Selenium::WebDriver::Firefox::Options.new
 
-    options = Selenium::WebDriver::Chrome::Options.new(
-      args: ["--headless", "--disable-gpu", "--incognito", "--no-sandbox", "--disable-setuid-sandbox",
-        "--user-agent=#{USER_AGENT}", "window-size=1920,1080", "start-maximized"]
-    )
-    driver = Selenium::WebDriver.for :chrome, options: options
+    options.add_argument('--remote-debugging-port=9222')
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+
+    Selenium::WebDriver::Firefox::Binary.path=ENV['FIREFOX_BIN']
+    Selenium::WebDriver::Firefox::Service.driver_path=ENV['GECKODRIVER_PATH']
+
+    driver = Selenium::WebDriver.for :firefox, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
-    abema_urls = Master.where(media: "Abemaビデオ")
+    abema_urls = Master.where(media: "Abemaビデオ").limit(3)
 
     #Masterのエピソード数を更新
     abema_urls.each do |master|
@@ -57,12 +59,12 @@ namespace :scraping_episode do
       #デバッグ用
       #p "#{master.title}の話数：master=#{master.episode}, content=#{@contents.first.episode}"
     end
+
+    driver.quit
   end
 
   desc 'herokuのselenium動作確認'
   task test: :environment do
-    require 'open-uri'
-    require 'nokogiri'
     require "selenium-webdriver"
 
     USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'.freeze
@@ -98,11 +100,18 @@ namespace :scraping_episode do
     Selenium::WebDriver::Firefox::Service.driver_path=ENV['GECKODRIVER_PATH']
       
     # use argument `:debug` instead of `:info` for detailed logs in case of an error
-    Selenium::WebDriver.logger.level = :info 
+    #Selenium::WebDriver.logger.level = :info 
 
     driver = Selenium::WebDriver.for :firefox, options: options
-    driver.get "https://www.google.com"
-    puts  "#{driver.title}"
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.get('https://abema.tv/video/title/149-11')
+
+    element = driver.find_element(:class, "com-video-EpisodeList__title")
+
+    wait.until {element.displayed?}
+
+    p element.text
     driver.quit
   end
 end
