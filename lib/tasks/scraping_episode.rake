@@ -10,7 +10,7 @@ namespace :scraping_episode do
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
-    abema_urls = Master.where(media: "Abemaビデオ")
+    abema_urls = Master.where(media: "Abemaビデオ").limit(3)
 
     #Masterのエピソード数を更新
     abema_urls.each do |master|
