@@ -10,7 +10,7 @@ namespace :scraping_episode do
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
-    abema_urls = Master.where(media: "Abemaビデオ").limit(3)
+    abema_urls = Master.where(media: "Abemaビデオ")
 
     #Masterのエピソード数を更新
     abema_urls.each do |master|
@@ -21,6 +21,8 @@ namespace :scraping_episode do
 
       driver.get(master.url)
 
+      wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
+
       #スクロールして全話表示
       3.times do
         sleep(1)
@@ -29,9 +31,7 @@ namespace :scraping_episode do
 
       @titles = []
 
-      wait.until { driver.find_elements(:xpath, "//p[@class='com-video-EpisodeList__title']") }
-
-      titles = driver.find_elements(:xpath, "//p[@class='com-video-EpisodeList__title']")
+      titles = driver.find_elements(:class, 'com-video-EpisodeList__title')
 
       titles.each do |node|
         @titles << node.text
@@ -50,7 +50,7 @@ namespace :scraping_episode do
       @contents.update_all(episode: new_episode)
 
       #デバッグ用
-      p "#{master.title}の話数：master=#{master.episode}, content=#{@contents.first.episode}"
+      p "#{master.title}：master=#{master.episode}話"
     end
   end
 
@@ -67,16 +67,16 @@ namespace :scraping_episode do
 
     driver.get('https://abema.tv/video/title/149-11')
 
+    @titles = []
+
+    wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
+
     3.times do
       sleep(1)
       driver.execute_script('window.scroll(0,1000000);')
     end
 
-    @titles = []
-
-    wait.until { driver.find_elements(:xpath, "//p[@class='com-video-EpisodeList__title']") }
-
-    titles = driver.find_elements(:xpath, "//p[@class='com-video-EpisodeList__title']")
+    titles = driver.find_elements(:class, 'com-video-EpisodeList__title')
 
     titles.each do |node|
       @titles << node.text
