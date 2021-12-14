@@ -33,19 +33,26 @@ namespace :master_csv do
     CSV.foreach("master.csv", headers: true) do |row|
       lists << {
         id: row["id"],
+        title: row["title"],
         episode: row["episode"]
       }
     end
 
-    masters.zip(lists) do |master, list|
-      Master.find(list[:id].to_i).update!(episode: list[:episode].to_i)
-      p "#{master.title}を#{list[:episode]}話に更新しました"
+    lists.each do |list|
+      target = Master.find(list[:id].to_i)
+      new_episode = list[:episode].to_i
+      if target.episode < new_episode
+        target.update!(episode: new_episode)
+        p "Master: #{list[:title]}を#{list[:episode]}話に更新しました"
+      end
+    end
+
+    masters.each do |master|
       @contents = Content.where(master_id: master.id)
       if @contents.present?
         @contents.update_all(episode: master.episode)
-        p "#{master.title}のcontentデータを#{master.episode}話に更新しました"
+        p "Content: #{master.title}を#{master.episode}話に更新しました"
       end
     end
-      
   end
 end
