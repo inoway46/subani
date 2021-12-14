@@ -107,4 +107,43 @@ namespace :scraping_episode do
     puts  "#{driver.title}"
     driver.quit
   end
+
+  desc 'googleでテスト'
+  task google: :environment do
+    require  'selenium-webdriver'
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.get "https://www.google.com"
+    puts  "#{driver.title}"
+    driver.quit
+  end
+
+  desc 'herokuのselenium動作確認'
+  task one: :environment do
+    require "selenium-webdriver"
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.get('https://abema.tv/video/title/149-11')
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    title = driver.find_element(:class, 'com-video-EpisodeList__title').text
+
+    p title
+  end
 end
