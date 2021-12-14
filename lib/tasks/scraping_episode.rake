@@ -133,8 +133,62 @@ namespace :scraping_episode do
     driver.quit
   end
 
-  desc 'herokuのselenium動作確認'
-  task one: :environment do
+  desc '変更：ウインドウサイズ、取得要素'
+  task one1: :environment do
+    require "selenium-webdriver"
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument('window-size=1920,1080')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    #p driver.page_source
+    p driver.title
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__caption')
+    p eptitle.attribute('innerHTML')
+    p eptitle.find_element(:tag_name, 'p').text
+  end
+
+  desc '変更：ウインドウサイズのみ'
+  task one2: :environment do
+    require "selenium-webdriver"
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument('window-size=1920,1080')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    #p driver.page_source
+    p driver.title
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__title')
+    p eptitle.attribute('innerHTML')
+    p eptitle.text
+  end
+
+  desc '変更：取得要素のみ'
+  task one3: :environment do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
@@ -146,7 +200,7 @@ namespace :scraping_episode do
 
     driver.navigate.to('https://abema.tv/video/title/149-11')
 
-    p driver.page_source
+    #p driver.page_source
     p driver.title
 
     3.times do
@@ -154,8 +208,8 @@ namespace :scraping_episode do
       driver.execute_script('window.scroll(0,1000000);')
     end
 
-    eptitle = driver.find_element(:class, 'com-video-EpisodeList__title')
-
-    p eptitle
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__caption')
+    p eptitle.attribute('innerHTML')
+    p eptitle.find_element(:tag_name, 'p').text
   end
 end
