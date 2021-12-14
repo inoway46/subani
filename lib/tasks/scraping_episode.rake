@@ -43,11 +43,17 @@ namespace :scraping_episode do
 
       #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
       new_episode = @titles.size
-      @contents.update_all(new_flag: true) if current_episode < new_episode
+      if current_episode < new_episode
+        @contents.update_all(new_flag: true)
+        #Masterのepisodeを最新の状態に更新
+        master.update(episode: new_episode)
+        p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
+      end
 
-      #MasterとContentのepisodeを最新の状態に更新
-      master.update(episode: new_episode)
-      @contents.update_all(episode: new_episode)
+      if @contents.present?
+        @contents.update_all(episode: master.episode)
+        p "#{master.title}のcontentデータを#{master.episode}話に更新しました"
+      end
 
       #デバッグ用
       p "#{master.title}：master=#{master.episode}話"
@@ -66,6 +72,8 @@ namespace :scraping_episode do
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
     driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    p driver.page_source
 
     @titles = []
 
@@ -120,6 +128,7 @@ namespace :scraping_episode do
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
     driver.navigate.to "https://www.google.com"
+    p driver.page_source
     p driver.find_element(:class, 'MV3Tnb').text
     driver.quit
   end
@@ -137,6 +146,7 @@ namespace :scraping_episode do
 
     driver.navigate.to('https://abema.tv/video/title/149-11')
 
+    p driver.page_source
     p driver.title
 
     3.times do
