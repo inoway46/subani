@@ -35,7 +35,7 @@ class ContentsController < ApplicationController
     @master_ids.each do |master_id|
       master = Master.find(master_id.to_i)
       @content = current_user.contents.create!(title: master.title, media: master.media, url: master.url, stream: master.stream, registered: false, new_flag: true, episode: master.episode, master_id: master.id)
-      unless current_user.schedules.where(position: 5).where(day: @content.stream_i18n)
+      unless current_user.schedules.where(position: 5).where(day: @content.stream_i18n).present?
         current_user.schedules.create!(content_id: @content.id, day: @content.stream_i18n)
         @content.update!(registered: true)
       end
