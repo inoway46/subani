@@ -133,6 +133,31 @@ namespace :scraping_episode do
     driver.quit
   end
 
+  desc 'herokuのselenium動作確認'
+  task one: :environment do
+    require "selenium-webdriver"
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    p driver.title
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__title')
+
+    p eptitle
+  end
+
   desc '変更：ウインドウサイズ、取得要素'
   task one1: :environment do
     require "selenium-webdriver"
