@@ -40,6 +40,11 @@ namespace :master_csv do
     masters.zip(lists) do |master, list|
       Master.find(list[:id].to_i).update!(episode: list[:episode].to_i)
       p "#{master.title}を#{list[:episode]}話に更新しました"
+      @contents = Content.where(master_id: master.id)
+      if @contents.present?
+        @contents.update_all(episode: master.episode)
+        p "#{master.title}のcontentデータを#{master.episode}話に更新しました"
+      end
     end
       
   end
