@@ -19,7 +19,7 @@ namespace :scraping_episode do
 
       sleep 1
 
-      driver.get(master.url)
+      driver.navigate.to(master.url)
 
       wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
 
@@ -65,7 +65,7 @@ namespace :scraping_episode do
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    driver.get('https://abema.tv/video/title/149-11')
+    driver.navigate.to('https://abema.tv/video/title/149-11')
 
     @titles = []
 
@@ -119,8 +119,8 @@ namespace :scraping_episode do
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    driver.get "https://www.google.com"
-    puts  "#{driver.title}"
+    driver.navigate.to "https://www.google.com"
+    p driver.find_element(:class, 'MV3Tnb').text
     driver.quit
   end
 
@@ -135,15 +135,17 @@ namespace :scraping_episode do
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    driver.get('https://abema.tv/video/title/149-11')
+    driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    p driver.title
 
     3.times do
       sleep(1)
       driver.execute_script('window.scroll(0,1000000);')
     end
 
-    title = driver.find_element(:class, 'com-video-EpisodeList__title').text
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__title')
 
-    p title
+    p eptitle
   end
 end
