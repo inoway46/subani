@@ -22,6 +22,8 @@ namespace :scraping_episode do
 
       driver.navigate.to(master.url)
 
+      p driver.page_source
+
       wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
 
       #スクロールして全話表示
