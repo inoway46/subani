@@ -7,6 +7,7 @@ namespace :scraping_episode do
     options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
+    options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
@@ -68,6 +69,7 @@ namespace :scraping_episode do
     options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
+    options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
@@ -124,6 +126,7 @@ namespace :scraping_episode do
     options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
+    options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
@@ -141,12 +144,14 @@ namespace :scraping_episode do
     options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
+    options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
     driver.navigate.to('https://abema.tv/video/title/149-11')
 
     p driver.title
+    p driver.page_source
 
     3.times do
       sleep(1)
