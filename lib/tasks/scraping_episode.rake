@@ -143,9 +143,9 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.binary = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
+    options.add_argument("--disable-dev-shm-usage")
     options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
@@ -162,7 +162,7 @@ namespace :scraping_episode do
 
     eptitle = driver.find_element(:class, 'com-video-EpisodeList__title')
 
-    p eptitle
+    p eptitle.text
   end
 
   desc '変更：ウインドウサイズ、取得要素'
