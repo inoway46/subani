@@ -4,7 +4,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.binary = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
@@ -68,7 +68,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.binary = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
@@ -125,7 +125,7 @@ namespace :scraping_episode do
     require  'selenium-webdriver'
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.binary = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
@@ -143,7 +143,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.binary = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
@@ -170,7 +170,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.binary = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument('window-size=1920,1080')
@@ -197,7 +197,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.binary = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument('window-size=1920,1080')
@@ -224,7 +224,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.binary = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     driver = Selenium::WebDriver.for :chrome, options: options
