@@ -155,11 +155,6 @@ namespace :scraping_episode do
     p driver.title
     p driver.page_source
 
-    3.times do
-      sleep(1)
-      driver.execute_script('window.scroll(0,1000000);')
-    end
-
     eptitle = driver.find_element(:class, 'com-video-EpisodeList__title')
 
     p eptitle.text
