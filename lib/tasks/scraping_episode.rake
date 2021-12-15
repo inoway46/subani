@@ -67,6 +67,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument("--disable-dev-shm-usage")
@@ -125,6 +126,7 @@ namespace :scraping_episode do
     require  'selenium-webdriver'
 
     options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument("--disable-dev-shm-usage")
@@ -144,6 +146,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument("--disable-dev-shm-usage")
@@ -167,6 +170,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument("--disable-dev-shm-usage")
@@ -177,7 +181,7 @@ namespace :scraping_episode do
 
     driver.navigate.to('https://abema.tv/video/title/149-11')
 
-    #p driver.page_source
+    p driver.page_source
     p driver.title
 
     3.times do
@@ -195,6 +199,7 @@ namespace :scraping_episode do
     require "selenium-webdriver"
 
     options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument("--disable-dev-shm-usage")
@@ -205,7 +210,7 @@ namespace :scraping_episode do
 
     driver.navigate.to('https://abema.tv/video/title/149-11')
 
-    #p driver.page_source
+    p driver.page_source
     p driver.title
 
     3.times do
@@ -232,7 +237,7 @@ namespace :scraping_episode do
 
     driver.navigate.to('https://abema.tv/video/title/149-11')
 
-    #p driver.page_source
+    p driver.page_source
     p driver.title
 
     3.times do
