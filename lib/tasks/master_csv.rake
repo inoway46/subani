@@ -28,7 +28,7 @@ namespace :master_csv do
 
   desc 'S3にCSVをアップロード'
   task upload_s3: :environment do
-    bucket = ENV['AWS_S3_BUCKET'].freeze
+    bucket = 'subani'.freeze
     region = 'ap-northeast-1'.freeze
     csv_file = "master.csv"
 
@@ -80,7 +80,7 @@ namespace :master_csv do
   task import: :environment do
     masters = Master.where(media: "Abemaビデオ")
 
-    bucket = ENV['AWS_S3_BUCKET'].freeze
+    bucket = 'subani'.freeze
     region = 'ap-northeast-1'.freeze
     key = "master.csv"
 
