@@ -18,7 +18,7 @@ namespace :selenium do
     #p driver.title
     #p driver.page_source
 
-    eptitle = driver.find_element(:class, 'com-video-EpisodeList__titl')
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__title')
 
     p eptitle.text
   end

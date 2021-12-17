@@ -63,7 +63,7 @@ gem 'acts_as_list'
 gem 'whenever', require: false
 
 #スクレイピング用
-gem 'selenium-webdriver'
+gem 'selenium-webdriver', '3.142.7'
 
 #環境変数の管理
 gem 'dotenv-rails'
@@ -90,7 +90,7 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '3.142.7'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
 end
