@@ -4,6 +4,9 @@ require 'aws-sdk-s3'
 namespace :master_csv do
   desc 'MasterモデルをCSV出力してS3にアップロード'
   task export: :environment do
+    #cron.logで実行確認のため時刻を表示
+    p "#{Time.current}：export処理を開始します"
+
     masters = Master.where(media: "Abemaビデオ")
 
     CSV.open("master.csv", "w") do |csv|
@@ -39,10 +42,16 @@ namespace :master_csv do
                   body: File.open(csv_file, :encoding => "UTF-8"),
                   content_type: 'text/csv',
                 )
+
+    #cron.logで実行確認のため時刻を表示
+    p "#{Time.current}：export処理が終了しました"
   end
 
   desc 'herokuでS3からmaster.csvをインポートしてDB更新'
   task import: :environment do
+    #heroku logsで実行確認のため時刻を表示
+    p "#{Time.current}：import処理を開始します"
+
     masters = Master.where(media: "Abemaビデオ")
 
     bucket = 'subani'.freeze
@@ -83,10 +92,16 @@ namespace :master_csv do
     masters.each do |master|
       @contents = Content.where(master_id: master.id)
       if @contents.present?
-        @contents.update_all(episode: master.episode)
-        p "Content: #{master.title}を#{master.episode}話に更新しました"
+        @contents.each do |content|
+          content.update(new_flag: true) if content.episode < master.episode
+          content.update!(episode: master.episode)
+          p "Content: #{content.title}を#{content.episode}話に更新しました"
+        end
       end
     end
+
+    #heroku logsで実行確認のため時刻を表示
+    p "#{Time.current}：import処理が完了しました"
   end
 
   desc 'S3にCSVをアップロード'
@@ -107,34 +122,25 @@ namespace :master_csv do
                 )
   end
 
-  desc 'ローカルのインポート用'
-  task local_import: :environment do
+  desc 'cronの動作確認'
+  task test: :environment do
     masters = Master.where(media: "Abemaビデオ")
-
-    lists = []
-
-    CSV.foreach("abema.csv", headers: true) do |row|
-      lists << {
-        id: row["id"],
-        title: row["title"],
-        episode: row["episode"]
-      }
-    end
-
-    lists.each do |list|
-      target = Master.find(list[:id].to_i)
-      new_episode = list[:episode].to_i
-      if target.episode < new_episode
-        target.update!(episode: new_episode)
-        p "Master: #{list[:title]}を#{list[:episode]}話に更新しました"
-      end
-    end
-
-    masters.each do |master|
-      @contents = Content.where(master_id: master.id)
-      if @contents.present?
-        @contents.update_all(episode: master.episode)
-        p "Content: #{master.title}を#{master.episode}話に更新しました"
+    CSV.open("test.csv", "w") do |csv|
+      column_names = %w(id title media url stream rank created_at updated_at episode)
+      csv << column_names
+      masters.each do |master|
+        column_values = [
+          master.id,
+          master.title.to_s,
+          master.media.to_s,
+          master.url,
+          master.stream,
+          master.rank,
+          master.created_at,
+          master.updated_at,
+          master.episode
+        ]
+        csv << column_values
       end
     end
   end
