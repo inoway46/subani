@@ -14,6 +14,9 @@ namespace :scraping_episode do
     
     abema_urls = Master.where(media: "Abemaビデオ")
 
+    #cron.logで実行確認のため時刻を表示
+    p "#{Time.current}：スクレイピングを開始します"
+
     #Masterのエピソード数を更新
     abema_urls.each do |master|
       current_episode = master.episode
@@ -60,6 +63,9 @@ namespace :scraping_episode do
       #デバッグ用
       p "#{master.title}：master=#{master.episode}話"
     end
+
+    #cron.logで実行確認のため時刻を表示
+    p "#{Time.current}：スクレイピングが完了しました"
   end
 
   desc 'herokuのselenium動作確認'
