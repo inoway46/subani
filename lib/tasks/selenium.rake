@@ -42,7 +42,7 @@ namespace :selenium do
 
     driver = Selenium::WebDriver.for :firefox, options: options
     driver.get "https://www.google.com"
-    puts  "#{driver.title}"
+    p  "#{driver.title}"
     driver.quit
   end
 end
