@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   root 'homes#index'
   post '/homes/guest_sign_in', to: 'homes#guest_sign_in'
+  post '/callback', to: 'line_bot#callback'
   devise_for :users
   resources :schedules
   resources :contents do
