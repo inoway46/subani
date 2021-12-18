@@ -20,16 +20,13 @@ class SchedulesController < ApplicationController
     @contents = current_user.contents.where(registered: false)
     @schedule = current_user.schedules.build(schedule_params)
 
-    respond_to do |format|
-      if current_user.schedules.where(position: 5).where(day: params[:schedule][:day]).exists?
-        @schedule.errors.add(:base, "時間割に空きがありません")
-        format.js { render :new }
-      else
-        @schedule.save
-        @contents.find(params[:schedule][:content_id]).update_attributes(registered: true)
-        format.html
-        format.js
-      end
+    if current_user.schedules.where(position: 5).where(day: params[:schedule][:day]).exists?
+      @schedule.errors.add(:base, "時間割に空きがありません")
+      render :new
+    else
+      @schedule.save!
+      @contents.find(params[:schedule][:content_id]).update_attributes(registered: true)
+      redirect_to schedules_path
     end
   end
 

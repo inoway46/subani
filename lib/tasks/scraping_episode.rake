@@ -1,28 +1,32 @@
 namespace :scraping_episode do
   desc '本番環境のマスタデータにepisodeを登録する'
   task abema_all: :environment do
-    require 'open-uri'
-    require 'nokogiri'
     require "selenium-webdriver"
 
-    USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'.freeze
-
-    options = Selenium::WebDriver::Chrome::Options.new(
-      args: ["--headless", "--disable-gpu", "--incognito", "--no-sandbox", "--disable-setuid-sandbox",
-        "--user-agent=#{USER_AGENT}", "window-size=1920,1080", "start-maximized"]
-    )
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument('--lang=ja-JP')
+    options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
     driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
     abema_urls = Master.where(media: "Abemaビデオ")
+
+    #cron.logで実行確認のため時刻を表示
+    p "#{Time.current}：スクレイピングを開始します"
 
     #Masterのエピソード数を更新
     abema_urls.each do |master|
       current_episode = master.episode
       @contents = Content.where(master_id: master.id)
 
-      sleep 2
+      sleep 1
 
-      driver.get(master.url)
+      driver.navigate.to(master.url)
+
+      wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
 
       #スクロールして全話表示
       3.times do
@@ -32,7 +36,7 @@ namespace :scraping_episode do
 
       @titles = []
 
-      titles = driver.find_elements(:class, "com-video-EpisodeList__title")
+      titles = driver.find_elements(:class, 'com-video-EpisodeList__title')
 
       titles.each do |node|
         @titles << node.text
@@ -44,14 +48,211 @@ namespace :scraping_episode do
 
       #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
       new_episode = @titles.size
-      @contents.update_all(new_flag: true) if current_episode < new_episode
+      if current_episode < new_episode
+        @contents.update_all(new_flag: true)
+        #Masterのepisodeを最新の状態に更新
+        master.update(episode: new_episode)
+        p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
+      end
 
-      #MasterとContentのepisodeを最新の状態に更新
-      master.update(episode: new_episode)
-      @contents.update_all(episode: new_episode)
+      if @contents.present?
+        @contents.update_all(episode: master.episode)
+        p "#{master.title}のcontentデータを#{master.episode}話に更新しました"
+      end
 
       #デバッグ用
-      p "#{master.title}の話数：master=#{master.episode}, content=#{@contents.first.episode}"
+      p "#{master.title}：master=#{master.episode}話"
     end
+
+    #cron.logで実行確認のため時刻を表示
+    p "#{Time.current}：スクレイピングが完了しました"
+  end
+
+  desc 'herokuのselenium動作確認'
+  task test: :environment do
+    require "selenium-webdriver"
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument('--lang=ja-JP')
+    options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    p driver.page_source
+
+    @titles = []
+
+    wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    titles = driver.find_elements(:class, 'com-video-EpisodeList__title')
+
+    titles.each do |node|
+      @titles << node.text
+    end
+
+    p @titles
+  end
+
+  desc 'firefoxでテスト'
+  task fire: :environment do
+    require  'selenium-webdriver'
+
+    options = Selenium::WebDriver::Firefox::Options.new
+
+    options.add_argument('--remote-debugging-port=9222')
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+
+    Selenium::WebDriver::Firefox::Binary.path=ENV['FIREFOX_BIN']
+    Selenium::WebDriver::Firefox::Service.driver_path=ENV['GECKODRIVER_PATH']
+      
+    # use argument `:debug` instead of `:info` for detailed logs in case of an error
+    #Selenium::WebDriver.logger.level = :info 
+
+    driver = Selenium::WebDriver.for :firefox, options: options
+    driver.get "https://www.google.com"
+    puts  "#{driver.title}"
+    driver.quit
+  end
+
+  desc 'googleでテスト'
+  task google: :environment do
+    require  'selenium-webdriver'
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument('--lang=ja-JP')
+    options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to "https://www.google.com"
+    p driver.page_source
+    p driver.find_element(:class, 'MV3Tnb').text
+    driver.quit
+  end
+
+  desc 'herokuのselenium動作確認'
+  task one: :environment do
+    require "selenium-webdriver"
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument('--lang=ja-JP')
+    options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    p driver.title
+    p driver.page_source
+
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__title')
+
+    p eptitle.text
+  end
+
+  desc '変更：ウインドウサイズ、取得要素'
+  task one1: :environment do
+    require "selenium-webdriver"
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument('--lang=ja-JP')
+    options.add_argument('window-size=1920,1080')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    p driver.page_source
+    p driver.title
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__caption')
+    p eptitle.attribute('innerHTML')
+    p eptitle.find_element(:tag_name, 'p').text
+  end
+
+  desc '変更：ウインドウサイズのみ'
+  task one2: :environment do
+    require "selenium-webdriver"
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument('--lang=ja-JP')
+    options.add_argument('window-size=1920,1080')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    p driver.page_source
+    p driver.title
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__title')
+    p eptitle.attribute('innerHTML')
+    p eptitle.text
+  end
+
+  desc '変更：取得要素のみ'
+  task one3: :environment do
+    require "selenium-webdriver"
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument('--lang=ja-JP')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to('https://abema.tv/video/title/149-11')
+
+    p driver.page_source
+    p driver.title
+
+    3.times do
+      sleep(1)
+      driver.execute_script('window.scroll(0,1000000);')
+    end
+
+    eptitle = driver.find_element(:class, 'com-video-EpisodeList__caption')
+    p eptitle.attribute('innerHTML')
+    p eptitle.find_element(:tag_name, 'p').text
   end
 end

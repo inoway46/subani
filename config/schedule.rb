@@ -11,10 +11,19 @@ set :environment, rails_env
 set :output, "#{Rails.root}/log/cron.log"
 
 # 毎朝6時と15時にスクレイピングを行う
-every :day, at: '6am' do
+every 1.day, at: '6:00' do
   rake "scraping_episode:abema_all"
 end
 
-every :day, at: '3pm' do
+every 1.day, at: '16:00' do
   rake "scraping_episode:abema_all"
+end
+
+# スクレイピングで更新後のMasterをCSV化してS3にアップロード
+every 1.day, at: '6:15' do
+  rake "master_csv:export"
+end
+
+every 1.day, at: '16:15' do
+  rake "master_csv:export"
 end

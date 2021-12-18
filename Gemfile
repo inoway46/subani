@@ -62,8 +62,14 @@ gem 'acts_as_list'
 #rake_taskの定期実行
 gem 'whenever', require: false
 
-#スクレイピングでHeadless Chromeを使用
-gem "selenium-webdriver"
+#スクレイピング用
+gem 'selenium-webdriver', '3.142.7'
+
+#環境変数の管理
+gem 'dotenv-rails'
+
+#S3へのアップロード
+gem 'aws-sdk-s3'
 
 #LINEで最新話の更新を通知する
 gem 'line-bot-api'
@@ -87,7 +93,7 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '3.142.7'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
 end
