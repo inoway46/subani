@@ -3,13 +3,13 @@ class LineBotController < ApplicationController
 
   protect_from_forgery except: :callback
 
-  OMAJINAI = /アブラカタブラ|チチンプイプイ|ヒラケゴマ/
+  TITLE = /無職転生/
 
   def callback
     client = Line::Bot::Client.new do |config|
-      config.channel_id = Rails.application.credentials[:line][:channel_id]
-      config.channel_secret = Rails.application.credentials[:line][:channel_secret]
-      config.channel_token = Rails.application.credentials[:line][:channel_token]
+      config.channel_id = ENV["LINE_CHANNEL_ID"]
+      config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
+      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     end
 
     body = request.body.read
@@ -41,8 +41,9 @@ class LineBotController < ApplicationController
   end
 
   def reaction_text(event)
-    if event.message['text'].match?(OMAJINAI)
-      'It is Omajinai'                          # 定数OMAJINAIに含まれる文字列の内、いずれかに一致した投稿がされた場合に返す値
+    @abema = Master.where(media:"Abemaビデオ").find(45).url
+    if event.message['text'].match?(TITLE)
+      "無職転生の再生ページです。#{@abema}"   # 定数OMAJINAIに含まれる文字列の内、いずれかに一致した投稿がされた場合に返す値
     elsif event.message['text'].match?('ruby')
       'Is it Programming language? Ore?'        # `ruby`という文字列が投稿された場合に返す値
     else
