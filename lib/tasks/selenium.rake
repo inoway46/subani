@@ -99,12 +99,16 @@ namespace :selenium do
         master.update(episode: new_episode)
         p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
         #LINEに最新話とURLを通知
-        message = {
-          type: 'text',
-          text: "#{master.title}の#{new_episode}話が公開されました！#{master.url}"
-        }
-        response = client.push_message(ENV["LINE_USER_ID"], message)
-        p response
+        @contents.each do |content|
+          if content.line_flag
+            message = {
+              type: 'text',
+              text: "#{master.title}の#{new_episode}話が公開されました！#{master.url}"
+            }
+            response = client.push_message(ENV["LINE_USER_ID"], message)
+            p response
+          end
+        end
       end
 
       if @contents.present?
