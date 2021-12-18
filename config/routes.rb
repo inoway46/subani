@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   root 'homes#index'
   post '/homes/guest_sign_in', to: 'homes#guest_sign_in'
   post '/callback', to: 'line_bot#callback'
-  devise_for :users
+  devise_for :users, controllers: {
+    omniauth_callbacks: "omniauth_callbacks"
+  }
   resources :schedules
   resources :contents do
     member do
