@@ -1,0 +1,19 @@
+<h2 class="form-title">LINE連携用ログインフォーム</h2>
+<%= form_with url: line_link_path, local: true do |f| %>
+  <div class="field">
+    <%= f.email_field :email, class: "line-form-text", placeholder: "メールアドレス" %>
+  </div>
+  <div class="field">
+    <%= f.password_field :password, class: "line-login-form-text", placeholder: "パスワード" %>
+  </div>
+  <%= f.hidden_field :link_token, :value => @link_token %>
+  <%= f.submit "ログイン", class: "submit-btn" %>
+<% end %>
+<div class="desc-text-group">
+<div class="desc-text">
+  ※ 上のフォームから、ログインすることでアカウントの連携が完了します（LINEのユーザー名・パスワードではありません）
+</div>
+<div class="desc-text">
+  ※ LINEのアカウント連携は、トーク画面のメニューからいつでも解除することができます。
+</div>
+</div>

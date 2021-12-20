@@ -1,0 +1,2 @@
+module Line::AuthenticationsHelper
+end

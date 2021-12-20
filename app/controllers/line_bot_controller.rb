@@ -20,6 +20,19 @@ class LineBotController < ApplicationController
     events = client.parse_events_from(body)
     events.each do |event|
       message = case event
+                when Line::Bot::Event::AccountLink
+                  if event.result == "ok"
+                    @line_id = event['source']['userId']
+                    @user = User.find_by(line_nonce: event.nonce.to_s)
+                    if User.exists?(uid: @line_id)
+                      "すでに同じLINE-IDが登録されています"
+                    else
+                      @user.update!(uid: @line_id)
+                      "アカウントの連携が完了しました"
+                    end
+                  else
+                    "アカウントの連携に失敗しました"
+                  end
                 when Line::Bot::Event::Message
                   { type: 'text', text: parse_message_type(event) }
                 else
@@ -56,7 +69,7 @@ class LineBotController < ApplicationController
       userid = "U2cebc69b40f59ece7e640c5b1ccaf125"
       response = client.create_link_token(userid).body
       link_token = JSON.parse(response)
-      uri = URI("https://subani.herokuapp.com//users/sign_in")
+      uri = URI("https://b9c5-2001-ce8-131-389f-a477-b854-4c79-1b7e.ngrok.io/line/link")
       uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
       uri
 
