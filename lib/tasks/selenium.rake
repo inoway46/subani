@@ -56,7 +56,7 @@ namespace :selenium do
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
-    abema_urls = Master.where(media: "Abemaビデオ")
+    abema_urls = Master.where(media: "Abemaビデオ").limit(2)
 
     #cron.logで実行確認のため時刻を表示
     p "#{Time.current}：スクレイピングを開始します"
@@ -98,26 +98,29 @@ namespace :selenium do
         #Masterのepisodeを最新の状態に更新
         master.update(episode: new_episode)
         p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
-        #LINEに最新話とURLを通知
-        @contents.each do |content|
-          if content.line_flag
+        #line_flagオンのcontentに紐づくユーザー一覧を取得し、uidが存在するユーザーにLINE通知を行う
+        line_contents = @contents.where(line_flag: true)
+        line_contents.each do |content|
+          line_users = content.users.where.not(uid: nil)
+          line_users.each do |user|
             message = {
               type: 'text',
               text: "#{master.title}の#{new_episode}話が公開されました！#{master.url}"
             }
-            response = client.push_message(ENV["LINE_USER_ID"], message)
+            response = client.push_message(user.uid, message)
             p response
+            p "LINE通知：#{content.title}を#{user.name}さんに送信しました"
           end
         end
       end
 
+      #Masterの話数を表示（ログ確認用）
+      p " <Master> #{master.episode}話 [#{master.title}]"
+
       if @contents.present?
         @contents.update_all(episode: master.episode)
-        p "#{master.title}のcontentデータを#{master.episode}話に更新しました"
+        p "<Content> #{master.title}を#{master.episode}話に更新しました"
       end
-
-      #デバッグ用
-      p "#{master.title}：master=#{master.episode}話"
     end
 
     #cron.logで実行確認のため時刻を表示
