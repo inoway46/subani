@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :line do
+    get 'authentications/link'
+    get 'authentications/create'
+  end
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   root 'homes#index'
   post '/homes/guest_sign_in', to: 'homes#guest_sign_in'
@@ -20,5 +24,10 @@ Rails.application.routes.draw do
   resources :users
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
+  end
+
+  namespace :line do
+    get 'link', to: 'authentications#link'
+    post 'link', to: 'authentications#create'
   end
 end
