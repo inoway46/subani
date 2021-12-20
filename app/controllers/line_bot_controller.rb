@@ -3,7 +3,8 @@ class LineBotController < ApplicationController
 
   protect_from_forgery except: :callback
 
-  TITLE = /無職転生/
+  LINK = "アカウント連携/解除"
+  UNLINK = "テスト"
 
   def callback
     client = Line::Bot::Client.new do |config|
@@ -41,13 +42,44 @@ class LineBotController < ApplicationController
   end
 
   def reaction_text(event)
-    @abema = Master.where(media:"Abemaビデオ").find(45).url
-    if event.message['text'].match?(TITLE)
-      "無職転生の再生ページです。#{@abema}"   # 定数OMAJINAIに含まれる文字列の内、いずれかに一致した投稿がされた場合に返す値
-    elsif event.message['text'].match?('ruby')
-      'Is it Programming language? Ore?'        # `ruby`という文字列が投稿された場合に返す値
-    else
-      event.message['text']                     # 上記２つに合致しない投稿だった場合、投稿と同じ文字列を返す
+    require 'net/http'
+    require 'uri'
+    require 'json'
+    require 'byebug'
+
+    client = Line::Bot::Client.new do |config|
+      config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
+      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     end
+
+    if event.message['text'].match?(LINK)
+      userid = "U2cebc69b40f59ece7e640c5b1ccaf125"
+      response = client.create_link_token(userid).body
+      link_token = JSON.parse(response)
+      uri = URI("https://subani.herokuapp.com//users/sign_in")
+      uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
+      uri
+
+    elsif event.message['text'].match?(UNLINK)
+        
+    else
+      event.message['text']
+    end
+  end
+
+  def textualize(uri)
+    {
+      type: "template",
+      altText: "アカウント連携はこちらから",
+      template: {
+        type: "buttons",
+        text: "以下のURLからログインし、アカウント連携を行ってください \nなお、連携の解除はいつでも行うことができます。",
+        actions: [{
+          type: "uri",
+          label: "アカウント連携ページ",
+          uri: uri
+        }]
+      }
+    }
   end
 end
