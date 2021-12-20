@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_18_121758) do
+ActiveRecord::Schema.define(version: 2021_12_20_130226) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2021_12_18_121758) do
     t.string "provider"
     t.string "uid"
     t.string "name"
+    t.string "line_nonce"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
