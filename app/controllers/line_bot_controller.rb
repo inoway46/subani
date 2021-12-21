@@ -3,7 +3,7 @@ class LineBotController < ApplicationController
 
   protect_from_forgery except: :callback
 
-  LINK = "アカウント連携/解除"
+  LINK = "アカウント連携"
   UNLINK = "テスト"
 
   def callback
@@ -25,13 +25,14 @@ class LineBotController < ApplicationController
                     @line_id = event['source']['userId']
                     @user = User.find_by(line_nonce: event.nonce.to_s)
                     if User.exists?(uid: @line_id)
-                      "すでに同じLINE-IDが登録されています"
+                      @user.update!(line_nonce: nil)
+                      reply_text("すでに同じLINE-IDが登録されています")
                     else
-                      @user.update!(uid: @line_id)
-                      "アカウントの連携が完了しました"
+                      @user.update!(uid: @line_id, line_nonce: nil)
+                      reply_text("アカウントの連携が完了しました")
                     end
                   else
-                    "アカウントの連携に失敗しました"
+                    reply_text("アカウントの連携に失敗しました")
                   end
                 when Line::Bot::Event::Message
                   { type: 'text', text: parse_message_type(event) }
@@ -66,10 +67,10 @@ class LineBotController < ApplicationController
     end
 
     if event.message['text'].match?(LINK)
-      userid = "U2cebc69b40f59ece7e640c5b1ccaf125"
+      userid = event['source']['userId']
       response = client.create_link_token(userid).body
       link_token = JSON.parse(response)
-      uri = URI("https://b9c5-2001-ce8-131-389f-a477-b854-4c79-1b7e.ngrok.io/line/link")
+      uri = URI("https://subani.herokuapp.com/line/link")
       uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
       uri
 
@@ -94,5 +95,9 @@ class LineBotController < ApplicationController
         }]
       }
     }
+  end
+
+  def reply_text(text)
+    { type: 'text', text: text }
   end
 end
