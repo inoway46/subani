@@ -59,7 +59,6 @@ class LineBotController < ApplicationController
     require 'net/http'
     require 'uri'
     require 'json'
-    require 'byebug'
 
     client = Line::Bot::Client.new do |config|
       config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
