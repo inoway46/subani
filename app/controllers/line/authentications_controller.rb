@@ -6,7 +6,7 @@ class Line::AuthenticationsController < ApplicationController
   def create
     @user = User.find_by(email: params[:email])
     @link_token = params[:link_token]
-    if sign_in @user
+    if @user.valid_password?(params[:password])
       nonce = SecureRandom.urlsafe_base64(16)
       @user.update!(line_nonce: nonce)
       uri = URI("https://access.line.me/dialog/bot/accountLink")
