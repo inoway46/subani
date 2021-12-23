@@ -4,7 +4,7 @@ class LineBotController < ApplicationController
   protect_from_forgery except: :callback
 
   LINK = "アカウント連携"
-  UNLINK = "テスト"
+  UNLINK = "連携解除"
 
   def callback
     client = Line::Bot::Client.new do |config|
@@ -51,7 +51,7 @@ class LineBotController < ApplicationController
     when Line::Bot::Event::MessageType::Text
       reaction_text(event)   # ユーザーが投稿したものがテキストメッセージだった場合に返す値
     else
-      'Thanks!!'             # ユーザーが投稿したものがテキストメッセージ以外だった場合に返す値
+      'ありがとうございます'             # ユーザーが投稿したものがテキストメッセージ以外だった場合に返す値
     end
   end
 
@@ -65,35 +65,39 @@ class LineBotController < ApplicationController
       config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     end
 
+    #アカウント連携
     if event.message['text'].match?(LINK)
       userid = event['source']['userId']
       response = client.create_link_token(userid).body
       link_token = JSON.parse(response)
-      uri = URI("https://subani.herokuapp.com/line/link")
+      uri = URI("https://6301-2001-ce8-131-389f-6d78-e620-5f35-ad74.ngrok.io/line/link")
       uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
-      uri
-
+      message = {
+        type: "template",
+        altText: "アカウント連携はこちら",
+        template: {
+          type: "buttons",
+          text: "以下のリンクからログインし、アカウント連携を行ってください \nなお、連携の解除はメニューからいつでも行えます。",
+          actions: [{
+            type: "uri",
+            label: "アカウント連携ページ",
+            uri: uri
+          }]
+        }
+      }
+      client.reply_message(event['replyToken'], message)
+    #連携解除
     elsif event.message['text'].match?(UNLINK)
-        
+        @user = User.find_by(uid: event['source']['userId'])
+        if @user.present?
+          @user.update!(uid: nil)
+          "LINEアカウントの連携を解除しました"
+        else
+          "アカウントは連携されていません"
+        end
     else
       event.message['text']
     end
-  end
-
-  def textualize(uri)
-    {
-      type: "template",
-      altText: "アカウント連携はこちらから",
-      template: {
-        type: "buttons",
-        text: "以下のURLからログインし、アカウント連携を行ってください \nなお、連携の解除はいつでも行うことができます。",
-        actions: [{
-          type: "uri",
-          label: "アカウント連携ページ",
-          uri: uri
-        }]
-      }
-    }
   end
 
   def reply_text(text)
