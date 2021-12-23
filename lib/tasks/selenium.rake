@@ -109,7 +109,7 @@ namespace :selenium do
             }
             response = client.push_message(user.uid, message)
             p response
-            p "LINE通知：#{content.title}を#{user.name}さんに送信しました"
+            p "LINE通知：#{content.title}を#{user.email}さんに送信しました"
           end
         end
       end

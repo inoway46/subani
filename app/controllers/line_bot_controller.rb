@@ -70,7 +70,7 @@ class LineBotController < ApplicationController
       userid = event['source']['userId']
       response = client.create_link_token(userid).body
       link_token = JSON.parse(response)
-      uri = URI("https://6301-2001-ce8-131-389f-6d78-e620-5f35-ad74.ngrok.io/line/link")
+      uri = URI("https://subani.herokuapp.com/line/link")
       uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
       message = {
         type: "template",
