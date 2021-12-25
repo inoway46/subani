@@ -15,15 +15,7 @@ every 1.day, at: '6:00' do
   rake "scraping_episode:abema_all"
 end
 
-every 1.day, at: '15:00' do
-  rake "scraping_episode:abema_all"
-end
-
 # スクレイピングで更新後のMasterをCSV化してS3にアップロード
 every 1.day, at: '6:15' do
-  rake "master_csv:export"
-end
-
-every 1.day, at: '15:15' do
   rake "master_csv:export"
 end
