@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_20_130226) do
+ActiveRecord::Schema.define(version: 2021_12_25_114312) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2021_12_20_130226) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "episode", default: 0
+    t.string "season"
+    t.string "update_day"
   end
 
   create_table "schedules", force: :cascade do |t|
