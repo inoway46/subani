@@ -51,7 +51,8 @@ namespace :scraping_episode do
       if current_episode < new_episode
         @contents.update_all(new_flag: true)
         #Masterのepisodeを最新の状態に更新
-        master.update(episode: new_episode)
+        day = Date.today.strftime("%a")
+        master.update(episode: new_episode, update_day: day)
         p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
       end
 

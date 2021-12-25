@@ -7,7 +7,7 @@ namespace :master_csv do
     #cron.logで実行確認のため時刻を表示
     p "#{Time.current}：export処理を開始します"
 
-    masters = Master.where(media: "Abemaビデオ")
+    masters = Master.all
 
     CSV.open("master.csv", "w") do |csv|
       column_names = %w(id title media url stream rank created_at updated_at episode)
@@ -52,7 +52,7 @@ namespace :master_csv do
     #heroku logsで実行確認のため時刻を表示
     p "#{Time.current}：import処理を開始します"
 
-    masters = Master.where(media: "Abemaビデオ")
+    masters = Master.all
 
     bucket = 'subani'.freeze
     region = 'ap-northeast-1'.freeze
