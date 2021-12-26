@@ -34,6 +34,14 @@
         <%= f.label :stream, class: "form-control-label"%>
         <%= f.select :stream, Content.streams.keys.map {|k| [I18n.t("enums.content.stream.#{k}"), k]}, class: "form-control" %>
       </div>
+      <div class="form-group field">
+        <%= f.label :episode , class: "form-control-label"%>
+        <%= f.number_field :episode, class: "form-control" %>
+      </div>
+      <div class="form-group field">
+        <%= f.label :new_flag , class: "form-control-label"%>
+        <%= f.select :new_flag, [['オン', true], ['オフ', false]], { include_blank: true }, class: "form-control" %>
+      </div>
     </div>
     <div class="modal-footer actions">
       <%= f.submit class: "btn btn-primary"%>
