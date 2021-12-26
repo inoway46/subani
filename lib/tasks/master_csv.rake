@@ -47,7 +47,7 @@ namespace :master_csv do
     p "#{Time.current}：export処理が終了しました"
   end
 
-  desc 'herokuでS3からmaster.csvをインポートしてDB更新'
+  desc 'S3からmaster.csvをインポートしてherokuDBのエピソード更新'
   task import: :environment do
     #heroku logsで実行確認のため時刻を表示
     p "#{Time.current}：import処理を開始します"
@@ -142,29 +142,6 @@ namespace :master_csv do
                 )
   end
 
-  desc 'cronの動作確認'
-  task test: :environment do
-    masters = Master.where(media: "Abemaビデオ")
-    CSV.open("test.csv", "w") do |csv|
-      column_names = %w(id title media url stream rank created_at updated_at episode)
-      csv << column_names
-      masters.each do |master|
-        column_values = [
-          master.id,
-          master.title.to_s,
-          master.media.to_s,
-          master.url,
-          master.stream,
-          master.rank,
-          master.created_at,
-          master.updated_at,
-          master.episode
-        ]
-        csv << column_values
-      end
-    end
-  end
-
   desc 'master.csvをローカルDBにインポート'
   task local_import: :environment do
     lists = []
@@ -184,16 +161,92 @@ namespace :master_csv do
     end
 
     lists.each do |list|
-      target = Master.find(list[:id])
-      target.update(title: list[:title],
-                    media: list[:media],
-                    url: list[:url],
-                    stream: list[:stream],
-                    update_day: list[:update_day],
-                    episode: list[:episode],
-                    season: list[:season],
-                    rank: list[:rank]
-                  )
+      if Master.find_by(id: list[:id]).present?
+        target = Master.find(list[:id])
+        target.update(title: list[:title],
+                      media: list[:media],
+                      url: list[:url],
+                      stream: list[:stream],
+                      update_day: list[:update_day],
+                      episode: list[:episode],
+                      season: list[:season],
+                      rank: list[:rank]
+                    )
+      else
+        Master.create(
+          id: list[:id],
+          title: list[:title],
+          media: list[:media],
+          url: list[:url],
+          stream: list[:stream],
+          update_day: list[:update_day],
+          episode: list[:episode],
+          season: list[:season],
+          rank: list[:rank]
+        )
+      end
+    end
+  end
+
+  desc 'ローカルDBのMasterをすべてHerokuにインポート'
+  task heroku_all_import: :environment do
+
+    bucket = 'subani'.freeze
+    region = 'ap-northeast-1'.freeze
+    key = "master.csv"
+
+    s3 = Aws::S3::Client.new(
+      region: region,
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+    )
+
+    file = s3.get_object(bucket: bucket, key: key)
+    lines = CSV.parse(file.body.read)
+    keys = lines[0]
+    data = lines[1...-1].map { |line| Hash[keys.zip(line)] }
+
+    lists = []
+
+    data.each do |row|
+      lists << {
+        id: row["id"].to_i,
+        title: row["title"],
+        media: row["media"],
+        url: row["url"],
+        stream: row["stream"],
+        update_day: row["update_day"],
+        episode: row["episode"].to_i,
+        season: row["season"],
+        rank: row["rank"].to_i
+      }
+    end
+
+    lists.each do |list|
+      if Master.find_by(id: list[:id]).present?
+        target = Master.find(list[:id])
+        target.update(title: list[:title],
+                      media: list[:media],
+                      url: list[:url],
+                      stream: list[:stream],
+                      update_day: list[:update_day],
+                      episode: list[:episode],
+                      season: list[:season],
+                      rank: list[:rank]
+                    )
+      else
+        Master.create(
+          id: list[:id],
+          title: list[:title],
+          media: list[:media],
+          url: list[:url],
+          stream: list[:stream],
+          update_day: list[:update_day],
+          episode: list[:episode],
+          season: list[:season],
+          rank: list[:rank]
+        )
+      end
     end
   end
 end
