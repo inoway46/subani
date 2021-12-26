@@ -10,19 +10,19 @@ namespace :master_csv do
     masters = Master.all
 
     CSV.open("master.csv", "w") do |csv|
-      column_names = %w(id title media url stream rank created_at updated_at episode)
+      column_names = %w(id title media url stream update_day episode season rank)
       csv << column_names
       masters.each do |master|
         column_values = [
           master.id,
-          master.title.to_s,
-          master.media.to_s,
+          master.title,
+          master.media,
           master.url,
           master.stream,
-          master.rank,
-          master.created_at,
-          master.updated_at,
-          master.episode
+          master.update_day,
+          master.episode,
+          master.season,
+          master.rank
         ]
         csv << column_values
       end
@@ -74,18 +74,38 @@ namespace :master_csv do
 
     data.each do |row|
       lists << {
-        id: row["id"],
+        id: row["id"].to_i,
         title: row["title"],
-        episode: row["episode"]
+        media: row["media"],
+        url: row["url"],
+        stream: row["stream"],
+        update_day: row["update_day"],
+        episode: row["episode"].to_i,
+        season: row["season"],
+        rank: row["rank"].to_i
       }
     end
 
     lists.each do |list|
-      target = Master.find(list[:id].to_i)
-      new_episode = list[:episode].to_i
-      if target.episode < new_episode
-        target.update!(episode: new_episode)
-        p "Master: #{list[:title]}を#{list[:episode]}話に更新しました"
+      if Master.find_by(id: list[:id]).present?
+        target = Master.find(list[:id])
+        new_episode = list[:episode]
+        if target.episode < new_episode
+          target.update!(episode: new_episode)
+          p "Master: #{list[:title]}を#{list[:episode]}話に更新しました"
+        end
+      else
+        Master.create(
+          id: list[:id],
+          title: list[:title],
+          media: list[:media],
+          url: list[:url],
+          stream: list[:stream],
+          update_day: list[:update_day],
+          episode: list[:episode],
+          season: list[:season],
+          rank: list[:rank]
+        )
       end
     end
 
@@ -142,6 +162,38 @@ namespace :master_csv do
         ]
         csv << column_values
       end
+    end
+  end
+
+  desc 'master.csvをローカルDBにインポート'
+  task local_import: :environment do
+    lists = []
+
+    CSV.foreach("master.csv", headers: true) do |row|
+      lists << {
+        id: row["id"].to_i,
+        title: row["title"],
+        media: row["media"],
+        url: row["url"],
+        stream: row["stream"],
+        update_day: row["update_day"],
+        episode: row["episode"].to_i,
+        season: row["season"],
+        rank: row["rank"].to_i
+      }
+    end
+
+    lists.each do |list|
+      target = Master.find(list[:id])
+      target.update(title: list[:title],
+                    media: list[:media],
+                    url: list[:url],
+                    stream: list[:stream],
+                    update_day: list[:update_day],
+                    episode: list[:episode],
+                    season: list[:season],
+                    rank: list[:rank]
+                  )
     end
   end
 end
