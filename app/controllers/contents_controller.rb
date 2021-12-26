@@ -66,11 +66,28 @@ class ContentsController < ApplicationController
 
   def flag_off
     @content = current_user.contents.find(params[:id])
-
     if @content.update(content_params)
       redirect_to schedules_path
     else
       redirect_to schedules_path, alert: "処理が失敗しました"
+    end
+  end
+
+  def line_on
+    @content = current_user.contents.find(params[:id])
+    if @content.update(content_params)
+      redirect_to contents_path
+    else
+      redirect_to contents_path, alert: "処理が失敗しました"
+    end
+  end
+
+  def line_off
+    @content = current_user.contents.find(params[:id])
+    if @content.update(content_params)
+      redirect_to contents_path
+    else
+      redirect_to contents_path, alert: "処理が失敗しました"
     end
   end
 
@@ -87,7 +104,7 @@ class ContentsController < ApplicationController
   private
 
   def content_params
-    params.require(:content).permit(:title, :media, :url, :stream, :new_flag, :episode, :master_id => [])
+    params.require(:content).permit(:title, :media, :url, :stream, :new_flag, :episode, :line_flag, :master_id => [])
   end
 
   def result

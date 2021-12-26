@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :contents do
     member do
       patch 'flag_off'
+      patch 'line_on'
+      patch 'line_off'
     end
 
     collection do
