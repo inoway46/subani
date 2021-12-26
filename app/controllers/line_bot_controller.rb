@@ -72,20 +72,7 @@ class LineBotController < ApplicationController
       link_token = JSON.parse(response)
       uri = URI("https://subani.herokuapp.com/line/link")
       uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
-      message = {
-        type: "template",
-        altText: "アカウント連携はこちら",
-        template: {
-          type: "buttons",
-          text: "以下のリンクからログインし、アカウント連携を行ってください \nなお、連携の解除はメニューからいつでも行えます。",
-          actions: [{
-            type: "uri",
-            label: "アカウント連携ページ",
-            uri: uri
-          }]
-        }
-      }
-      client.reply_message(event['replyToken'], message)
+      "下記のリンクよりログインしてアカウント連携を行ってください。\n#{uri}"
     #連携解除
     elsif event.message['text'].match?(UNLINK)
         @user = User.find_by(uid: event['source']['userId'])
