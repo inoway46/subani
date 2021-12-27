@@ -277,25 +277,25 @@ namespace :master_csv do
 
     data.each do |row|
       lists << {
-        id: row["id"].to_i,
+        id: row["id"],
         title: row["title"],
         media: row["media"],
         url: row["url"],
         stream: row["stream"],
         update_day: row["update_day"],
-        episode: row["episode"].to_i,
+        episode: row["episode"],
         season: row["season"],
-        rank: row["rank"].to_i
+        rank: row["rank"]
       }
     end
 
     #Master更新
     lists.each do |list|
-      if Master.find_by(id: list[:id]).present?
-        target = Master.find(list[:id])
-        new_episode = list[:episode]
+      if Master.find_by(id: list[:id].to_i).present?
+        target = Master.find(list[:id].to_i)
+        new_episode = list[:episode].to_i
         if target.episode < new_episode
-          target.update!(episode: new_episode)
+          target.update(episode: new_episode)
           p "Master: #{list[:title]}を#{list[:episode]}話に更新しました"
         end
       else
