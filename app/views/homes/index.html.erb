@@ -1,11 +1,14 @@
-<h3>サブスクアニメを時間割で管理しよう</h3>
+<h5>今季のサブスクアニメを時間割で管理</h5>
 <p style="padding-top: 20px;">
-<%= link_to 'ゲストログイン（閲覧用）', homes_guest_sign_in_path, method: :post, type: "button", class: "btn btn-outline-info btn-lg" %>
+<span style="padding-right:10px;">
+  <%= link_to 'ゲストログイン', homes_guest_sign_in_path, method: :post, type: "button", class: "btn btn-dark" %>
+</span>
+  <%= link_to user_line_omniauth_authorize_path, method: :post do %>
+    <%= image_tag 'line_btn.png', size: '150x43' %>
+  <% end %>
+  <div style="color:gray; font-size:0.9rem;">まずは登録不要の「ゲストログイン」から</div>
 </p>
-<p style="padding-bottom: 10px;">
-<%= link_to user_line_omniauth_authorize_path, method: :post do %>
-  <%= image_tag 'line_btn.png', size: '150x43' %>
-<% end %>
-</p>
-<p>こんな感じで登録できます▼</p>
+<p>ワンクリックで再生ページに飛べる時間割▼</p>
 <%= image_tag 'sample_table.png', class: "img-fluid" %>
+<p style="padding-top: 20px;">LINEで最新話の更新を自動通知▼</p>
+<%= image_tag 'sample_line.jpg', class: "img-fluid" %>
