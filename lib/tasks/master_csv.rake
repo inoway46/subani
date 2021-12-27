@@ -68,7 +68,7 @@ namespace :master_csv do
     lines = CSV.parse(file.body.read)
 
     keys = lines[0]
-    data = lines[1...-1].map { |line| Hash[keys.zip(line)] }
+    data = lines[1...].map { |line| Hash[keys.zip(line)] }
 
     lists = []
 
@@ -204,7 +204,7 @@ namespace :master_csv do
     file = s3.get_object(bucket: bucket, key: key)
     lines = CSV.parse(file.body.read)
     keys = lines[0]
-    data = lines[1...-1].map { |line| Hash[keys.zip(line)] }
+    data = lines[1...].map { |line| Hash[keys.zip(line)] }
 
     lists = []
 
@@ -271,29 +271,29 @@ namespace :master_csv do
     lines = CSV.parse(file.body.read)
 
     keys = lines[0]
-    data = lines[1...-1].map { |line| Hash[keys.zip(line)] }
+    data = lines[1...].map { |line| Hash[keys.zip(line)] }
 
     lists = []
 
     data.each do |row|
       lists << {
-        id: row["id"],
+        id: row["id"].to_i,
         title: row["title"],
         media: row["media"],
         url: row["url"],
         stream: row["stream"],
         update_day: row["update_day"],
-        episode: row["episode"],
+        episode: row["episode"].to_i,
         season: row["season"],
-        rank: row["rank"]
+        rank: row["rank"].to_i
       }
     end
 
     #Master更新
     lists.each do |list|
-      if Master.find_by(id: list[:id].to_i).present?
-        target = Master.find(list[:id].to_i)
-        new_episode = list[:episode].to_i
+      if Master.find_by(id: list[:id]).present?
+        target = Master.find(list[:id])
+        new_episode = list[:episode]
         if target.episode < new_episode
           target.update(episode: new_episode)
           p "Master: #{list[:title]}を#{list[:episode]}話に更新しました"
