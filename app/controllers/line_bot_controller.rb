@@ -26,9 +26,9 @@ class LineBotController < ApplicationController
                       reply_text("すでに同じLINE-IDが登録されています")
                     else
                       @user.update!(uid: @uid, line_nonce: nil)
-                      reply_text("アカウントの連携が完了しました")
                       #リッチメニューのリンク
                       client.link_user_rich_menu(@uid, "richmenu-aa208905a54e189a2a745ee27138f8e2")
+                      reply_text("アカウントの連携が完了しました")
                     end
                   else
                     reply_text("アカウントの連携に失敗しました")
@@ -42,7 +42,9 @@ class LineBotController < ApplicationController
             if @user.present?
               client.unlink_user_rich_menu(@uid)
               @user.update!(uid: nil)
-              @user.destroy! if @user.provider = "line"
+              if @user.provider.present?
+                @user.destroy!
+              end
               message = reply_text("LINEアカウントの連携を解除しました")
             else
               client.unlink_user_rich_menu(@uid)
