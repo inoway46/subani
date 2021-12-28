@@ -17,3 +17,13 @@
   ※ LINEのアカウント連携は、トーク画面のメニューからいつでも解除することができます。
 </div>
 </div>
+<h5 style="padding-top:20px;">アカウントをお持ちでない方</h5>
+<p>LINEで登録&アカウント連携（おすすめ）</p>
+<%= link_to user_line_omniauth_authorize_path, method: :post do %>
+    <%= image_tag 'line_btn.png', size: '150x43' %>
+<% end %>
+
+<p style="padding-top:20px;">
+メールアドレスで登録<br />
+<%= link_to "新規登録ページ", new_user_registration_path %>
+</p>
