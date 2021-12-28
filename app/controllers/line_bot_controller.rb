@@ -128,6 +128,49 @@ class LineBotController < ApplicationController
       else
         "【アカウントが見つかりません】\nサイトからLINEログイン、もしくはアカウント連携を行ってください"
       end
+    when "今日のアニメ"
+      @uid = event['source']['userId']
+      @user = User.find_by(uid: @uid)
+      if @user.present?
+        anime_lists = @user.schedules.where(day: Date.today.strftime("%a"))
+        if anime_lists.present?
+          str = ""
+          anime_lists.each do |anime|
+            title = anime.content.title
+            episode = anime.content.episode
+            url = anime.content.url
+            result = "\n【#{title}】\n#{url}\n#{episode}話まで配信中\n"
+            str << result
+          end
+          message = reply_text(str)
+          client.reply_message(event['replyToken'], message)
+        end
+      else
+        "アカウントが見つかりませんでした"
+        client.unlink_user_rich_menu(@uid)
+      end
+    when "未視聴アニメ"
+      @uid = event['source']['userId']
+      @user = User.find_by(uid: @uid)
+      if @user.present?
+        ids = @user.schedules.pluck(:content_id)
+        anime_lists = Content.where(id: ids).where(new_flag: true)
+        if anime_lists.present?
+          str = ""
+          anime_lists.each do |anime|
+            title = anime.title
+            episode = anime.episode
+            url = anime.url
+            result = "\n【#{title}】\n#{url}\n#{episode}話まで配信中\n"
+            str << result
+          end
+          message = reply_text(str)
+          client.reply_message(event['replyToken'], message)
+        end
+      else
+        "アカウントが見つかりませんでした"
+        client.unlink_user_rich_menu(@uid)
+      end
     end
   end
 
