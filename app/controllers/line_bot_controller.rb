@@ -22,10 +22,9 @@ class LineBotController < ApplicationController
                     @uid = event['source']['userId']
                     @user = User.find_by(line_nonce: event.nonce.to_s)
                     if User.exists?(uid: @uid)
-                      @user.update!(line_nonce: nil)
                       reply_text("すでに同じLINE-IDが登録されています")
                     else
-                      @user.update!(uid: @uid, line_nonce: nil)
+                      @user.update!(uid: @uid)
                       #リッチメニューのリンク
                       client.link_user_rich_menu(@uid, "richmenu-aa208905a54e189a2a745ee27138f8e2")
                       reply_text("アカウントの連携が完了しました")
@@ -87,34 +86,40 @@ class LineBotController < ApplicationController
 
     case event.message['text']
     when "アカウント連携"
-      userid = event['source']['userId']
-      response = client.create_link_token(userid).body
+      @uid = event['source']['userId']
+      response = client.create_link_token(@uid).body
       link_token = JSON.parse(response)
       uri = URI("https://subani.herokuapp.com/line/link")
       uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
       "下記のリンクよりログインしてアカウント連携を行ってください。\n#{uri}"
     when "連携解除"
-      message = {
-        "type": "template",
-        "altText": "連携解除の手続き",
-        "template": {
-            "type": "confirm",
-            "text": "アカウント連携を解除しますか？\n※LINEログインでご利用の場合、サブスクアニメ時間割のアカウントも削除されます。",
-            "actions": [
-                {
-                  "type": "postback",
-                  "label": "はい",
-                  "data": "confirm"
-                },
-                {
-                  "type": "postback",
-                  "label": "いいえ",
-                  "data": "cancel"
-                }
-            ]
+      @uid = event['source']['userId']
+      if User.find_by(uid: @uid).blank?
+        client.unlink_user_rich_menu(@uid)
+        "アカウントが見つかりませんでした"
+      else
+        message = {
+          "type": "template",
+          "altText": "連携解除の手続き",
+          "template": {
+              "type": "confirm",
+              "text": "アカウント連携を解除しますか？\n※LINEログインでご利用の場合、サブスクアニメ時間割のアカウントも削除されます。",
+              "actions": [
+                  {
+                    "type": "postback",
+                    "label": "はい",
+                    "data": "confirm"
+                  },
+                  {
+                    "type": "postback",
+                    "label": "いいえ",
+                    "data": "cancel"
+                  }
+              ]
+          }
         }
-      }
-      client.reply_message(event['replyToken'], message)
+        client.reply_message(event['replyToken'], message)
+      end
     when "ログイン"
       @user = User.find_by(uid: event['source']['userId'])
       if @user.present?
