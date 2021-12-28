@@ -72,4 +72,4 @@ YouTubeも含め、サブスクサービスを使えば、ほぼ無料で大量�
 https://www.figma.com/file/Fz950xe2XSscSPh3UqcDAo/%E3%80%90%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3%E3%80%91%E3%82%B5%E3%83%96%E3%82%B9%E3%82%AF%E3%82%A2%E3%83%8B%E3%83%A1%E6%99%82%E9%96%93%E5%89%B2?node-id=0%3A1
 
 # ER図
-![スクリーンショット 2021-12-02 20 32 40](https://user-images.githubusercontent.com/65857152/144414602-4d3c4b3b-0476-4254-aff5-0009e9f36d1d.png)
+![スクリーンショット 2021-12-28 20 11 10](https://user-images.githubusercontent.com/65857152/147560464-0d4848f5-412b-478a-ad2a-8f0e312c7ac9.png)
