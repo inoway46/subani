@@ -329,7 +329,7 @@ namespace :master_csv do
             line_users.each do |user|
               message = {
                 type: 'text',
-                text: "#{master.title}の#{master.episode}話が公開されました！#{master.url}"
+                text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
               }
               response = client.push_message(user.uid, message)
               p "LINE通知：#{content.title}を#{user.email}さんに送信しました"
