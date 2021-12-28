@@ -19,15 +19,16 @@ class LineBotController < ApplicationController
       case event
         when Line::Bot::Event::AccountLink
           message= if event.result == "ok"
-                    @line_id = event['source']['userId']
+                    @uid = event['source']['userId']
                     @user = User.find_by(line_nonce: event.nonce.to_s)
-                    if User.exists?(uid: @line_id)
+                    if User.exists?(uid: @uid)
                       @user.update!(line_nonce: nil)
                       reply_text("すでに同じLINE-IDが登録されています")
                     else
-                      @user.update!(uid: @line_id, line_nonce: nil)
+                      @user.update!(uid: @uid, line_nonce: nil)
                       reply_text("アカウントの連携が完了しました")
-                      #リッチメニューのリクエストを送る
+                      #リッチメニューのリンク
+                      client.link_user_rich_menu(@uid, "richmenu-aa208905a54e189a2a745ee27138f8e2")
                     end
                   else
                     reply_text("アカウントの連携に失敗しました")
@@ -36,11 +37,14 @@ class LineBotController < ApplicationController
           #連携解除で「はい」を選択
           case event['postback']['data']
           when "confirm"
-            @user = User.find_by(uid: event['source']['userId'])
+            @uid = event['source']['userId']
+            @user = User.find_by(uid: @uid)
             if @user.present?
+              client.unlink_user_rich_menu(@uid)
               @user.update!(uid: nil)
               message = reply_text("LINEアカウントの連携を解除しました")
             else
+              client.unlink_user_rich_menu(@uid)
               message = reply_text("アカウントは連携されていません")
             end
           #連携解除で「いいえ」を選択
@@ -83,16 +87,15 @@ class LineBotController < ApplicationController
       userid = event['source']['userId']
       response = client.create_link_token(userid).body
       link_token = JSON.parse(response)
-      uri = URI("https://9af4-2001-ce8-131-389f-509d-a7a3-feac-9e24.ngrok.io/line/link")
+      uri = URI("https://subani.herokuapp.com/line/link")
       uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
       "下記のリンクよりログインしてアカウント連携を行ってください。\n#{uri}"
     when "連携解除"
       message = {
         "type": "template",
-        "altText": "This is a buttons template",
+        "altText": "連携解除の手続き",
         "template": {
-            "type": "buttons",
-            "title": "連携解除",
+            "type": "confirm",
             "text": "アカウント連携を解除しますか？",
             "actions": [
                 {
@@ -109,6 +112,13 @@ class LineBotController < ApplicationController
         }
       }
       client.reply_message(event['replyToken'], message)
+    when "ログイン"
+      @user = User.find_by(uid: event['source']['userId'])
+      if @user.present?
+        client.link_user_rich_menu(@user.uid, "richmenu-aa208905a54e189a2a745ee27138f8e2")
+      else
+        "【アカウントが見つかりません】\nサイトからLINEログイン、もしくはアカウント連携を行ってください"
+      end
     end
   end
 
