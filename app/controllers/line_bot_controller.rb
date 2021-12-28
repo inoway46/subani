@@ -78,6 +78,7 @@ class LineBotController < ApplicationController
     require 'net/http'
     require 'uri'
     require 'json'
+    require 'date'
 
     client = Line::Bot::Client.new do |config|
       config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
@@ -132,7 +133,8 @@ class LineBotController < ApplicationController
       @uid = event['source']['userId']
       @user = User.find_by(uid: @uid)
       if @user.present?
-        anime_lists = @user.schedules.where(day: Date.today.strftime("%a"))
+        today = Date.today.strftime("%a")
+        anime_lists = @user.schedules.where(day: today)
         if anime_lists.present?
           str = ""
           anime_lists.each do |anime|
@@ -144,6 +146,10 @@ class LineBotController < ApplicationController
           end
           message = reply_text(str)
           client.reply_message(event['replyToken'], message)
+        else
+          d = Date.today
+          today_jp = %w(日 月 火 水 木 金 土)[d.wday]
+          "#{today_jp}曜日のアニメは時間割に登録されていません"
         end
       else
         "アカウントが見つかりませんでした"
@@ -166,6 +172,8 @@ class LineBotController < ApplicationController
           end
           message = reply_text(str)
           client.reply_message(event['replyToken'], message)
+        else
+          "現在、未視聴のアニメはありません"
         end
       else
         "アカウントが見つかりませんでした"
