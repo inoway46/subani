@@ -42,6 +42,7 @@ class LineBotController < ApplicationController
             if @user.present?
               client.unlink_user_rich_menu(@uid)
               @user.update!(uid: nil)
+              @user.destroy! if @user.provider = "line"
               message = reply_text("LINEアカウントの連携を解除しました")
             else
               client.unlink_user_rich_menu(@uid)
@@ -96,7 +97,7 @@ class LineBotController < ApplicationController
         "altText": "連携解除の手続き",
         "template": {
             "type": "confirm",
-            "text": "アカウント連携を解除しますか？",
+            "text": "アカウント連携を解除しますか？\n※LINEログインでご利用の場合、サブスクアニメ時間割のアカウントも削除されます。",
             "actions": [
                 {
                   "type": "postback",
@@ -116,6 +117,7 @@ class LineBotController < ApplicationController
       @user = User.find_by(uid: event['source']['userId'])
       if @user.present?
         client.link_user_rich_menu(@user.uid, "richmenu-aa208905a54e189a2a745ee27138f8e2")
+        "ログインしました"
       else
         "【アカウントが見つかりません】\nサイトからLINEログイン、もしくはアカウント連携を行ってください"
       end
