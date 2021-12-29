@@ -10,9 +10,13 @@ set :environment, rails_env
 # cronのログの吐き出し場所。ここでエラー内容を確認する
 set :output, "#{Rails.root}/log/cron.log"
 
-# 毎朝6時と15時にスクレイピングを行う
+# 毎朝6時にスクレイピングを行う
 every 1.day, at: '6:00' do
   rake "scraping_episode:abema_all"
+end
+
+every 1.day, at: '6:05' do
+  rake "scraping_episode:amazon_all"
 end
 
 # スクレイピングで更新後のMasterをCSV化してS3にアップロード
