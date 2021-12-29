@@ -90,7 +90,7 @@ class LineBotController < ApplicationController
       @uid = event['source']['userId']
       response = client.create_link_token(@uid).body
       link_token = JSON.parse(response)
-      uri = URI("https://9af4-2001-ce8-131-389f-509d-a7a3-feac-9e24.ngrok.io/line/link")
+      uri = URI("https://subani.herokuapp.com/line/link")
       uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
       "下記のリンクよりログインしてアカウント連携を行ってください。\n#{uri}"
     when "連携解除"
