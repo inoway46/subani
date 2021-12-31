@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root 'homes#index'
   post '/homes/guest_sign_in', to: 'homes#guest_sign_in'
 
-  resources :schedules
+  resources :schedules, except: :show
 
   resources :contents do
     member do

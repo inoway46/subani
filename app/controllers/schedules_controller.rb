@@ -3,7 +3,6 @@ class SchedulesController < ApplicationController
   def new
     @schedule = Schedule.new
     respond_to do |format|
-      format.html
       format.js
     end
 
@@ -14,13 +13,11 @@ class SchedulesController < ApplicationController
     @schedules = current_user.schedules.preload(:content)
   end
 
-  def show; end
-
   def create
     @contents = current_user.contents.where(registered: false)
     @schedule = current_user.schedules.build(schedule_params)
 
-    if current_user.schedules.where(position: 5).where(day: params[:schedule][:day]).exists?
+    if current_user.limit_position(params[:schedule][:day])
       @schedule.errors.add(:base, "時間割に空きがありません")
       render :new
     else
@@ -34,7 +31,6 @@ class SchedulesController < ApplicationController
     @contents = current_user.contents
     @schedule = current_user.schedules.find(params[:id])
     respond_to do |format|
-      format.html
       format.js
     end
   end
@@ -44,12 +40,11 @@ class SchedulesController < ApplicationController
     @schedule = current_user.schedules.find(params[:id])
     
     respond_to do |format|
-      if current_user.schedules.where(position: 5).where(day: params[:schedule][:day]).exists?
+      if current_user.limit_position(params[:schedule][:day])
         @schedule.errors.add(:base, "時間割に空きがありません")
         format.js { render :edit }
       else
         @schedule.update(schedule_params)
-        format.html
         format.js
       end
     end

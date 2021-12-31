@@ -29,4 +29,8 @@ class User < ApplicationRecord
     self.raw_info = raw_info.to_json
     self.save!
   end
+
+  def limit_position(day)
+    return true if self.schedules.where(position: 5).where(day: day).exists?
+  end
 end
