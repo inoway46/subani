@@ -6,4 +6,8 @@ class Schedule < ApplicationRecord
   # validate :limit_position
   validates :day, presence: true
   validates :content_id, uniqueness: true
+
+  def no_position_error
+    self.errors.add(:base, "時間割に空きがありません")
+  end
 end

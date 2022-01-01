@@ -10,4 +10,15 @@ class Content < ApplicationRecord
   validates :media, presence: true, length: { maximum: 100 }
   validates :url, presence: true, length: { maximum: 2048 }
   validates :stream, presence: true
+
+  scope :registered, -> { where(registered: true) }
+  scope :unregistered, -> { where(registered: false) }
+
+  def register
+    self.update(registered: true)
+  end
+
+  def unregister
+    self.update(registered: false)
+  end
 end
