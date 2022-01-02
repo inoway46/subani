@@ -14,7 +14,7 @@
       <%= f.submit class: "btn btn-primary"%>
     </div>
     <div class="modal-body">
-        <%= f.collection_check_boxes :master_id, Master.all.where(media: "Abemaビデオ").order(rank: :asc), :id, :title, include_hidden: false do |master| %>
+        <%= f.collection_check_boxes :master_id, Master.abema_titles.order(rank: :asc), :id, :title, include_hidden: false do |master| %>
         <p>
           <%= master.check_box %>
           <%= master.text %>

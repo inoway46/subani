@@ -1,23 +1,26 @@
 namespace :scraping_episode do
-  desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
-  task abema_all: :environment do
-    require "selenium-webdriver"
-
+  def driver_options
     options = Selenium::WebDriver::Chrome::Options.new
     options.add_argument('headless')
     options.add_argument('disable-gpu')
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument('--lang=ja-JP')
     options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
-    driver = Selenium::WebDriver.for :chrome, options: options
-    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
-    
-    abema_urls = Master.where(media: "Abemaビデオ")
+    options
+  end
 
-    #cron.logで実行確認のため時刻を表示
+  driver = Selenium::WebDriver.for :chrome, options: driver_options
+  wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+  desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
+  task abema_all: :environment do
+    require "selenium-webdriver"
+    include Day
+    
+    abema_urls = Master.abema_titles.now_streaming.today
+
     p "#{Time.current}：スクレイピングを開始します"
 
-    #Masterのエピソード数を更新
     abema_urls.each do |master|
       current_episode = master.episode
       @contents = Content.where(master_id: master.id)
@@ -28,7 +31,6 @@ namespace :scraping_episode do
 
       wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
 
-      #スクロールして全話表示
       3.times do
         sleep(1)
         driver.execute_script('window.scroll(0,1000000);')
@@ -50,9 +52,7 @@ namespace :scraping_episode do
       new_episode = @titles.size
       if current_episode < new_episode
         @contents.update_all(new_flag: true)
-        #Masterのepisodeを最新の状態に更新
-        day = Date.today.strftime("%a")
-        master.update(episode: new_episode, update_day: day)
+        master.update(episode: new_episode, update_day: day_of_week)
         p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
       end
 
@@ -65,25 +65,16 @@ namespace :scraping_episode do
       p "#{master.title}：master=#{master.episode}話"
     end
 
-    #cron.logで実行確認のため時刻を表示
     p "#{Time.current}：スクレイピングが完了しました"
   end
 
   desc 'Amazonプライムのタイトル数をスクレイピングしてローカルDB更新'
   task amazon_all: :environment do
     require  'selenium-webdriver'
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('headless')
-    options.add_argument('disable-gpu')
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument('--lang=ja-JP')
-    options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
-    driver = Selenium::WebDriver.for :chrome, options: options
-    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+    include Day
 
-    amazons =  Master.where(media: "Amazonプライム")
+    amazons =  Master.amazon_titles.now_streaming
 
-    #cron.logで実行確認のため時刻を表示
     p "#{Time.current}：Amazonスクレイピングを開始します"
 
     amazons.each do |master|
@@ -135,11 +126,9 @@ namespace :scraping_episode do
       @contents = Content.where(master_id: master.id)
       current_episode = master.episode
 
-      #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
       if current_episode < new_episode
         @contents.update_all(new_flag: true)
-        #Masterのepisodeを最新の状態に更新
-        master.update(episode: new_episode)
+        master.update(episode: new_episode, update_day: day_of_week)
         p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
       end
 
@@ -148,11 +137,9 @@ namespace :scraping_episode do
         p "#{master.title}のcontentデータを#{master.episode}話に更新しました"
       end
 
-      #デバッグ用
       p "#{master.title}：master=#{master.episode}話"
     end
 
-      #cron.logで実行確認のため時刻を表示
     p "#{Time.current}：Amazonスクレイピングが完了しました"
   end
 end
