@@ -1,4 +1,5 @@
 # アプリ名：サブスクアニメ時間割
+![sample_table](https://user-images.githubusercontent.com/65857152/147870101-3c139bfa-9cca-4c3c-b4fd-891672f07647.png)
 
 # サービス概要
 
