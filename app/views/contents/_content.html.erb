@@ -1,16 +1,16 @@
-<tr id='<%= content.id %>'>
-  <td><%= link_to content.url, target: :_blank, rel: "noopener noreferrer", class: "title" do %><%= content.title %><i class="fas fa-external-link-alt" style="padding-left: 5px;"></i><% end %></td>
-  <td><%= content.media %></td>
-  <td style="text-align:center;"><%= content.stream_i18n %></td>
-  <td style="text-align:center;">
-    <%= link_to edit_content_path(content.id), remote: true do %><i class="far fa-edit fa-lg" style="padding-right: 4px; color:gray;"></i><% end %>
-    <%= link_to content_path(content), method: :delete, data: { confirm: "削除しますか？" } do %><i class="far fa-trash-alt fa-lg" style="color:gray;"></i><% end %>
-  </td>
-  <td>
-    <% if content.line_flag %>
-      <%= link_to line_off_content_path(content.id, params: { content: { line_flag: false } }), :method => :patch do %><div class="btn btn-success">オン</div><% end %>
-    <% else %>
-      <%= link_to line_off_content_path(content.id, params: { content: { line_flag: true } }), :method => :patch do %><div class="btn btn-outline-secondary">オフ</div><% end %>
-    <% end %>
-  </td>
-</tr>
+<div class="col-sm-4" style="padding-bottom:30px;">
+  <div class="card h-100">
+    <div class="card-header"><%= content.title.truncate(18) %></div>
+    <div class="card-body">
+      <p class="card-text"><%= content.stream_i18n %>曜配信</p>
+      <% if content.line_flag %>
+        <%= link_to line_off_content_path(content.id, params: { content: { line_flag: false } }), :method => :patch do %><div class="btn btn-success">LINE通知中</div><% end %>
+      <% else %>
+        <%= link_to line_off_content_path(content.id, params: { content: { line_flag: true } }), :method => :patch do %><div class="btn btn-secondary">LINEで通知する</div><% end %>
+      <% end %>
+    </div>
+    <div class="card-footer">
+      <%= link_to content.url, target: :_blank, rel: "noopener noreferrer", class: "media-link" do %><%= content.media %>で観る<i class="fas fa-external-link-alt" style="padding-left: 5px;"></i><% end %>
+    </div>
+  </div>
+</div>

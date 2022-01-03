@@ -14,20 +14,11 @@
 </div>
 <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
-<table class="table table-bordered" id="contents">
-  <thead class="thead-dark">
-  <tr id="t-header">
-    <th>タイトル</th>
-    <th>メディア</th>
-    <th>配信曜日</th>
-    <th>編集</th>
-    <th>LINE通知</th>
-  </tr>
-  </thead>
-  <tbody>
+<div class="card-group">
+<div class="row">
   <%= render @contents %>
-  </tbody>
-</table>
+</div>
+</div>
 
 <style>
 .add-area {
@@ -56,24 +47,46 @@
     padding: 10px;
 }
 
-table {
-  max-width: 800px;
+.card-header {
+  height: 50px;
+  text-align: center;
+  background-color: #FFA07A;
+  color: white;
 }
 
-th {
-  white-space: nowrap;
+.card-body {
+  background-color: #F8F8FF;
 }
 
-.title {
+.card-footer {
+  background-color: #F8F8FF;
+}
+
+.media-link {
   color: gray;
 }
 
-.title:hover {
+.media-link:hover {
   color: black;
 }
 
-.btn-outline-secondary {
+.btn-secondary {
   font-size: 0.8em;
+}
+
+.btn-secondary:hover {
+  text: "test";
+  background-color: #06c755;
+  border-color: #06c755;
+}
+
+.btn-success {
+  font-size: 0.8em;
+  background-color: #06c755;
+}
+
+.btn-success:hover {
+  background-color: gray;
 }
 
 </style>
