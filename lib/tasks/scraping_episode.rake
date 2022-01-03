@@ -5,7 +5,7 @@ namespace :scraping_episode do
   options.add_argument("--disable-dev-shm-usage")
   options.add_argument('--lang=ja-JP')
   options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
-  driver = Selenium::WebDriver.for :chrome, options: driver_options
+  driver = Selenium::WebDriver.for :chrome, options: options
   wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
   desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
