@@ -33,3 +33,6 @@
 /.env
 
 /master.csv
+
+/lib/tasks/scraping_episode.rake
+/lib/tasks/selenium.rake
