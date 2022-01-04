@@ -1,6 +1,6 @@
 <div class="col-sm-4" style="padding-bottom:30px;">
   <div class="card h-100">
-    <div class="card-header"><%= content.title.truncate(18) %></div>
+    <div class="card-header" id="<%= content.decorate.media_color %>"><%= content.title.truncate(18) %></div>
     <div class="card-body">
       <p class="card-text"><%= content.stream_i18n %>曜配信</p>
       <% if content.line_flag %>
