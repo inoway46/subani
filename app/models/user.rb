@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :validatable,
-        :omniauthable, omniauth_providers: %i[line]
+        :omniauthable, omniauth_providers: %i[line],
+        :timeoutable
 
   has_many :user_contents, dependent: :destroy
   has_many :contents, through: :user_contents
