@@ -22,4 +22,12 @@ class Content < ApplicationRecord
   def unregister
     self.update(registered: false)
   end
+
+  def line_on
+    self.update(line_flag: true)
+  end
+
+  def line_off
+    self.update(line_flag: false)
+  end
 end

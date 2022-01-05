@@ -28,6 +28,6 @@ Rails.application.routes.draw do
     get 'link', to: 'authentications#link'
     post 'link', to: 'authentications#create'
     post '/callback', to: 'line_bot#callback'
-    resources :notifications, only: %i[update destroy]
+    resources :notifications, only: %i[create destroy]
   end
 end

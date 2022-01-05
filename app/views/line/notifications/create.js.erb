@@ -1,0 +1,1 @@
+$('#content<%= @content.id %>').html('<%= link_to line_notification_path(id: @content.id), :method => :delete, remote: true do %><div class="btn btn-success">LINE通知オン</div><% end %>')

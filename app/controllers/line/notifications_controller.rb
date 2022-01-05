@@ -1,8 +1,8 @@
 class Line::NotificationsController < ApplicationController
-  def update
-    @content = current_user.contents.find(params[:content_id])
+  def create
+    @content = current_user.contents.find(params[:id])
     respond_to do |format|
-      if @content.update(content_params)
+      if @content.line_on
         format.js
       else
         redirect_to contents_path, alert: "処理が失敗しました"
@@ -11,11 +11,19 @@ class Line::NotificationsController < ApplicationController
   end
 
   def destroy
-    @content = current_user.contents.find(params[:content_id])
-    if @content.destroy
-      redirect_to contents_path, alert: "削除しました"
-    else
-      redirect_to contents_path, alert: "削除が失敗しました"
+    @content = current_user.contents.find(params[:id])
+    respond_to do |format|
+      if @content.line_off
+        format.js
+      else
+        redirect_to contents_path, alert: "処理が失敗しました"
+      end
     end
+  end
+
+  private
+
+  def content_params
+    params.require(:content).permit(:line_flag)
   end
 end
