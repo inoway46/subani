@@ -5,9 +5,9 @@
       <%= link_to content_path(content), method: :delete, data: { confirm: "削除しますか？" } do %><i class="far fa-trash-alt fa-lg"></i><% end %>
       <p class="card-text"><%= content.stream_i18n %>曜配信</p>
       <% if content.line_flag %>
-        <div id="content<%= content.id %>"><%= link_to line_notification_path(id: content.id), :method => :delete, remote: true do %><div class="btn btn-success">LINE通知オン</div><% end %></div>
+        <div id="content<%= content.id %>"><%= link_to line_flag_path(id: content.id), :method => :delete, remote: true do %><div class="btn btn-success">LINE通知オン</div><% end %></div>
       <% else %>
-        <div id="content<%= content.id %>"><%= link_to line_notifications_path(id: content.id), :method => :post, remote: true do %><div class="btn btn-secondary">LINEで通知する</div><% end %></div>
+        <div id="content<%= content.id %>"><%= link_to line_flags_path(id: content.id), :method => :post, remote: true do %><div class="btn btn-secondary">LINEで通知する</div><% end %></div>
       <% end %>
     </div>
     <div class="card-footer">

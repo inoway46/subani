@@ -1,1 +1,0 @@
-$('#content<%= @content.id %>').html('<%= link_to line_notifications_path(id: @content.id), :method => :post, remote: true do %><div class="btn btn-secondary">LINEで通知する</div><% end %>')
