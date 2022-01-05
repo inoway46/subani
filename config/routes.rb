@@ -29,6 +29,6 @@ Rails.application.routes.draw do
   namespace :line do
     get 'link', to: 'authentications#link'
     post 'link', to: 'authentications#create'
+    post '/callback', to: 'line_bot#callback'
   end
-  post '/callback', to: 'line_bot#callback'
 end
