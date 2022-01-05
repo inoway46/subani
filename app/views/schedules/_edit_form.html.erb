@@ -1,0 +1,43 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <%= form_with(model: @schedule) do |f| %>
+    <% if @schedule.errors.any? %>
+    <div id="error_explanation">
+      <h2 style="padding: 15px;"><%= pluralize(@schedule.errors.count, "件の入力エラー") %>:</h2>
+      <ul>
+        <% @schedule.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+    <div class="modal-header">
+      <h5 class="modal-title">時間割編集</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <%= f.label :day, class: "form-control-label"%>
+        <%= f.select :day, [["月","Mon"], ["火","Tue"], ["水","Wed"], ["木","Thu"], ["金","Fri"], ["土","Sat"], ["日","Sun"]], include_blank: "選択して下さい", class: "form-control" %>
+      </div>
+    </div>
+    <div class="modal-footer actions">
+      <%= f.submit class: "btn btn-primary"%>
+      <% if @schedule.id %>
+        <%= link_to "削除する", schedule_path(@schedule), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-danger" %>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .modal-dialog {
+    max-width: inherit;
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 10%;
+  }
+</style>
