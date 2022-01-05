@@ -2,6 +2,7 @@ class Content < ApplicationRecord
   has_one :schedule, -> { order(position: :asc) }, dependent: :destroy
   has_many :user_contents, dependent: :destroy
   has_many :users, through: :user_contents
+  has_many :line_notifications
   belongs_to :master
 
   enum stream: { default: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 }
