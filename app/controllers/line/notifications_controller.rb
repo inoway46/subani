@@ -20,10 +20,4 @@ class Line::NotificationsController < ApplicationController
       end
     end
   end
-
-  private
-
-  def content_params
-    params.require(:content).permit(:line_flag)
-  end
 end
