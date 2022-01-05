@@ -5,13 +5,6 @@ class ContentsController < ApplicationController
     @contents = current_user.contents.order(stream: :asc)
   end
 
-  def show
-  end
-
-  def ranking
-    @works = result.data.to_h["searchWorks"]["edges"]
-  end
-
   def amazon_list
     @content = Content.new
     @contents = current_user.contents
@@ -20,14 +13,6 @@ class ContentsController < ApplicationController
   def abema_list
     @content = Content.new
     @contents = current_user.contents
-  end
-
-  def new
-    @content = Content.new
-    respond_to do |format|
-      format.html
-      format.js
-    end
   end
 
   def create
@@ -46,7 +31,6 @@ class ContentsController < ApplicationController
   def edit
     @content = current_user.contents.find(params[:id])
     respond_to do |format|
-      format.html
       format.js
     end
   end
@@ -56,7 +40,6 @@ class ContentsController < ApplicationController
     
     respond_to do |format|
       if @content.update(content_params)
-        format.html
         format.js
       else
         format.js { render :edit }
@@ -75,19 +58,23 @@ class ContentsController < ApplicationController
 
   def line_on
     @content = current_user.contents.find(params[:id])
-    if @content.update(content_params)
-      redirect_to contents_path
-    else
-      redirect_to contents_path, alert: "処理が失敗しました"
+    respond_to do |format|
+      if @content.update(content_params)
+        format.js
+      else
+        redirect_to contents_path, alert: "処理が失敗しました"
+      end
     end
   end
 
   def line_off
     @content = current_user.contents.find(params[:id])
-    if @content.update(content_params)
-      redirect_to contents_path
-    else
-      redirect_to contents_path, alert: "処理が失敗しました"
+    respond_to do |format|
+      if @content.update(content_params)
+        format.js
+      else
+        redirect_to contents_path, alert: "処理が失敗しました"
+      end
     end
   end
 

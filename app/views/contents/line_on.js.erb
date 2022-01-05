@@ -1,0 +1,1 @@
+$('#content<%= @content.id %>').html('<%= link_to line_off_content_path(@content.id, params: { content: { line_flag: false } }), :method => :patch, remote: true do %><div class="btn btn-success">LINE通知オン</div><% end %>')
