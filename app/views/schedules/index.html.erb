@@ -41,7 +41,7 @@
     $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-outline-secondary" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
   <% end %>
   <% if schedule.content.new_flag %>
-    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag"><%= "New! #{schedule.content.episode}話 " %><%= link_to flag_off_content_path(schedule.content.id, params: { content: { new_flag: false } }), :method => :patch do %><span class="flag-off"><i class="far fa-check-circle"></i>みた<% end %></div>');
+    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag"><%= "New! #{schedule.content.episode}話 " %><%= link_to flag_off_content_path(schedule.content.id, params: { content: { new_flag: false } }), :method => :patch do %><%= image_tag 'viewed_button.png', class: "viewed-button" %><% end %></div>');
   <% end %>
 <% end %>
 </script>
@@ -77,17 +77,11 @@ td p {
 
 .new-flag {
   font-size: 0.6rem;
-  padding-top: 5px;
 }
 
-.flag-off {
-  color: gray;
-}
-
-.fa-check-circle {
+.viewed-button {
+  width: 80%;
   position: relative;
-  top: 0px;
-  left: 0px;
-  color: gray;
+  bottom: 10px;
 }
 </style>
