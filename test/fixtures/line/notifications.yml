@@ -1,9 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  notifications_count: 1
   content: one
 
 two:
-  notifications_count: 1
   content: two

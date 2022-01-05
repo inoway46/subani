@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class LineNotificationTest < ActiveSupport::TestCase
+class Line::NotificationTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

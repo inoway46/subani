@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_05_072428) do
+ActiveRecord::Schema.define(version: 2022_01_05_090549) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 2022_01_05_072428) do
   end
 
   create_table "line_notifications", force: :cascade do |t|
-    t.integer "notifications_count", default: 0, null: false
     t.integer "content_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
