@@ -332,6 +332,7 @@ namespace :master_csv do
                 text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
               }
               response = client.push_message(user.uid, message)
+              user.receive_line_notification(content)
               p "LINE通知：#{content.title}を#{user.email}さんに送信しました"
             end
           end
