@@ -5,7 +5,7 @@ namespace :master_csv do
   desc 'MasterモデルをCSV出力してS3にアップロード'
   task export: :environment do
     #cron.logで実行確認のため時刻を表示
-    p "#{Time.current}：export処理を開始します"
+    p "#{Time.current}:export処理を開始します"
 
     masters = Master.all
 
@@ -44,13 +44,13 @@ namespace :master_csv do
                 )
 
     #cron.logで実行確認のため時刻を表示
-    p "#{Time.current}：export処理が終了しました"
+    p "#{Time.current}:export処理が終了しました"
   end
 
   desc 'S3からmaster.csvをインポートしてherokuDBのエピソード更新'
   task import: :environment do
     #heroku logsで実行確認のため時刻を表示
-    p "#{Time.current}：import処理を開始します"
+    p "#{Time.current}:import処理を開始します"
 
     masters = Master.all
 
@@ -121,7 +121,7 @@ namespace :master_csv do
     end
 
     #heroku logsで実行確認のため時刻を表示
-    p "#{Time.current}：import処理が完了しました"
+    p "#{Time.current}:import処理が完了しました"
   end
 
   desc 'S3にCSVをアップロード'
@@ -253,7 +253,7 @@ namespace :master_csv do
   desc 'S3からHerokuのMaster更新とLINE通知'
   task import_with_line: :environment do
     #heroku logsで実行確認のため時刻を表示
-    p "#{Time.current}：import処理を開始します"
+    p "#{Time.current}:import処理を開始します"
 
     masters = Master.all
 
@@ -314,26 +314,28 @@ namespace :master_csv do
     end
 
     #LINE通知
-    client = Line::Bot::Client.new do |config|
-      config.channel_id = ENV["LINE_CHANNEL_ID"]
-      config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
-      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
-    end
+    if LineNotification.can_notify?
+      client = Line::Bot::Client.new do |config|
+        config.channel_id = ENV["LINE_CHANNEL_ID"]
+        config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
+        config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+      end
 
-    masters.each do |master|
-      @contents = Content.where(master_id: master.id, line_flag: true)
-      if @contents.present?
-        @contents.each do |content|
-          if content.episode < master.episode
-            line_users = content.users.where.not(uid: nil)
-            line_users.each do |user|
-              message = {
-                type: 'text',
-                text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
-              }
-              response = client.push_message(user.uid, message)
-              user.receive_line_notification(content)
-              p "LINE通知：#{content.title}を#{user.email}さんに送信しました"
+      masters.each do |master|
+        @contents = Content.where(master_id: master.id, line_flag: true)
+        if @contents.present?
+          @contents.each do |content|
+            if content.episode < master.episode
+              line_users = content.users.where.not(uid: nil)
+              line_users.each do |user|
+                message = {
+                  type: 'text',
+                  text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
+                }
+                response = client.push_message(user.uid, message)
+                user.receive_line_notification(content)
+                p "LINE通知:#{content.title}をuser_id:#{user.id}さんに送信しました"
+              end
             end
           end
         end
@@ -354,6 +356,6 @@ namespace :master_csv do
     end
 
     #heroku logsで実行確認のため時刻を表示
-    p "#{Time.current}：import処理が完了しました"
+    p "#{Time.current}:import処理が完了しました"
   end
 end
