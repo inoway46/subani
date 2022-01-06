@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :user_contents, dependent: :destroy
   has_many :contents, through: :user_contents
   has_many :schedules, dependent: :destroy
+  has_many :line_flags, dependent: :destroy
 
   def social_profile(provider)
     social_profiles.select { |sp| sp.provider == provider.to_s }.first
