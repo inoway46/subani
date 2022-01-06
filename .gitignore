@@ -35,4 +35,6 @@
 /master.csv
 
 /lib/tasks/scraping_episode.rake
-/lib/tasks/selenium.rake
+/lib/tasks/local_task.rake
+
+/erd.pdf
