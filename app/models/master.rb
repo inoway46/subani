@@ -14,4 +14,12 @@ class Master < ApplicationRecord
   scope :amazon_titles, -> { where(media: "Amazonプライム") }
   scope :now_streaming, -> { where(season: "now") }
   scope :today, -> { where(update_day: day_of_week) }
+
+  def self.total_line_notification
+    all.sum(:line_notifications_count)
+  end
+
+  def self.reset_counter
+    update_all(line_notifications_count: 0)
+  end
 end

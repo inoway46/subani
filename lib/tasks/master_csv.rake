@@ -112,28 +112,26 @@ namespace :master_csv do
     end
 
     #LINE通知
-    if LineNotification.can_notify?
-      client = Line::Bot::Client.new do |config|
-        config.channel_id = ENV["LINE_CHANNEL_ID"]
-        config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
-        config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
-      end
+    client = Line::Bot::Client.new do |config|
+      config.channel_id = ENV["LINE_CHANNEL_ID"]
+      config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
+      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+    end
 
-      masters.each do |master|
-        @contents = Content.where(master_id: master.id, line_flag: true)
-        if @contents.present?
-          @contents.each do |content|
-            if content.episode < master.episode
-              line_users = content.users.where.not(uid: nil)
-              line_users.each do |user|
-                message = {
-                  type: 'text',
-                  text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
-                }
-                response = client.push_message(user.uid, message)
-                LineNotification.create_record(master, month)
-                p "LINE通知:#{content.title}をuser_id:#{user.id}さんに送信しました"
-              end
+    masters.each do |master|
+      @contents = Content.where(master_id: master.id, line_flag: true)
+      if @contents.present?
+        @contents.each do |content|
+          if content.episode < master.episode
+            line_users = content.users.where.not(uid: nil)
+            line_users.each do |user|
+              message = {
+                type: 'text',
+                text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
+              }
+              client.push_message(user.uid, message) if LineNotification.can_notify?
+              LineNotification.create_record(master, month)
+              p "LINE通知:#{content.title}をuser_id:#{user.id}さんに送信しました"
             end
           end
         end
