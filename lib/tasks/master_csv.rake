@@ -4,7 +4,7 @@ require 'aws-sdk-s3'
 namespace :master_csv do
   desc 'MasterモデルをCSV出力してS3にアップロード'
   task export: :environment do
-    #cron.logで実行確認のため時刻を表示
+
     p "#{Time.current}:export処理を開始します"
 
     masters = Master.all
@@ -43,13 +43,14 @@ namespace :master_csv do
                   content_type: 'text/csv',
                 )
 
-    #cron.logで実行確認のため時刻を表示
     p "#{Time.current}:export処理が終了しました"
   end
 
   desc 'S3からHerokuのMaster更新とLINE通知'
   task import_with_line: :environment do
-    #heroku logsで実行確認のため時刻を表示
+    include Day
+    month = this_month
+
     p "#{Time.current}:import処理を開始します"
 
     masters = Master.all
@@ -111,7 +112,7 @@ namespace :master_csv do
     end
 
     #LINE通知
-    if LineNotification.can_notify?
+    LineNotification.can_notify?
       client = Line::Bot::Client.new do |config|
         config.channel_id = ENV["LINE_CHANNEL_ID"]
         config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
@@ -130,7 +131,7 @@ namespace :master_csv do
                   text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
                 }
                 response = client.push_message(user.uid, message)
-                user.receive_line_notification(content)
+                LineNotification.create_record(master, month)
                 p "LINE通知:#{content.title}をuser_id:#{user.id}さんに送信しました"
               end
             end
@@ -152,7 +153,6 @@ namespace :master_csv do
       end
     end
 
-    #heroku logsで実行確認のため時刻を表示
     p "#{Time.current}:import処理が完了しました"
   end
 end

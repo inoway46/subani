@@ -9,5 +9,9 @@ module Day
     def first_day?
       Date.today.day == 1
     end
+
+    def this_month
+      Date.today.month
+    end
   end
 end

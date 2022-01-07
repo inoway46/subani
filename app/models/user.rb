@@ -10,8 +10,6 @@ class User < ApplicationRecord
   has_many :schedules, dependent: :destroy
   has_many :line_flags, dependent: :destroy
   has_many :line_flag_contents, through: :line_flags, source: :content
-  has_many :line_notifications, dependent: :destroy
-  has_many :line_notification_contents, through: :line_notifications, source: :content
 
   def social_profile(provider)
     social_profiles.select { |sp| sp.provider == provider.to_s }.first
@@ -44,9 +42,5 @@ class User < ApplicationRecord
 
   def remove_line_flag(content)
     line_flag_contents.destroy(content)
-  end
-
-  def receive_line_notification(content)
-    line_notification_contents << content
   end
 end

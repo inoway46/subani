@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_06_082612) do
+ActiveRecord::Schema.define(version: 2022_01_07_013746) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -36,12 +36,11 @@ ActiveRecord::Schema.define(version: 2022_01_06_082612) do
   end
 
   create_table "line_notifications", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "content_id"
+    t.integer "master_id"
+    t.integer "month", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["content_id"], name: "index_line_notifications_on_content_id"
-    t.index ["user_id"], name: "index_line_notifications_on_user_id"
+    t.index ["master_id"], name: "index_line_notifications_on_master_id"
   end
 
   create_table "masters", force: :cascade do |t|
@@ -55,6 +54,7 @@ ActiveRecord::Schema.define(version: 2022_01_06_082612) do
     t.integer "episode", default: 0
     t.string "season"
     t.string "update_day"
+    t.integer "line_notifications_count", default: 0, null: false
   end
 
   create_table "schedules", force: :cascade do |t|
@@ -90,7 +90,6 @@ ActiveRecord::Schema.define(version: 2022_01_06_082612) do
     t.string "uid"
     t.string "name"
     t.string "line_nonce"
-    t.integer "line_notifications_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
