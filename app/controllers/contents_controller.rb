@@ -21,8 +21,8 @@ class ContentsController < ApplicationController
       master = Master.find(master_id.to_i)
       @content = current_user.contents.create!(title: master.title, media: master.media, url: master.url, stream: master.stream, registered: false, new_flag: true, episode: master.episode, master_id: master.id)
       unless current_user.schedules.where(position: 5).where(day: @content.stream).present?
-        current_user.schedules.create!(content_id: @content.id, day: @content.stream)
-        @content.update!(registered: true)
+        current_user.schedules.create(content_id: @content.id, day: @content.stream)
+        @content.register
       end
     end
     redirect_to contents_path, alert: "#{@master_ids.size}件のタイトルと時間割を登録しました"
@@ -49,11 +49,7 @@ class ContentsController < ApplicationController
 
   def flag_off
     @content = current_user.contents.find(params[:id])
-    if @content.update(content_params)
-      redirect_to schedules_path
-    else
-      redirect_to schedules_path, alert: "処理が失敗しました"
-    end
+    @content.flag_off
   end
 
   def destroy

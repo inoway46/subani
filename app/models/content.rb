@@ -16,18 +16,22 @@ class Content < ApplicationRecord
   scope :unregistered, -> { where(registered: false) }
 
   def register
-    self.update(registered: true)
+    update(registered: true)
   end
 
   def unregister
-    self.update(registered: false)
+    update(registered: false)
+  end
+
+  def flag_off
+    update(new_flag: false)
   end
 
   def line_on
-    self.update(line_flag: true)
+    update(line_flag: true)
   end
 
   def line_off
-    self.update(line_flag: false)
+    update(line_flag: false)
   end
 end

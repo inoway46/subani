@@ -36,54 +36,12 @@
 <% @schedules.each do |schedule| %>
   $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to edit_schedule_path(schedule.id), remote: true do %><i class="far fa-edit float-right"></i><% end %></div>');
   <% if schedule.content.new_flag %>
-    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-primary" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
+    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-primary", id: "title-card#{schedule.id}" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
   <% else %>
     $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-outline-secondary" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
   <% end %>
   <% if schedule.content.new_flag %>
-    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag"><%= "New! #{schedule.content.episode}話 " %><%= link_to flag_off_content_path(schedule.content.id, params: { content: { new_flag: false } }), :method => :patch do %><%= image_tag 'viewed_button.png', class: "viewed-button" %><% end %></div>');
+    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag" id="new-flag<%= schedule.id %>"><%= "New! #{schedule.content.episode}話 " %><%= link_to flag_off_content_path(schedule.content.id), :method => :patch, remote: true do %><%= image_tag 'viewed_button.png', class: "viewed-button" %><% end %></div>');
   <% end %>
 <% end %>
 </script>
-
-<style>
-.table {
-  text-align: center;
-  max-width: 850px;
-}
-
-td {
-  width: 100px;
-  height: 100px;
-  min-width: 80px;
-  max-height: 40px;
-}
-
-td i {
-  color: gray;
-  position: relative;
-  bottom: 5px;
-  left: 5px;
-}
-
-td p {
-  line-height: 100%;
-  padding-top: 10px;
-  font-size: 0.7rem;
-  text-align: center;
-  min-width: 60px;
-  max-height: 30px;
-}
-
-.new-flag {
-  font-size: 0.6rem;
-  position: relative;
-  top: 10px;
-}
-
-.viewed-button {
-  width: 80%;
-  position: relative;
-  bottom: 10px;
-}
-</style>
