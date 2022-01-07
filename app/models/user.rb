@@ -2,12 +2,14 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-        :recoverable, :rememberable, :validatable,
+        :recoverable, :rememberable, :validatable, :timeoutable,
         :omniauthable, omniauth_providers: %i[line]
 
   has_many :user_contents, dependent: :destroy
   has_many :contents, through: :user_contents
   has_many :schedules, dependent: :destroy
+  has_many :line_flags, dependent: :destroy
+  has_many :line_flag_contents, through: :line_flags, source: :content
 
   def social_profile(provider)
     social_profiles.select { |sp| sp.provider == provider.to_s }.first
@@ -32,5 +34,13 @@ class User < ApplicationRecord
 
   def limit_position(day)
     return true if self.schedules.where(position: 5).where(day: day).exists?
+  end
+
+  def add_line_flag(content)
+    line_flag_contents << content
+  end
+
+  def remove_line_flag(content)
+    line_flag_contents.destroy(content)
   end
 end

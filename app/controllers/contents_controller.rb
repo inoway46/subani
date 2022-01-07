@@ -5,13 +5,6 @@ class ContentsController < ApplicationController
     @contents = current_user.contents.order(stream: :asc)
   end
 
-  def show
-  end
-
-  def ranking
-    @works = result.data.to_h["searchWorks"]["edges"]
-  end
-
   def amazon_list
     @content = Content.new
     @contents = current_user.contents
@@ -20,14 +13,6 @@ class ContentsController < ApplicationController
   def abema_list
     @content = Content.new
     @contents = current_user.contents
-  end
-
-  def new
-    @content = Content.new
-    respond_to do |format|
-      format.html
-      format.js
-    end
   end
 
   def create
@@ -46,7 +31,6 @@ class ContentsController < ApplicationController
   def edit
     @content = current_user.contents.find(params[:id])
     respond_to do |format|
-      format.html
       format.js
     end
   end
@@ -56,7 +40,6 @@ class ContentsController < ApplicationController
     
     respond_to do |format|
       if @content.update(content_params)
-        format.html
         format.js
       else
         format.js { render :edit }
@@ -73,31 +56,14 @@ class ContentsController < ApplicationController
     end
   end
 
-  def line_on
-    @content = current_user.contents.find(params[:id])
-    if @content.update(content_params)
-      redirect_to contents_path
-    else
-      redirect_to contents_path, alert: "処理が失敗しました"
-    end
-  end
-
-  def line_off
-    @content = current_user.contents.find(params[:id])
-    if @content.update(content_params)
-      redirect_to contents_path
-    else
-      redirect_to contents_path, alert: "処理が失敗しました"
-    end
-  end
-
   def destroy
     @content = current_user.contents.find(params[:id])
-
-    if @content.destroy
-      redirect_to contents_path, alert: "削除しました"
-    else
-      redirect_to contents_path, alert: "削除が失敗しました"
+    respond_to do |format|
+      if @content.destroy
+        format.js
+      else
+        redirect_to contents_path, alert: "削除に失敗しました"
+      end
     end
   end
 
@@ -105,9 +71,5 @@ class ContentsController < ApplicationController
 
   def content_params
     params.require(:content).permit(:title, :media, :url, :stream, :new_flag, :episode, :line_flag, :master_id => [])
-  end
-
-  def result
-    response = Subani::Client.query(Query)
   end
 end

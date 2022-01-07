@@ -20,11 +20,17 @@ module Subani
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.generators do |g|
+      g.assets false
+      g.helper false
+      g.decorator   false
+      g.skip_routes true
+      g.system_tests = nil
       g.test_framework :rspec,
-      fixtures: false,
-      view_specs: false,
-      helper_specs: false,
-      routing_specs: false
+        fixtures: false,
+        controller_specs: false,
+        view_specs: false, 
+        helper_specs: false,
+        routing_specs: false
     end
   end
 end

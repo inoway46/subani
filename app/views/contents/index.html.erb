@@ -14,66 +14,97 @@
 </div>
 <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
-<table class="table table-bordered" id="contents">
-  <thead class="thead-dark">
-  <tr id="t-header">
-    <th>タイトル</th>
-    <th>メディア</th>
-    <th>配信曜日</th>
-    <th>編集</th>
-    <th>LINE通知</th>
-  </tr>
-  </thead>
-  <tbody>
+<div class="card-group">
+<div class="row">
   <%= render @contents %>
-  </tbody>
-</table>
+</div>
+</div>
 
 <style>
 .add-area {
-    position: relative;
-    margin: 2em 0;
-    padding: 0.5em 1em;
-    border: solid 3px gray;
-    border-radius: 8px;
-    max-width: 340px;
+  position: relative;
+  margin: 2em 0;
+  padding: 0.5em 1em;
+  border: solid 3px gray;
+  border-radius: 8px;
+  max-width: 340px;
 }
 .add-area .box-title {
-    position: absolute;
-    display: inline-block;
-    top: -13px;
-    left: 10px;
-    padding: 0 9px;
-    line-height: 1;
-    font-size: 0.9rem;
-    background: #FFF;
-    color: gray;
-    font-weight: bold;
+  position: absolute;
+  display: inline-block;
+  top: -13px;
+  left: 10px;
+  padding: 0 9px;
+  line-height: 1;
+  font-size: 0.9rem;
+  background: #FFF;
+  color: gray;
+  font-weight: bold;
 }
 
 .add-area p {
-    margin: 0; 
-    padding: 10px;
+  margin: 0;
+  padding: 10px;
 }
 
-table {
-  max-width: 800px;
+.add-area p .btn-dark {
+  margin-right: 5px;
 }
 
-th {
-  white-space: nowrap;
+.card-md-4 {
+  padding-bottom:30px;
+  min-width: 240px;
 }
 
-.title {
+.card-header {
+  height: 60px;
+  text-align: center;
+  background-color: #343a40;
+  color: white;
+}
+
+#abema {
+  background-color: #343a40;
+}
+
+#amazon {
+  background-color: #007bff;
+}
+
+.card-body {
+  background-color: #F8F8FF;
+}
+
+.fa-trash-alt {
+  position: relative;
+  bottom: 10px;
+  float: right;
+  left: 0px;
   color: gray;
 }
 
-.title:hover {
+.card-footer {
+  background-color: #F8F8FF;
+}
+
+.media-link {
+  color: gray;
+}
+
+.media-link:hover {
   color: black;
 }
 
-.btn-outline-secondary {
+.btn-secondary {
   font-size: 0.8em;
 }
 
+.btn-success {
+  font-size: 0.8em;
+  background-color: #06c755;
+}
+
+.btn-success:hover {
+  background-color: #06c755;
+}
 </style>

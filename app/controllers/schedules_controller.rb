@@ -6,7 +6,7 @@ class SchedulesController < ApplicationController
       format.js
     end
 
-    @contents = current_user.contents.where(registered: false)
+    @contents = current_user.contents.unregistered
   end
 
   def index
@@ -14,15 +14,15 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    @contents = current_user.contents.where(registered: false)
+    @contents = current_user.contents.unregistered
     @schedule = current_user.schedules.build(schedule_params)
 
     if current_user.limit_position(params[:schedule][:day])
-      @schedule.errors.add(:base, "時間割に空きがありません")
+      @schedule.no_position_error
       render :new
     else
       @schedule.save!
-      @contents.find(params[:schedule][:content_id]).update_attributes(registered: true)
+      @contents.find(params[:schedule][:content_id]).register
       redirect_to schedules_path
     end
   end
@@ -38,15 +38,12 @@ class SchedulesController < ApplicationController
   def update
     @contents = current_user.contents
     @schedule = current_user.schedules.find(params[:id])
-    
-    respond_to do |format|
-      if current_user.limit_position(params[:schedule][:day])
-        @schedule.errors.add(:base, "時間割に空きがありません")
-        format.js { render :edit }
-      else
-        @schedule.update(schedule_params)
-        format.js
-      end
+    if current_user.limit_position(params[:schedule][:day])
+      @schedule.no_position_error
+      render :edit
+    else
+      @schedule.update(schedule_params)
+      redirect_to schedules_path
     end
   end
 
@@ -54,7 +51,7 @@ class SchedulesController < ApplicationController
     schedule = current_user.schedules.find(params[:id])
     @content = current_user.contents.find(schedule.content_id)
     if schedule.destroy
-      @content.update_attributes(registered: false)
+      @content.unregister
       redirect_to schedules_path
     else
       redirect_to schedules_path, alert: "削除が失敗しました"

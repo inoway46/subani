@@ -7,13 +7,11 @@ Rails.application.routes.draw do
   root 'homes#index'
   post '/homes/guest_sign_in', to: 'homes#guest_sign_in'
 
-  resources :schedules, except: :show
+  resources :schedules, except: %i[show]
 
-  resources :contents do
+  resources :contents, except: %i[show] do
     member do
       patch 'flag_off'
-      patch 'line_on'
-      patch 'line_off'
     end
 
     collection do
@@ -29,6 +27,8 @@ Rails.application.routes.draw do
   namespace :line do
     get 'link', to: 'authentications#link'
     post 'link', to: 'authentications#create'
+    post '/callback', to: 'line_bot#callback'
+    resources :flags, only: %i[create destroy]
+    resources :notifications, only: %i[create]
   end
-  post '/callback', to: 'line_bot#callback'
 end
