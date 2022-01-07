@@ -89,6 +89,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'sqlite3'
   gem 'pry-rails'
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
   gem 'rails-erd'
 end
 
@@ -107,6 +109,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  gem 'faker'
 end
 
 group :production do

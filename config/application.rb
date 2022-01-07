@@ -26,12 +26,11 @@ module Subani
       g.skip_routes true
       g.system_tests = nil
       g.test_framework :rspec,
-        fixtures: true,
+        fixtures: false,
         controller_specs: false,
         view_specs: false, 
         helper_specs: false,
         routing_specs: false
-      g.fixture_replacement :factory_bot, dir: "spec/factories"
     end
   end
 end
