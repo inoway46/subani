@@ -3,10 +3,11 @@ namespace :reset_counter do
   task line_notifications: :environment do
     include Day
     if first_day?
+      p "#{last_month}のLINE通知数は#{Master.total_line_notification}件でした"
       Master.reset_counter
       p "LINE通知数をリセットしました"
     else
-      p "現在のLINE通知数は#{Master.total_line_notification}件です"
+      p "#{yesterday}時点のLINE通知数は#{Master.total_line_notification}件です"
     end
   end
 end
