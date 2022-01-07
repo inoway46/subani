@@ -112,7 +112,7 @@ namespace :master_csv do
     end
 
     #LINE通知
-    LineNotification.can_notify?
+    if LineNotification.can_notify?
       client = Line::Bot::Client.new do |config|
         config.channel_id = ENV["LINE_CHANNEL_ID"]
         config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
