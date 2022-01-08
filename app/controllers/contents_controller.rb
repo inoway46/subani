@@ -49,11 +49,7 @@ class ContentsController < ApplicationController
 
   def flag_off
     @content = current_user.contents.find(params[:id])
-    if @content.flag_off
-      redirect_to schedules_path
-    else
-      redirect_to schedules_path, alert: "処理が失敗しました"
-    end
+    @content.flag_off
   end
 
   def destroy
