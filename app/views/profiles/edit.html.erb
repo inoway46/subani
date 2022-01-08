@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class=" col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+      <h1>プロフィール編集</h1>
+      <%= form_with model: @user, url: profile_path, local: true do |f| %>
+        <%= f.label :email %>
+        <%= f.text_field :email, class: 'form-control mb-3' %>
+        <%= f.label :name %>
+        <%= f.text_field :name, class: 'form-control mb-3' %>
+        <%= f.submit class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>

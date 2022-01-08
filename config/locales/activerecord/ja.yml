@@ -6,6 +6,7 @@ ja:
       schedule: 'スケジュール'
     attributes:
       user:
+        name: 'ニックネーム'
         email: 'メールアドレス'
         password: 'パスワード'
         password_confirmation: 'パスワード確認用'

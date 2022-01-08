@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :profile, only: %i[show edit update]
+
   devise_for :users, controllers: {
     omniauth_callbacks: "omniauth_callbacks"
   }
