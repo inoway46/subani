@@ -22,9 +22,11 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
       <% if user_signed_in? %>
+        <% unless current_user.guest %>
         <li class="nav-item">
           <%= link_to "マイページ", profile_path, class: "nav-link" %>
         </li>
+        <% end %>
         <li class="nav-item">
           <%= link_to "時間割", schedules_path, class: "nav-link" %>
         </li>
