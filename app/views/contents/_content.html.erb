@@ -2,7 +2,7 @@
   <div class="card h-100">
     <div class="card-header" id="<%= content.decorate.media_color %>"><%= content.title.truncate(18) %></div>
     <div class="card-body">
-      <%= link_to content_path(content), method: :delete, data: { confirm: "削除しますか？" }, remote: true do %><i class="far fa-trash-alt fa-lg"></i><% end %>
+      <%= link_to content_path(content), method: :delete, remote: true do %><i class="far fa-trash-alt fa-lg"></i><% end %>
       <p class="card-text"><%= content.stream_i18n %>曜配信</p>
       <% if content.line_flag %>
         <div id="line-flag<%= content.id %>"><%= link_to line_flag_path(id: content.id), :method => :delete, remote: true do %><div class="btn btn-success">LINE通知オン</div><% end %></div>
