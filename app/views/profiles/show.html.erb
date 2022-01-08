@@ -13,7 +13,9 @@
           <td><%= current_user.name || "未設定" %></td>
         </tr>
       </table>
-      <%= link_to "退会する", registration_path(current_user), method: :delete, data: { confirm: "退会後はログイン、LINE通知ができなくなります。よろしいですか？" }, class: 'btn btn-secondary float-right' %>
+      <% unless current_user.guest %>
+        <%= link_to "退会する", registration_path(current_user), method: :delete, data: { confirm: "退会後はログイン、LINE通知ができなくなります。よろしいですか？" }, class: 'btn btn-secondary float-right' %>
+      <% end %>
     </div>
   </div>
 </div>
