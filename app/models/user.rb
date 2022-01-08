@@ -43,4 +43,12 @@ class User < ApplicationRecord
   def remove_line_flag(content)
     line_flag_contents.destroy(content)
   end
+
+  def show_email
+    if self.provider
+      "LINEアカウントで登録中"
+    else
+      self.email
+    end
+  end
 end
