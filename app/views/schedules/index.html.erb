@@ -34,7 +34,7 @@
 
 <script>
 <% @schedules.each do |schedule| %>
-  $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to edit_schedule_path(schedule.id), remote: true do %><i class="far fa-edit float-right"></i><% end %></div>');
+  $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').html('<div><%= link_to edit_schedule_path(schedule.id), remote: true do %><i class="far fa-edit float-right"></i><% end %></div>');
   <% if schedule.content.new_flag %>
     $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-primary", id: "title-card#{schedule.id}" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
   <% else %>
