@@ -23,7 +23,8 @@ Rails.application.routes.draw do
   resource :profile, only: %i[show edit update]
 
   devise_for :users, controllers: {
-    omniauth_callbacks: "omniauth_callbacks"
+    omniauth_callbacks: "users/omniauth_callbacks",
+    sessions: "users/sessions",
   }
 
   namespace :line do

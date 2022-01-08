@@ -5,6 +5,14 @@ class ApplicationController < ActionController::Base
     schedules_path(resource)
   end
 
+  def after_sign_out_path_for(resource)
+    if @user.guest?
+      new_user_registration_path
+    else
+      root_path
+    end
+  end
+
   private
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_in, keys: [:uid])
