@@ -1,15 +1,12 @@
-<footer id='footer' class='footer-bottom'>
-  <div class='container'>
-    <div class='row'>
-      <div class='col-sm-6 col-12'>
-        <div class='copyright'>
-          <p>
-            <% if current_user.try(:admin?) %>
-              <%= link_to '管理者ログイン', rails_admin_path %>
-            <% end %>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+<p>
+<% if current_user.try(:admin?) %>
+  <%= link_to '管理者ログイン', rails_admin_path %>
+<% end %>
+</p>
+<footer>
+  <nav class="navbar bottom navbar-light bg-dark">
+      <p><%= link_to '利用規約', terms_path, class: "nav-link" %></p>
+      <p><%= link_to 'プライバシーポリシー', privacy_path, class: "nav-link" %></p>
+      <p class="copy-right">Copyright © <%= DateTime.now.strftime("%Y") %>. サブスクアニメ時間割</p>
+  </nav>
 </footer>

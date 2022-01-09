@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   root 'homes#index'
   post '/homes/guest_sign_in', to: 'homes#guest_sign_in'
+  get 'terms', to: 'homes#terms'
+  get 'privacy', to: 'homes#privacy'
 
   resources :schedules, except: %i[show]
 

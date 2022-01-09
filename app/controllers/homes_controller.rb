@@ -1,6 +1,9 @@
 class HomesController < ApplicationController
-  def index
-  end
+  def index; end
+
+  def terms; end
+
+  def privacy; end
 
   def guest_sign_in
     user = User.find_or_create_by!(email: 'guest@example.com', guest: true) do |user|
