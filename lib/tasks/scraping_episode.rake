@@ -111,6 +111,8 @@ namespace :scraping_episode do
         @titles << node.text
       end
 
+      p @titles
+
       ngword = ['ボーナス:']
       @titles.delete_if { |x| x =~ %r{^#{ngword}.*} }
 
