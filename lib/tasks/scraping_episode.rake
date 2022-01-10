@@ -23,7 +23,7 @@ namespace :scraping_episode do
     driver = Selenium::WebDriver.for :chrome, options: options
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     
-    abema_urls = Master.abema_titles.now_streaming.today
+    abema_urls = Master.abema_titles.now_streaming
 
     p "#{Time.current}：スクレイピングを開始します"
 
@@ -50,11 +50,11 @@ namespace :scraping_episode do
         @titles << node.text
       end
 
+      p @titles
+
       #取得したタイトルからPVやスペシャル回を除去
       ngword = ['PV', 'スペシャル']
       @titles.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
-
-      p @titles
 
       #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
       new_episode = @titles.size
