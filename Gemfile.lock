@@ -408,7 +408,7 @@ DEPENDENCIES
   bootstrap (~> 4.3.1)
   byebug
   cancancan
-  capybara (>= 2.15)
+  capybara
   coffee-rails (~> 4.2)
   counter_culture
   devise
