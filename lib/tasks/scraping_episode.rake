@@ -1,20 +1,19 @@
 namespace :scraping_episode do
-  options = Selenium::WebDriver::Chrome::Options.new
-  chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-  options.binary = chrome_bin_path if chrome_bin_path
-  options.add_argument('headless')
-  options.add_argument('disable-gpu')
-  options.add_argument("--disable-dev-shm-usage")
-  options.add_argument('--lang=ja-JP')
-  options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
-  driver = Selenium::WebDriver.for :chrome, options: options
-  wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
   desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
   task abema_all: :environment do
     require "selenium-webdriver"
     require 'webdrivers'
     include Day
+
+    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+
+    options = Selenium::WebDriver::Chrome::Options.new(
+      prefs: { 'profile.default_content_setting_values.notifications': 2 },
+      binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    )
+
+driver = Selenium::WebDriver.for :chrome, options: options
     
     abema_urls = Master.abema_titles.now_streaming.today
 
@@ -72,6 +71,13 @@ namespace :scraping_episode do
     require  'selenium-webdriver'
     require 'webdrivers'
     include Day
+    
+    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+
+    options = Selenium::WebDriver::Chrome::Options.new(
+      prefs: { 'profile.default_content_setting_values.notifications': 2 },
+      binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    )
 
     amazons =  Master.amazon_titles.now_streaming
 
