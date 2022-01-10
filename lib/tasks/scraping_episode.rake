@@ -3,8 +3,8 @@ namespace :scraping_episode do
   require 'webdrivers'
 
   def set_proxy
-    proxy_host = '119.243.95.62'
-    proxy_port = '1080'
+    proxy_host = '164-70-90-65.indigo.static.arena.ne.jp'
+    proxy_port = '80'
     proxy = Selenium::WebDriver::Proxy.new(http: "#{proxy_host}:#{proxy_port}")
     proxy
   end
@@ -35,6 +35,31 @@ namespace :scraping_episode do
     ]
 
     Selenium::WebDriver.for(:chrome, capabilities: caps)
+  end
+
+  desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
+  task abema_cert: :environment do
+    chrome_bin_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    Selenium::WebDriver::Chrome.path = chrome_bin_path if chrome_bin_path
+
+    driver = driver_init
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    driver.navigate.to('https://abema.tv/video/title/25-163')
+
+    sleep 5
+
+    print(driver.page_source)
+
+    wait.until { driver.find_elements(:class, 'com-a-Checkbox').size > 0 }
+    driver.find_element(:class, 'com-a-Checkbox').click
+    driver.find_element(:class, 'c-application-GDPRContainer__button').click
+
+    sleep 5
+
+    wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
+
+    print(driver.page_source)
   end
 
   desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
