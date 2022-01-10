@@ -96,7 +96,7 @@ namespace :scraping_episode do
         @titles << node.text
       end
 
-      p @titles
+      #p @titles
 
       #取得したタイトルからPVやスペシャル回を除去
       ngword = ['PV', 'スペシャル']
@@ -162,7 +162,7 @@ namespace :scraping_episode do
         @titles << node.text
       end
 
-      p @titles
+      #p @titles
 
       ngword = ['ボーナス:']
       @titles.delete_if { |x| x =~ %r{^#{ngword}.*} }
