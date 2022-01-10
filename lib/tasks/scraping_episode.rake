@@ -1,11 +1,6 @@
 namespace :scraping_episode do
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('headless')
-  options.add_argument('disable-gpu')
-  options.add_argument("--disable-dev-shm-usage")
-  options.add_argument('--lang=ja-JP')
-  options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36')
-  driver = Selenium::WebDriver.for :chrome, options: options
+  caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: "/app/.apt/usr/bin/google-chrome", args: ["--headless"]})
+  driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
   wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
   desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
