@@ -23,9 +23,7 @@ namespace :scraping_episode do
   end
 
   def selenium_capabilities_chrome
-    Selenium::WebDriver::Remote::Capabilities.chrome(
-      proxy: set_proxy
-    )
+    Selenium::WebDriver::Remote::Capabilities.chrome
   end
 
   def driver_init
@@ -71,7 +69,7 @@ namespace :scraping_episode do
     driver = driver_init
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    abemas = Master.abema_titles.now_streaming.limit(1)
+    abemas = Master.abema_titles.now_streaming
 
     p "#{Time.current}：スクレイピングを開始します"
 
@@ -82,8 +80,6 @@ namespace :scraping_episode do
       sleep 1
 
       driver.navigate.to(master.url)
-
-      print(driver.page_source)
 
       wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
 
