@@ -1,6 +1,6 @@
 namespace :scraping_episode do
   options = Selenium::WebDriver::Chrome::Options.new
-  chrome_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+  chrome_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
   options.binary = chrome_path if chrome_path
   options.add_argument('headless')
   options.add_argument('disable-gpu')
