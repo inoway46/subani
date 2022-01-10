@@ -46,7 +46,7 @@ namespace :scraping_episode do
     driver = driver_init
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    abemas = Master.abema_titles.now_streaming
+    abemas = Master.abema_titles.now_streaming.limit(1)
 
     p "#{Time.current}：スクレイピングを開始します"
 
@@ -57,6 +57,8 @@ namespace :scraping_episode do
       sleep 1
 
       driver.navigate.to(master.url)
+
+      print(driver.page_source)
 
       wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
 
@@ -107,7 +109,7 @@ namespace :scraping_episode do
 
     driver = driver_init
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
-    
+
     amazons =  Master.amazon_titles.now_streaming
 
     p "#{Time.current}：Amazonスクレイピングを開始します"
