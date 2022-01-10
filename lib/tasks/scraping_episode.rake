@@ -13,6 +13,7 @@ namespace :scraping_episode do
   desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
   task abema_all: :environment do
     require "selenium-webdriver"
+    require 'webdrivers'
     include Day
     
     abema_urls = Master.abema_titles.now_streaming.today
@@ -69,6 +70,7 @@ namespace :scraping_episode do
   desc 'Amazonプライムのタイトル数をスクレイピングしてローカルDB更新'
   task amazon_all: :environment do
     require  'selenium-webdriver'
+    require 'webdrivers'
     include Day
 
     amazons =  Master.amazon_titles.now_streaming
