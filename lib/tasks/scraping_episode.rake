@@ -13,7 +13,7 @@ namespace :scraping_episode do
       binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     )
 
-driver = Selenium::WebDriver.for :chrome, options: options
+    driver = Selenium::WebDriver.for :chrome, options: options
     
     abema_urls = Master.abema_titles.now_streaming.today
 
@@ -45,6 +45,8 @@ driver = Selenium::WebDriver.for :chrome, options: options
       #取得したタイトルからPVやスペシャル回を除去
       ngword = ['PV', 'スペシャル']
       @titles.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
+
+      p @titles
 
       #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
       new_episode = @titles.size
