@@ -3,8 +3,8 @@ namespace :scraping_episode do
   require 'webdrivers'
 
   def set_proxy
-    proxy_host = '164-70-90-65.indigo.static.arena.ne.jp'
-    proxy_port = '80'
+    proxy_host = '172.105.238.80'
+    proxy_port = '1234'
     proxy = Selenium::WebDriver::Proxy.new(http: "#{proxy_host}:#{proxy_port}")
     proxy
   end
