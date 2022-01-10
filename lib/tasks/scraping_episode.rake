@@ -37,15 +37,15 @@ namespace :scraping_episode do
     Selenium::WebDriver.for(:chrome, capabilities: caps)
   end
 
-  chrome_bin_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
-  Selenium::WebDriver::Chrome.path = chrome_bin_path if chrome_bin_path
-
-  driver = driver_init
-  wait = Selenium::WebDriver::Wait.new(:timeout => 10)
-
   desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
   task abema_all: :environment do
     include Day
+    chrome_bin_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    Selenium::WebDriver::Chrome.path = chrome_bin_path if chrome_bin_path
+
+    driver = driver_init
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
     abemas = Master.abema_titles.now_streaming
 
     p "#{Time.current}：スクレイピングを開始します"
@@ -102,6 +102,12 @@ namespace :scraping_episode do
   desc 'Amazonプライムのタイトル数をスクレイピングしてローカルDB更新'
   task amazon_all: :environment do
     include Day
+    chrome_bin_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    Selenium::WebDriver::Chrome.path = chrome_bin_path if chrome_bin_path
+
+    driver = driver_init
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+    
     amazons =  Master.amazon_titles.now_streaming
 
     p "#{Time.current}：Amazonスクレイピングを開始します"
