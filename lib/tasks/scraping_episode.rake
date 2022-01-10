@@ -3,8 +3,8 @@ namespace :scraping_episode do
   require 'webdrivers'
 
   def set_proxy
-    proxy_host = '164-70-90-65.indigo.static.arena.ne.jp'
-    proxy_port = '80'
+    proxy_host = '119.243.95.62'
+    proxy_port = '1080'
     proxy = Selenium::WebDriver::Proxy.new(http: "#{proxy_host}:#{proxy_port}")
     proxy
   end
@@ -99,6 +99,7 @@ namespace :scraping_episode do
     end
 
     p "#{Time.current}：スクレイピングが完了しました"
+    driver.quit
   end
 
   desc 'Amazonプライムのタイトル数をスクレイピングしてローカルDB更新'
@@ -180,5 +181,6 @@ namespace :scraping_episode do
     end
 
     p "#{Time.current}：Amazonスクレイピングが完了しました"
+    driver.quit
   end
 end
