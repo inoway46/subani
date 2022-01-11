@@ -1,0 +1,38 @@
+<div class="form-wrraper">
+  <h5><%= t('.sign_up') %></h5>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+    <% end %>
+    <div class="form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+      <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
+      <% end %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+    </div>
+
+    <div class="register-button">
+      <%= f.submit t('.sign_up'), class: "btn btn-dark" %>
+    </div>
+  <% end %>
+
+  <div class="line-register">
+    <p>or</p>
+    <p>LINEで登録</p>
+    <%= link_to user_line_omniauth_authorize_path, method: :post do %>
+      <%= image_tag 'line_btn.png', size: '150x43' %>
+    <% end %>
+  </div>
+</div>
+<div class="login-link"><%= link_to "登録済みの方はこちら", new_user_session_path %></div>

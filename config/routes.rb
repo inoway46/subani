@@ -24,6 +24,10 @@ Rails.application.routes.draw do
 
   resource :profile, only: %i[show edit update]
 
+  devise_scope :user do
+    get '/users', to: 'users/registrations#new'
+  end
+
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks",
     sessions: "users/sessions",
