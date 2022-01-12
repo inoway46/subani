@@ -1,11 +1,9 @@
 .top-wrraper {
-  margin: 0 auto;
-  display: block;
+  text-align: center;
 }
 
 .main-title {
   padding-top: 20px;
-  text-align: center;
 }
 
 .top-login {
@@ -14,7 +12,7 @@
 }
 
 .top-login span {
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .top-login p {
@@ -22,7 +20,7 @@
   font-size:0.9rem;
 }
 
-.card {
+#top-card {
   margin: 0 auto;
   display: block;
   max-width: 350px;

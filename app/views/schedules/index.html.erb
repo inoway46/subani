@@ -1,36 +1,38 @@
 <p><%= link_to 'タイトルリストへ >>', contents_path, style: "color: gray; font-size:0.9rem;" %></p>
-<p><%= link_to '時間割を追加する', new_schedule_path, remote: true, class: "btn btn-outline-secondary" %></p>
+<div id="schedule-wrapper">
+  <p><%= link_to '時間割を追加する', new_schedule_path, remote: true, class: "btn btn-secondary", id: "add-schedule" %></p>
 
-<table class="table table-bordered table-responsive">
-  <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-  <div id="schedule-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-  <thead class="thead-dark">
-    <tr>
-      <th width="9%"></th>
-      <th class="align-middle" width="13%" scope="col">月</th>
-      <th class="align-middle" width="13%" scope="col">火</th>
-      <th class="align-middle" width="13%" scope="col">水</th>
-      <th class="align-middle" width="13%" scope="col">木</th>
-      <th class="align-middle" width="13%" scope="col">金</th>
-      <th class="align-middle" width="13%" scope="col">土</th>
-      <th class="align-middle" width="13%" scope="col">日</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% 1.upto(5) do |i| %>
-    <tr>
-      <th><%= i %></th>
-      <td id="Mon<%= i %>" class="align-middle"></td>
-      <td id="Tue<%= i %>" class="align-middle"></td>
-      <td id="Wed<%= i %>" class="align-middle"></td>
-      <td id="Thu<%= i %>" class="align-middle"></td>
-      <td id="Fri<%= i %>" class="align-middle"></td>
-      <td id="Sat<%= i %>" class="align-middle"></td>
-      <td id="Sun<%= i %>" class="align-middle"></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+  <table class="table table-bordered table-responsive">
+    <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+    <div id="schedule-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+    <thead class="thead-dark">
+      <tr>
+        <th width="9%"></th>
+        <th class="align-middle" width="13%" scope="col">月</th>
+        <th class="align-middle" width="13%" scope="col">火</th>
+        <th class="align-middle" width="13%" scope="col">水</th>
+        <th class="align-middle" width="13%" scope="col">木</th>
+        <th class="align-middle" width="13%" scope="col">金</th>
+        <th class="align-middle" width="13%" scope="col">土</th>
+        <th class="align-middle" width="13%" scope="col">日</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% 1.upto(5) do |i| %>
+      <tr>
+        <th><%= i %></th>
+        <td id="Mon<%= i %>" class="align-middle"></td>
+        <td id="Tue<%= i %>" class="align-middle"></td>
+        <td id="Wed<%= i %>" class="align-middle"></td>
+        <td id="Thu<%= i %>" class="align-middle"></td>
+        <td id="Fri<%= i %>" class="align-middle"></td>
+        <td id="Sat<%= i %>" class="align-middle"></td>
+        <td id="Sun<%= i %>" class="align-middle"></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
 
 <script>
 <% @schedules.each do |schedule| %>

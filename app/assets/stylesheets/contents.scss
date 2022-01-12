@@ -1,12 +1,15 @@
-.add-area {
+#media-add-area {
   position: relative;
   margin: 2em 0;
   padding: 0.5em 1em;
   border: solid 3px gray;
   border-radius: 8px;
   max-width: 340px;
+  background: white;
+  height: 80px;
 }
-.add-area .box-title {
+
+#media-add-area .box-title {
   position: absolute;
   display: inline-block;
   top: -13px;
@@ -14,17 +17,48 @@
   padding: 0 9px;
   line-height: 1;
   font-size: 0.9rem;
-  background: #FFF;
+  background: #FEECE9;
   color: gray;
   font-weight: bold;
 }
 
-.add-area p {
+#line-add-area {
+  position: relative;
+  margin: 2em 0;
+  padding: 0.5em 1em;
+  border: solid 3px gray;
+  border-radius: 8px;
+  max-width: 250px;
+  background: white;
+  height: 80px;
+}
+
+#line-add-area .box-title {
+  position: absolute;
+  display: inline-block;
+  top: -13px;
+  left: 10px;
+  padding: 0 9px;
+  line-height: 1;
+  font-size: 0.9rem;
+  background: #FEECE9;
+  color: gray;
+  font-weight: bold;
+}
+
+#add-content {
   margin: 0;
   padding: 10px;
 }
 
-.add-area p .btn-dark {
+#add-line-friend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+#media-add-area p .btn-dark {
   margin-right: 5px;
 }
 
@@ -49,7 +83,7 @@
 }
 
 .card-body {
-  background-color: #F8F8FF;
+  background-color: white;
 }
 
 .fa-trash-alt {
@@ -61,7 +95,7 @@
 }
 
 .card-footer {
-  background-color: #F8F8FF;
+  background-color: white;
 }
 
 .media-link {

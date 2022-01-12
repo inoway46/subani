@@ -15,8 +15,8 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <%= link_to "サブスクアニメ時間割", root_path, class: "navbar-brand" %>
+  <nav class="navbar navbar-expand-lg navbar-light" id="header-menu">
+    <%= link_to "サブスクアニメ時間割", root_path, class: "navbar-brand", id: "title-logo" %>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -63,10 +63,12 @@
   <% if alert %>
   <p id="alert-message" class="alert alert-info"><%= alert %></p>
   <% end %>
-  <div class="container" id="wrapper">
-    <%= yield %>
+  <div class="wrapper">
+    <div class="container">
+      <%= yield %>
+    </div>
+    <%= render 'shared/footer' %>
   </div>
-  <%= render 'shared/footer' %>
 </body>
 
 </html>

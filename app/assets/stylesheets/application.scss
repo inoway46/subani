@@ -13,18 +13,26 @@
  */
 @import "bootstrap";
 @import "homes";
-@import "schedules";
 @import "contents";
+@import "schedules";
 @import "users";
 @import "footer";
 
-body,
-#wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+body {
+  background-color: #FEECE9;
 }
 
-footer {
-  margin-top: auto;
+#header-menu {
+  background-color: #F9D5A7;
+}
+
+#title-logo {
+  color: #333333;
+}
+
+.wrapper {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 120px;
+  box-sizing: border-box;
 }

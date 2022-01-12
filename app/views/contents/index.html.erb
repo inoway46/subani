@@ -1,16 +1,22 @@
 <p><%= link_to "<< 時間割リストへ", schedules_path, style: "color: gray; font-size:0.9rem;" %></p>
-<div class="add-area">
-  <span class="box-title">タイトル登録</span>
-    <p>
-      <%= link_to "Abemaビデオ", abema_list_contents_path, class: "btn btn-dark" %>
-      <%= link_to "Amazonプライム", amazon_list_contents_path, class: "btn btn-primary" %>
-    </p>
-</div>
-<div class="add-area">
-  <span class="box-title">LINEで最新話の更新を通知</span>
-    <p>
-      <a href="https://lin.ee/jWV0dpB"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a>
-    </p>
+<div class="row">
+  <div class="col-lg-6">
+    <div id="media-add-area">
+      <span class="box-title">タイトル登録</span>
+        <p id="add-content">
+          <%= link_to "Abemaビデオ", abema_list_contents_path, class: "btn btn-dark" %>
+          <%= link_to "Amazonプライム", amazon_list_contents_path, class: "btn btn-primary" %>
+        </p>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div id="line-add-area">
+      <span class="box-title">LINEで最新話通知を受け取る</span>
+        <div id="add-line-friend">
+          <a href="https://lin.ee/jWV0dpB"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a>
+        </div>
+    </div>
+  </div>
 </div>
 <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
