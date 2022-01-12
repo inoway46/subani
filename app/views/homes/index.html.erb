@@ -1,14 +1,32 @@
-<h5>今期のサブスクアニメを時間割で管理</h5>
-<p style="padding-top: 20px;">
-<span style="padding-right:10px;">
-  <%= link_to 'ゲストログイン', homes_guest_sign_in_path, method: :post, type: "button", class: "btn btn-dark" %>
-</span>
-  <%= link_to user_line_omniauth_authorize_path, method: :post do %>
-    <%= image_tag 'line_btn.png', size: '150x43' %>
-  <% end %>
-  <div style="color:gray; font-size:0.9rem;">まずは登録不要の「ゲストログイン」から</div>
-</p>
-<p>ワンクリックで再生ページに飛べる時間割▼</p>
-<%= image_tag 'sample_table.png', class: "img-fluid" %>
-<p style="padding-top: 20px;">LINEで最新話の更新を自動通知▼</p>
-<%= image_tag 'sample_line.jpg', class: "img-fluid" %>
+<div class="top-wrraper">
+  <div class="main-title">
+    <h4>今期のサブスクアニメを</h4>
+    <h4>時間割で管理しよう</h4>
+  </div>
+  <div class="top-login">
+    <span><%= link_to 'ゲストログイン', homes_guest_sign_in_path, method: :post, type: "button", class: "btn btn-dark" %></span>
+    <%= link_to user_line_omniauth_authorize_path, method: :post do %>
+      <%= image_tag 'line_btn.png', size: '150x43' %>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-subtitle mb-2 text-muted">時間割で視聴管理</h5>
+        <p class="card-text">ワンクリックでアニメの再生ページへ</p>
+      </div>
+      <%= image_tag 'sample_table.png', class: "bd-placeholder-img card-img-top" %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-subtitle mb-2 text-muted">最新話のLINE通知</h5>
+        <p class="card-text">毎朝6:30にアニメの最新話が届く</p>
+      </div>
+      <%= image_tag 'sample_line.jpg', class: "bd-placeholder-img card-img-top" %>
+    </div>
+  </div>
+</div>
