@@ -4,7 +4,7 @@
     <h4>時間割で管理しよう</h4>
   </div>
   <div class="top-login">
-    <span><%= link_to 'ゲストログイン', homes_guest_sign_in_path, method: :post, type: "button", class: "btn btn-dark" %></span>
+    <span><%= link_to 'ゲストログイン', homes_guest_sign_in_path, method: :post, class: "btn btn-dark" %></span>
     <span><%= link_to user_line_omniauth_authorize_path, method: :post do %></span>
       <%= image_tag 'line_btn.png', size: '150x43' %>
     <% end %>
