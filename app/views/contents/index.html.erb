@@ -3,10 +3,11 @@
   <div class="col-lg-6">
     <div id="media-add-area">
       <span class="box-title">タイトル登録</span>
-        <p id="add-content">
-          <%= link_to "Abemaビデオ", abema_list_contents_path, class: "btn btn-dark" %>
-          <%= link_to "Amazonプライム", amazon_list_contents_path, class: "btn btn-primary" %>
-        </p>
+        <div id="add-content">
+          <span><%= link_to "Abema", abema_list_contents_path, class: "btn btn-dark" %></span>
+          <span><%= link_to "Amazon", amazon_list_contents_path, class: "btn btn-primary" %></span>
+          <span><%= link_to "Netflix", netflix_list_contents_path, class: "btn btn-danger" %></span>
+        </div>
     </div>
   </div>
   <div class="col-lg-6">

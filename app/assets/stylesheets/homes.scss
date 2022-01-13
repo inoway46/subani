@@ -3,32 +3,24 @@
 }
 
 .main-title {
-  padding-top: 20px;
+  padding: 20px 0 0;
 }
 
 .top-login {
-  padding: 20px;
-  margin-bottom: 20px;
+  margin: 20px;
 }
 
-.top-login span {
-  margin-right: 10px;
-}
-
-.top-login p {
-  color:gray;
-  font-size:0.9rem;
+#top-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #top-card {
-  margin: 0 auto;
+  max-width: 300px;
+  margin: 0 30px 20px;
   display: block;
-  max-width: 350px;
-  margin-bottom: 30px;
-}
-
-.card span {
-  padding: 10px;
+  background-color: rgb(220, 226, 233);
 }
 
 .card-img-top {
