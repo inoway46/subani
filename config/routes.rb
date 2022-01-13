@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     collection do
       get 'amazon_list'
       get 'abema_list'
+      get 'netflix_list'
     end
   end
 

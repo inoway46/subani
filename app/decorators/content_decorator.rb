@@ -7,6 +7,8 @@ class ContentDecorator < Draper::Decorator
       "abema"
     when "Amazonプライム"
       "amazon"
+    when "Netflix"
+      "netflix"
     end
   end
 end

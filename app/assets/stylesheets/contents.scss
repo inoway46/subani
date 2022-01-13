@@ -4,7 +4,7 @@
   padding: 0.5em 1em;
   border: solid 3px gray;
   border-radius: 8px;
-  max-width: 340px;
+  max-width: 380px;
   background: white;
   height: 80px;
 }
@@ -28,9 +28,9 @@
   padding: 0.5em 1em;
   border: solid 3px gray;
   border-radius: 8px;
-  max-width: 250px;
+  max-width: 230px;
   background: white;
-  height: 80px;
+  height: 70px;
 }
 
 #line-add-area .box-title {
@@ -47,15 +47,39 @@
 }
 
 #add-content {
-  margin: 0;
-  padding: 10px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+#add-content span {
+  display: block;
+  margin: 0 5px;
+}
+
+#add-content .btn-dark {
+  background: #343a40;
+  width: 100px;
+}
+
+#add-content .btn-primary {
+  background: #146EB4;
+  width: 100px;
+}
+
+#add-content .btn-danger {
+  background: #d81f26;
+  width: 100px;
+}
+
 
 #add-line-friend {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 5px;
+
 }
 
 #media-add-area p .btn-dark {
@@ -79,7 +103,11 @@
 }
 
 #amazon {
-  background-color: #007bff;
+  background-color: #146EB4;
+}
+
+#netflix {
+  background-color: #d81f26;;
 }
 
 .card-body {
@@ -106,15 +134,15 @@
   color: black;
 }
 
-.btn-secondary {
+#content-card-body .btn-secondary {
   font-size: 0.8em;
 }
 
-.btn-success {
+#content-card-body .btn-success {
   font-size: 0.8em;
   background-color: #06c755;
 }
 
-.btn-success:hover {
+#content-card-body .btn-success:hover {
   background-color: #06c755;
 }

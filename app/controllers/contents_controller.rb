@@ -15,6 +15,11 @@ class ContentsController < ApplicationController
     @contents = current_user.contents
   end
 
+  def netflix_list
+    @content = Content.new
+    @contents = current_user.contents
+  end
+
   def create
     @master_ids = params[:content][:master_id]
     @master_ids.each do |master_id|
