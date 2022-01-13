@@ -9,6 +9,7 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   <script src="https://kit.fontawesome.com/66cb772eea.js" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= display_meta_tags(default_meta_tags) %>
   <% if Rails.env.production? %>
     <%= render 'layouts/google_analytics' %>
   <% end %>
