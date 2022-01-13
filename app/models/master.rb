@@ -12,6 +12,7 @@ class Master < ApplicationRecord
 
   scope :abema_titles, -> { where(media: "Abemaビデオ") }
   scope :amazon_titles, -> { where(media: "Amazonプライム") }
+  scope :netflix_titles, -> { where(media: "Netflix") }
   scope :now_streaming, -> { where(season: "now") }
   scope :today, -> { where(update_day: day_of_week) }
 
