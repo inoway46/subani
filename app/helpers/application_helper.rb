@@ -8,6 +8,7 @@ module ApplicationHelper
       description: 'Amazon、Abema、Netflixの今期アニメを時間割形式で管理。アニメの最新話をLINEで通知します。',
       keywords: '今期アニメ,スケジュール,サブスク,Amazonプライム,ABEMA,Netflix',
       canonical: request.original_url,
+      noindex: ! Rails.env.production?,
       separator: '|',
       icon: [
         { href: image_url('favicon.ico') },
