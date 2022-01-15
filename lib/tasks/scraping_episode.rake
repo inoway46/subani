@@ -71,7 +71,7 @@ namespace :scraping_episode do
 
     abemas = Master.abema_titles.now_streaming
 
-    p "#{Time.current}：スクレイピングを開始します"
+    p "#{Time.current}:スクレイピングを開始します"
 
     abemas.each do |master|
       current_episode = master.episode
@@ -96,11 +96,9 @@ namespace :scraping_episode do
         @titles << node.text
       end
 
-      #p @titles
-
       #取得したタイトルからPVやスペシャル回を除去
-      ngword = ['PV', 'スペシャル']
-      @titles.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} }
+      ngword = ['PV', 'スペシャル', 'アニメ']
+      @titles.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} || x =~ %r{^.*#{ngword[2]}.*} }
 
       #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
       new_episode = @titles.size
@@ -116,10 +114,10 @@ namespace :scraping_episode do
       end
 
       #デバッグ用
-      p "#{master.title}：master=#{master.episode}話"
+      p "#{master.title}:master=#{master.episode}話"
     end
 
-    p "#{Time.current}：スクレイピングが完了しました"
+    p "#{Time.current}:スクレイピングが完了しました"
     driver.quit
   end
 
@@ -134,7 +132,7 @@ namespace :scraping_episode do
 
     amazons =  Master.amazon_titles.now_streaming
 
-    p "#{Time.current}：Amazonスクレイピングを開始します"
+    p "#{Time.current}:Amazonスクレイピングを開始します"
 
     amazons.each do |master|
       driver.navigate.to(master.url)
@@ -161,8 +159,6 @@ namespace :scraping_episode do
       titles.each do |node|
         @titles << node.text
       end
-
-      #p @titles
 
       ngword = ['ボーナス:']
       @titles.delete_if { |x| x =~ %r{^#{ngword}.*} }
@@ -198,10 +194,10 @@ namespace :scraping_episode do
         p "#{master.title}のcontentデータを#{master.episode}話に更新しました"
       end
 
-      p "#{master.title}：master=#{master.episode}話"
+      p "#{master.title}:master=#{master.episode}話"
     end
 
-    p "#{Time.current}：Amazonスクレイピングが完了しました"
+    p "#{Time.current}:Amazonスクレイピングが完了しました"
     driver.quit
   end
 
@@ -214,9 +210,9 @@ namespace :scraping_episode do
     driver = driver_init
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    netflixs = Master.netflix_titles.now_streaming
+    netflixs = Master.netflix_titles.now_streaming.onair
 
-    p "#{Time.current}：スクレイピングを開始します"
+    p "#{Time.current}:スクレイピングを開始します"
 
     netflixs.each do |master|
       current_episode = master.episode
@@ -257,10 +253,10 @@ namespace :scraping_episode do
       end
 
       #デバッグ用
-      p "#{master.title}：master=#{master.episode}話"
+      p "#{master.title}:master=#{master.episode}話"
     end
 
-    p "#{Time.current}：スクレイピングが完了しました"
+    p "#{Time.current}:スクレイピングが完了しました"
     driver.quit
   end
 end
