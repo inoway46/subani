@@ -204,4 +204,63 @@ namespace :scraping_episode do
     p "#{Time.current}：Amazonスクレイピングが完了しました"
     driver.quit
   end
+
+  desc 'Netflixのタイトル数をスクレイピングしてローカルDB更新'
+  task netflix: :environment do
+    include Day
+    chrome_bin_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    Selenium::WebDriver::Chrome.path = chrome_bin_path if chrome_bin_path
+
+    driver = driver_init
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
+    netflixs = Master.netflix_titles.now_streaming
+
+    p "#{Time.current}：スクレイピングを開始します"
+
+    netflixs.each do |master|
+      current_episode = master.episode
+      @contents = Content.where(master_id: master.id)
+
+      sleep 1
+
+      driver.navigate.to(master.url)
+
+      wait.until { driver.find_elements(:class, 'episode-title').size > 0 }
+
+      3.times do
+        sleep(1)
+        driver.execute_script('window.scroll(0,1000000);')
+      end
+
+      @titles = []
+
+      titles = driver.find_elements(:class, 'episode-title')
+
+      titles.each do |node|
+        @titles << node.text
+      end
+
+      p @titles
+
+      #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
+      new_episode = @titles.size
+      if current_episode < new_episode
+        @contents.update_all(new_flag: true)
+        master.update(episode: new_episode, update_day: day_of_week)
+        p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
+      end
+
+      if @contents.present?
+        @contents.update_all(episode: master.episode)
+        p "#{master.title}のcontentデータを#{master.episode}話に更新しました"
+      end
+
+      #デバッグ用
+      p "#{master.title}：master=#{master.episode}話"
+    end
+
+    p "#{Time.current}：スクレイピングが完了しました"
+    driver.quit
+  end
 end
