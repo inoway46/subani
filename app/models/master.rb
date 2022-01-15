@@ -15,6 +15,7 @@ class Master < ApplicationRecord
   scope :netflix_titles, -> { where(media: "Netflix") }
   scope :now_streaming, -> { where(season: "now") }
   scope :today, -> { where(update_day: day_of_week) }
+  scope :onair, -> { where.not(episode: 0) }
 
   def self.total_line_notification
     all.sum(:line_notifications_count)
