@@ -1,7 +1,10 @@
-<p><%= link_to 'タイトルリストへ >>', contents_path, style: "color: gray; font-size:0.9rem;" %></p>
-<div id="schedule-wrapper">
-  <p><%= link_to '時間割を追加する', new_schedule_path, remote: true, class: "btn btn-secondary", id: "add-schedule" %></p>
+<p id="to-contents-link"><%= link_to 'タイトルリストへ >>', contents_path, style: "color: gray;" %></p>
 
+<div id="schedule-button">
+  <p><%= link_to '時間割を追加する', new_schedule_path, remote: true, class: "btn btn-secondary", id: "add-schedule" %></p>
+</div>
+
+<div id="schedule-table-wrapper">
   <table class="table table-bordered table-responsive">
     <div id="content-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
     <div id="schedule-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

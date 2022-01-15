@@ -1,6 +1,15 @@
-#schedule-wrapper {
-  margin: 0 auto;
-  display: block;
+#to-contents-link {
+  font-size:0.9rem;
+}
+
+#schedule-button {
+  text-align: center;
+}
+
+#schedule-table-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #add-schedule {
@@ -8,8 +17,9 @@
 }
 
 .table {
+  display: block;
   text-align: center;
-  max-width: 750px;
+  max-width: 800px;
   background-color: white;
 }
 
