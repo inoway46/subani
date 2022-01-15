@@ -68,9 +68,9 @@ class Line::LineBotController < ApplicationController
   def parse_message_type(event)
     case event.type
     when Line::Bot::Event::MessageType::Text
-      reaction_text(event)   # ユーザーが投稿したものがテキストメッセージだった場合に返す値
+      reaction_text(event)
     else
-      'ありがとうございます'   # ユーザーが投稿したものがテキストメッセージ以外だった場合に返す値
+      'ありがとうございます'
     end
   end
 
@@ -90,7 +90,7 @@ class Line::LineBotController < ApplicationController
       @uid = event['source']['userId']
       response = client.create_link_token(@uid).body
       link_token = JSON.parse(response)
-      uri = URI("https://subani.herokuapp.com/line/link")
+      uri = URI("https://subani.net/line/link")
       uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
       "下記のリンクよりログインしてアカウント連携を行ってください。\n#{uri}"
     when "連携解除"
