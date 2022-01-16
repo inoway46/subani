@@ -26,7 +26,7 @@ class Line::LineBotController < ApplicationController
                     else
                       @user.update!(uid: @uid)
                       #リッチメニューのリンク
-                      client.link_user_rich_menu(@uid, "richmenu-1225ce4648e79800735235b87fbb369b")
+                      client.link_user_rich_menu(@uid, "richmenu-58b637b2558383201e55591654b3fc66")
                       reply_text("アカウントの連携が完了しました")
                     end
                   else
@@ -124,10 +124,19 @@ class Line::LineBotController < ApplicationController
     when "ログイン"
       @user = User.find_by(uid: event['source']['userId'])
       if @user.present?
-        client.link_user_rich_menu(@user.uid, "richmenu-1225ce4648e79800735235b87fbb369b")
+        client.link_user_rich_menu(@user.uid, "richmenu-58b637b2558383201e55591654b3fc66")
         "ログインしました"
       else
         "【アカウントが見つかりません】\nサイトからLINEログイン、もしくはアカウント連携を行ってください"
+      end
+    when "ログアウト"
+      @uid = event['source']['userId']
+      @user = User.find_by(uid: @uid)
+      client.unlink_user_rich_menu(@uid)
+      if @user.present?
+        "ログアウトしました"
+      else
+        "アカウントが見つかりませんでした"
       end
     when "今日のアニメ"
       @uid = event['source']['userId']
