@@ -1,4 +1,4 @@
-<div class="form-wrraper">
+<div class="form-wrapper">
   <h5><%= t('.sign_up') %></h5>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <% resource.errors.full_messages.each do |message| %>
@@ -22,7 +22,7 @@
       <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
     </div>
 
-    <div class="register-button">
+    <div class="submit-button">
       <%= f.submit t('.sign_up'), class: "btn btn-dark" %>
     </div>
   <% end %>

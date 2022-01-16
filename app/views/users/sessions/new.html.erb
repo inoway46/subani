@@ -1,4 +1,4 @@
-<div class="form-wrraper">
+<div class="form-wrapper">
   <h5><%= t('.sign_in') %></h5>
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <% resource.errors.full_messages.each do |message| %>

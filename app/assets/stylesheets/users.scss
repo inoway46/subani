@@ -1,4 +1,4 @@
-.form-wrraper {
+.form-wrapper {
   background-color: rgb(220, 226, 233);
   padding: 30px;
   max-width: 700px;
@@ -8,6 +8,21 @@
   display: block;
 }
 
+.end-wrraper {
+  background-color: rgb(220, 226, 233);
+  padding: 30px;
+  max-width: 700px;
+  color: #333333;
+  margin: 0 auto;
+  margin-top: 40px;
+  display: block;
+}
+
+.link-message {
+  padding-top: 30px;
+  font-size: 0.8rem;
+}
+
 .form-group {
   margin: 0 auto;
   width: 85%;
@@ -15,7 +30,7 @@
   max-width: 400px;
 }
 
-.register-button {
+.submit-button {
   padding-top: 20px;
   display :block;
   width: 150px;
