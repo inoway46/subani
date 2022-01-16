@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_08_050326) do
+ActiveRecord::Schema.define(version: 2022_01_16_044837) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2022_01_08_050326) do
     t.string "season"
     t.string "update_day"
     t.integer "line_notifications_count", default: 0, null: false
+    t.integer "dummy_episode", default: 0
   end
 
   create_table "schedules", force: :cascade do |t|
