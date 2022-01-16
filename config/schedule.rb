@@ -12,11 +12,15 @@ set :output, "#{Rails.root}/log/cron.log"
 
 # 毎朝6時にスクレイピングを行う
 every 1.day, at: '6:00' do
-  rake "scraping_episode:abema_all"
+  rake "scraping_episode:abema"
 end
 
 every 1.day, at: '6:05' do
-  rake "scraping_episode:amazon_all"
+  rake "scraping_episode:amazon"
+end
+
+every 1.day, at: '6:10' do
+  rake "scraping_episode:netflix"
 end
 
 # スクレイピングで更新後のMasterをCSV化してS3にアップロード

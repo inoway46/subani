@@ -61,7 +61,7 @@ namespace :scraping_episode do
   end
 
   desc 'Abemaビデオのタイトル数をスクレイピングしてローカルDB更新'
-  task abema_all: :environment do
+  task abema: :environment do
     include Day
     chrome_bin_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     Selenium::WebDriver::Chrome.path = chrome_bin_path if chrome_bin_path
@@ -122,7 +122,7 @@ namespace :scraping_episode do
   end
 
   desc 'Amazonプライムのタイトル数をスクレイピングしてローカルDB更新'
-  task amazon_all: :environment do
+  task amazon: :environment do
     include Day
     chrome_bin_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     Selenium::WebDriver::Chrome.path = chrome_bin_path if chrome_bin_path
@@ -215,7 +215,7 @@ namespace :scraping_episode do
     p "#{Time.current}:スクレイピングを開始します"
 
     netflixs.each do |master|
-      current_episode = master.episode
+      current_episode = master.dummy_episode
       @contents = Content.where(master_id: master.id)
 
       sleep 1
@@ -237,13 +237,12 @@ namespace :scraping_episode do
         @titles << node.text
       end
 
-      p @titles
-
       #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
       new_episode = @titles.size
       if current_episode < new_episode
         @contents.update_all(new_flag: true)
-        master.update(episode: new_episode, update_day: day_of_week)
+        master.episode += 1
+        master.update(episode: master.episode, dummy_episode: new_episode)
         p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
       end
 
