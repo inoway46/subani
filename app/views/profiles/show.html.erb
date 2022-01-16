@@ -1,22 +1,22 @@
 <div class="container pt-3">
   <div class="row">
     <div class="col-md-10 offset-md-1">
-      <h1 class="float-left mb-5"><%= t('.title') %></h1>
+      <h5><%= t('.title') %></h5>
       <% unless current_user.guest %>
-        <%= link_to "編集", edit_profile_path, class: 'btn btn-success float-right' %>
+        <div id="profile-edit-button"><%= link_to "編集", edit_profile_path, class: 'btn btn-success' %></div>
       <% end %>
-      <table class="table">
-        <tr>
-          <th scope="row">メールアドレス</th>
-          <td><%= current_user.show_email %></td>
-        </tr>
-        <tr>
-          <th scope="row">ニックネーム</th>
-          <td><%= current_user.name || "未設定" %></td>
-        </tr>
-      </table>
+      <div class="profile-wrapper">
+        <div class="profile-item">
+          <span>メールアドレス</span>
+          <div id="profile-border"><%= current_user.show_email %></div>
+        </div>
+        <div class="profile-item">
+          <span>ニックネーム</span>
+          <div id="profile-border"><%= current_user.name || "未設定" %></div>
+        </div>
+      </div>
       <% unless current_user.guest %>
-        <%= link_to "退会する", registration_path(current_user), method: :delete, data: { confirm: "退会後はログイン、LINE通知ができなくなります。よろしいですか？" }, class: 'btn btn-secondary float-right' %>
+        <%= link_to "退会する", registration_path(current_user), method: :delete, data: { confirm: "退会後はログイン、LINE通知ができなくなります。よろしいですか？" }, class: 'btn btn-secondary' %>
       <% end %>
     </div>
   </div>
