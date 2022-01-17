@@ -1,16 +1,25 @@
 require 'csv'
 require 'aws-sdk-s3'
 
+bucket = 'subani'.freeze
+region = 'ap-northeast-1'.freeze
+key = "master.csv"
+
+s3 = Aws::S3::Client.new(
+  region: region,
+  access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+  secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+)
+
 namespace :master_csv do
   desc 'MasterモデルをCSV出力してS3にアップロード'
   task export: :environment do
-
     p "#{Time.current}:export処理を開始します"
 
     masters = Master.all
 
     CSV.open("master.csv", "w") do |csv|
-      column_names = %w(id title media url stream update_day episode season rank)
+      column_names = %w(id title media url stream update_day episode dummy_episode season rank)
       csv << column_names
       masters.each do |master|
         column_values = [
@@ -21,6 +30,7 @@ namespace :master_csv do
           master.stream,
           master.update_day,
           master.episode,
+          master.dummy_episode,
           master.season,
           master.rank
         ]
@@ -28,18 +38,9 @@ namespace :master_csv do
       end
     end
 
-    bucket = 'subani'.freeze
-    region = 'ap-northeast-1'.freeze
-    csv_file = "master.csv"
-
-    s3 = Aws::S3::Client.new(
-      region: region,
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-    )
     s3.put_object(bucket: bucket,
-                  key: csv_file,
-                  body: File.open(csv_file, :encoding => "UTF-8"),
+                  key: key,
+                  body: File.open(key, :encoding => "UTF-8"),
                   content_type: 'text/csv',
                 )
 
@@ -54,16 +55,6 @@ namespace :master_csv do
     p "#{Time.current}:import処理を開始します"
 
     masters = Master.all
-
-    bucket = 'subani'.freeze
-    region = 'ap-northeast-1'.freeze
-    key = "master.csv"
-
-    s3 = Aws::S3::Client.new(
-      region: region,
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-    )
 
     file = s3.get_object(bucket: bucket, key: key)
     lines = CSV.parse(file.body.read)
@@ -82,6 +73,7 @@ namespace :master_csv do
         stream: row["stream"],
         update_day: row["update_day"],
         episode: row["episode"].to_i,
+        dummy_episode: row["dummy_episode"].to_i,
         season: row["season"],
         rank: row["rank"].to_i
       }
@@ -105,6 +97,7 @@ namespace :master_csv do
           stream: list[:stream],
           update_day: list[:update_day],
           episode: list[:episode],
+          dummy_episode: list[:dummy_episode],
           season: list[:season],
           rank: list[:rank]
         )
