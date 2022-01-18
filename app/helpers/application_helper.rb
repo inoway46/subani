@@ -5,7 +5,7 @@ module ApplicationHelper
       title: '今期アニメをサクサクみよう',
       reverse: true,
       charset: 'utf-8',
-      description: 'Amazon、Abema、Netflixの今期アニメを時間割形式で管理。アニメの最新話をLINEで通知します。',
+      description: 'Abema、Amazon、Netflixの今期アニメを時間割形式で管理。アニメの最新話をLINEで通知します。',
       keywords: '今期アニメ,スケジュール,サブスク,Amazonプライム,ABEMA,Netflix',
       canonical: request.original_url,
       noindex: ! Rails.env.production?,
@@ -17,7 +17,7 @@ module ApplicationHelper
       og: {
         site_name: 'サブスクアニメ時間割',
         title: '今期アニメをサクサクみよう',
-        description: 'Amazon、Abema、Netflixの今期アニメを時間割形式で管理。アニメの最新話をLINEで通知します。',
+        description: 'Abema、Amazon、Netflixの今期アニメを時間割形式で管理。アニメの最新話をLINEで通知します。',
         type: 'website',
         url: request.original_url,
         image: image_url('ogp.png'),
