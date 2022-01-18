@@ -69,7 +69,7 @@ namespace :scraping_episode do
     driver = driver_init
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    abemas = Master.abema_titles.now_streaming
+    abemas = Master.media_titles(0).now_streaming
 
     p "#{Time.current}:スクレイピングを開始します"
 
@@ -130,7 +130,7 @@ namespace :scraping_episode do
     driver = driver_init
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    amazons =  Master.amazon_titles.now_streaming
+    amazons =  Master.media_titles(1).now_streaming
 
     p "#{Time.current}:Amazonスクレイピングを開始します"
 
@@ -210,7 +210,7 @@ namespace :scraping_episode do
     driver = driver_init
     wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    netflixs = Master.netflix_titles.now_streaming.onair
+    netflixs = Master.media_titles(2).now_streaming.onair
 
     p "#{Time.current}:スクレイピングを開始します"
 
