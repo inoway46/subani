@@ -5,17 +5,7 @@ class ContentsController < ApplicationController
     @contents = current_user.contents.order(stream: :asc)
   end
 
-  def amazon_list
-    @content = Content.new
-    @contents = current_user.contents
-  end
-
-  def abema_list
-    @content = Content.new
-    @contents = current_user.contents
-  end
-
-  def netflix_list
+  def new
     @content = Content.new
     @contents = current_user.contents
   end

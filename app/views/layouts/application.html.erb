@@ -41,8 +41,9 @@
             タイトル登録
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <%= link_to "Amazonから登録", amazon_list_contents_path, class: "dropdown-item" %>
-            <%= link_to "Abemaから登録", abema_list_contents_path, class: "dropdown-item" %>
+            <%= link_to "Abemaから登録", new_content_path(media: "Abemaビデオ"), class: "dropdown-item" %>
+            <%= link_to "Amazonから登録", new_content_path(media: "Amazonプライム"), class: "dropdown-item" %>
+            <%= link_to "Netflixから登録", new_content_path(media: "Netflix"), class: "dropdown-item" %>
           </div>
         </li>
         <li class="nav-item">

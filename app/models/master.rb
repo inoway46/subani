@@ -10,9 +10,7 @@ class Master < ApplicationRecord
   validates :url, presence: true, length: { maximum: 2048 }
   validates :stream, presence: true
 
-  scope :abema_titles, -> { where(media: "Abemaビデオ") }
-  scope :amazon_titles, -> { where(media: "Amazonプライム") }
-  scope :netflix_titles, -> { where(media: "Netflix") }
+  scope :media_titles, ->(media) { where(media: media) }
   scope :now_streaming, -> { where(season: "now") }
   scope :today, -> { where(update_day: day_of_week) }
   scope :onair, -> { where.not(episode: 0) }

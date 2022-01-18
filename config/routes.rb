@@ -15,12 +15,6 @@ Rails.application.routes.draw do
     member do
       patch 'flag_off'
     end
-
-    collection do
-      get 'amazon_list'
-      get 'abema_list'
-      get 'netflix_list'
-    end
   end
 
   resource :profile, only: %i[show edit update]

@@ -10,11 +10,11 @@
     </div>
     <% end %>
     <div class="modal-header">
-      <h5 class="modal-title">Netflix</h5>
-      <%= f.submit class: "btn btn-primary" %>
+      <h5 class="modal-title"><%= params[:media] %></h5>
+      <%= f.submit class: "btn btn-primary"%>
     </div>
     <div class="modal-body">
-        <%= f.collection_check_boxes :master_id, Master.netflix_titles.onair.order(rank: :asc), :id, :title, include_hidden: false do |master| %>
+        <%= f.collection_check_boxes :master_id, Master.media_titles(params[:media]).onair.order(rank: :asc), :id, :title, include_hidden: false do |master| %>
         <p>
           <%= master.check_box %>
           <%= master.text %>
