@@ -5,7 +5,8 @@ class Line::FlagsController < ApplicationController
       @content.line_on
       current_user.add_line_flag(@content)
     else
-      redirect_to contents_path, alert: "LINE通知は5タイトルまで登録できます"
+      flash[:info] = "LINE通知は5タイトルまで登録できます"
+      redirect_to contents_path
     end
   end
 
@@ -14,7 +15,8 @@ class Line::FlagsController < ApplicationController
     if @content.line_off
       current_user.remove_line_flag(@content)
     else
-      redirect_to contents_path, alert: "処理が失敗しました"
+      flash[:danger] = "処理が失敗しました"
+      redirect_to contents_path
     end
   end
 end

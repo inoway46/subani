@@ -13,7 +13,7 @@ class Line::AuthenticationsController < ApplicationController
       uri.query = URI.encode_www_form({ linkToken: @link_token, nonce: nonce })
       redirect_to uri.to_s
     else
-      flash.now[:alert] = "ログインに失敗しました"
+      flash.now[:danger] = "ログインに失敗しました"
       render :link
     end
   end
