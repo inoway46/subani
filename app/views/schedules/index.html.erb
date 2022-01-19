@@ -46,7 +46,7 @@
     $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div><%= link_to schedule.content.url, target: :_blank, rel: "noopener noreferrer", class: "btn btn-outline-secondary" do %><p><%= schedule.content.title.truncate(15) %></p><% end %></div>');
   <% end %>
   <% if schedule.content.new_flag %>
-    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag" id="new-flag<%= schedule.id %>"><%= "New! #{schedule.content.episode}話 " %><%= link_to flag_off_content_path(schedule.content.id), :method => :patch, remote: true do %><%= image_tag 'viewed_button.png', class: "viewed-button" %><% end %></div>');
+    $('#<%= "#{schedule.day}" + "#{schedule.position}" %>').append('<div class="new-flag" id="new-flag<%= schedule.id %>"><%= "New! #{schedule.content.episode}話 " %><%= link_to content_path(schedule.content.id), :method => :patch, remote: true do %><%= image_tag 'viewed_button.png', class: "viewed-button" %><% end %></div>');
   <% end %>
 <% end %>
 </script>

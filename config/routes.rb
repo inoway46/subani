@@ -11,11 +11,7 @@ Rails.application.routes.draw do
 
   resources :schedules, except: %i[show]
 
-  resources :contents, except: %i[show] do
-    member do
-      patch 'flag_off'
-    end
-  end
+  resources :contents, except: %i[show edit]
 
   resource :profile, only: %i[show edit update]
 

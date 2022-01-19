@@ -1,3 +1,3 @@
-console.log('update');
-$("#<%= @content.id %>").html("<td><%= j (render 'content', content: @content) %></td>")
-$("#content-modal").modal("hide");
+$('#new-flag<%= @content.schedule.id %>').remove();
+$('#title-card<%= @content.schedule.id %>').removeClass('btn btn-primary');
+$('#title-card<%= @content.schedule.id %>').addClass('btn btn-outline-secondary');

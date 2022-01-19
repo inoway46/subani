@@ -23,26 +23,7 @@ class ContentsController < ApplicationController
     redirect_to contents_path, alert: "#{@master_ids.size}件のタイトルと時間割を登録しました"
   end
 
-  def edit
-    @content = current_user.contents.find(params[:id])
-    respond_to do |format|
-      format.js
-    end
-  end
-
   def update
-    @content = current_user.contents.find(params[:id])
-    
-    respond_to do |format|
-      if @content.update(content_params)
-        format.js
-      else
-        format.js { render :edit }
-      end
-    end
-  end
-
-  def flag_off
     @content = current_user.contents.find(params[:id])
     @content.flag_off
   end
