@@ -15,12 +15,13 @@ class ContentsController < ApplicationController
     @master_ids.each do |master_id|
       master = Master.find(master_id.to_i)
       @content = current_user.contents.create!(title: master.title, media: master.media, url: master.url, stream: master.stream, registered: false, new_flag: true, episode: master.episode, master_id: master.id)
-      unless current_user.schedules.where(position: 5).where(day: @content.stream).present?
+      unless current_user.limit_position(@content.stream)
         current_user.schedules.create(content_id: @content.id, day: @content.stream)
         @content.register
       end
     end
-    redirect_to contents_path, alert: "#{@master_ids.size}件のタイトルと時間割を登録しました"
+    flash[:success] = "#{@master_ids.size}件のタイトルと時間割を登録しました"
+    redirect_to contents_path
   end
 
   def update
@@ -34,7 +35,8 @@ class ContentsController < ApplicationController
       if @content.destroy
         format.js
       else
-        redirect_to contents_path, alert: "削除に失敗しました"
+        flash.now[:danger] = "削除に失敗しました"
+        render :index
       end
     end
   end
