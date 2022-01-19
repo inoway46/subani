@@ -60,10 +60,7 @@
       </ul>
     </div>
   </nav>
-  <p class="notice"><%= notice %></p>
-  <% if alert %>
-  <p id="alert-message" class="alert alert-info"><%= alert %></p>
-  <% end %>
+  <p><%= render 'shared/flash_message' %></p>
   <div class="wrapper">
     <div class="container">
       <%= yield %>
