@@ -89,5 +89,32 @@ YouTubeも含め、サブスクサービスを使えば、ほぼ無料で大量�
 一方で、クリエイターが心血を注いで作成した素晴らしい作品をより多くの人に見てほしいし、応援したい気持ちもあります。  
 サブスクコンテンツと程よい距離感を保ち、やるべきことにより多くの時間を投下できるように、このアプリを使ってもらいたいです。
 
+# 使用技術
+### 主なgem
+* `devise` :ログイン
+* `rails_admin` :管理画面
+* `whenever` :cronの実行
+* `omniauth-line` :LINEログイン
+* `line-bot-api` :LINEプッシュ通知
+* `selenium-webdriver` :スクレイピング
+* `aws-sdk-s3` :ローカルDBとHerokuDBをCSVで中継
+* `acts_as_list` :時間割の並び替え
+* `counter_culture` :LINEプッシュ通知のカウント
+
+### フロントエンド
+* Bootstrap 4.3.1
+* jquery-rails
+
+### バックエンド
+* Ruby 2.6.6
+* Rails 5.2.6
+* Rspec
+
+### インフラストラクチャー
+* PostgreSQL 13.5
+* Heroku
+* AWS
+  * S3
+
 # ER図
 ![subani_erd](https://user-images.githubusercontent.com/65857152/149251133-a6ab0608-598e-47f1-9604-c6ae5a906b04.png)
