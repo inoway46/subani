@@ -100,21 +100,21 @@ class Line::LineBotController < ApplicationController
         "アカウントが見つかりませんでした"
       else
         message = {
-          "type": "template",
-          "altText": "連携解除の手続き",
-          "template": {
-              "type": "confirm",
-              "text": "アカウント連携を解除しますか？\n※LINEログインでご利用の場合、サブスクアニメ時間割のアカウントも削除されます。",
-              "actions": [
+          type: "template",
+          altText: "連携解除の手続き",
+          template: {
+              type: "confirm",
+              text: "アカウント連携を解除しますか？\n※LINEログインでご利用の場合、サブスクアニメ時間割のアカウントも削除されます。",
+              actions: [
                   {
-                    "type": "postback",
-                    "label": "はい",
-                    "data": "confirm"
+                    type: "postback",
+                    label: "はい",
+                    data: "confirm"
                   },
                   {
-                    "type": "postback",
-                    "label": "いいえ",
-                    "data": "cancel"
+                    type: "postback",
+                    label: "いいえ",
+                    data: "cancel"
                   }
               ]
           }

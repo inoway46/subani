@@ -60,7 +60,7 @@ namespace :master_csv do
     lines = CSV.parse(file.body.read)
 
     keys = lines[0]
-    data = lines[1...].map { |line| Hash[keys.zip(line)] }
+    data = lines[1...].map { |line| keys.zip(line).to_h }
 
     lists = []
 
