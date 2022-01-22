@@ -71,7 +71,7 @@ module Line
       case event.message['text']
       when "アカウント連携"
         link_token = create_token(@uid)
-        create_uri(link_token)
+        uri = create_uri(link_token)
         "下記のリンクよりログインしてアカウント連携を行ってください。\n#{uri}"
       when "連携解除"
         if @user.blank?
