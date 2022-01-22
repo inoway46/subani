@@ -126,7 +126,6 @@ module Line
         @user = User.find_by(uid: event['source']['userId'])
         if @user.present?
           client.link_user_rich_menu(@user.uid, "richmenu-58b637b2558383201e55591654b3fc66")
-          sign_in @user
           "ログインしました"
         else
           "【アカウントが見つかりません】\nサイトからLINEログイン、もしくはアカウント連携を行ってください"
@@ -136,7 +135,6 @@ module Line
         @user = User.find_by(uid: @uid)
         client.unlink_user_rich_menu(@uid)
         if @user.present?
-          sign_out @user
           "ログアウトしました"
         else
           "アカウントが見つかりませんでした"
