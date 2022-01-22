@@ -1,44 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe 'Content', type: :system do
-  let(:user) { create(:user) }
-  let(:content) { create(:content) }
+let(:user) { create(:user) }
+let(:master) { create(:master) }
+let(:content) { create(:content) }
 
   describe 'Content一覧' do
     context '正常系' do
-      it 'Contentが表示されること' do; end
-    end
-  end
-
-  describe 'Content新規作成' do
-    context '正常系' do
-      it 'Contentが新規作成されること' do; end
-    end
-
-    context '異常系' do
-      it 'selectが未選択の場合、Contentが新規作成されないこと' do; end
-    end
-  end
-
-  describe 'Content詳細' do
-    context '正常系' do
-      it 'Contentが表示されること' do; end
-    end
-  end
-
-  describe 'Content更新' do
-    context '正常系' do
-      it 'Contentが更新されること' do; end
-    end
-
-    context '異常系' do
-      it 'titleが未入力の場合、Contentが更新されないこと' do; end
-    end
-  end
-
-  describe 'Content削除' do
-    context '正常系' do
-      it 'Contentが削除されること' do; end
+      before do
+        visit new_user_session_path
+        fill_in "メールアドレス", with: user.email
+        fill_in "パスワード", with: user.password
+        click_button "ログイン"
+      end
+      it 'Contentが表示されること' do
+        visit contents_path
+        expect(page).to have_content user_content
+      end
     end
   end
 end
