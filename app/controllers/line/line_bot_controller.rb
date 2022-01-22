@@ -1,31 +1,27 @@
 module Line
-  class LineBotController < ApplicationController
+  class LineBotController < Line::BaseController
     require 'line/bot'
+    include AccountLinkCreate
 
     protect_from_forgery except: :callback
 
     def callback
-      client = Line::Bot::Client.new do |config|
-        config.channel_id = ENV["LINE_CHANNEL_ID"]
-        config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
-        config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
-      end
-
       body = request.body.read
       signature = request.env['HTTP_X_LINE_SIGNATURE']
       return head :bad_request unless client.validate_signature(body, signature)
 
       events = client.parse_events_from(body)
       events.each do |event|
+        @uid = event['source']['userId']
+        @user = User.find_by(uid: @uid)
         case event
           when Line::Bot::Event::AccountLink
             message= if event.result == "ok"
-                      @uid = event['source']['userId']
-                      @user = User.find_by(line_nonce: event.nonce.to_s)
+                      @linking_user = User.find_by(line_nonce: event.nonce.to_s)
                       if User.exists?(uid: @uid)
                         reply_text("すでに同じLINE-IDが登録されています")
                       else
-                        @user.update!(uid: @uid)
+                        @linking_user.update!(uid: @uid)
                         #リッチメニューのリンク
                         client.link_user_rich_menu(@uid, "richmenu-58b637b2558383201e55591654b3fc66")
                         reply_text("アカウントの連携が完了しました")
@@ -37,14 +33,10 @@ module Line
             #連携解除で「はい」を選択
             case event['postback']['data']
             when "confirm"
-              @uid = event['source']['userId']
-              @user = User.find_by(uid: @uid)
               if @user.present?
                 client.unlink_user_rich_menu(@uid)
                 @user.update!(uid: nil)
-                if @user.provider.present?
-                  @user.destroy!
-                end
+                @user.destroy! if @user.provider.present?
                 message = reply_text("LINEアカウントの連携を解除しました")
               else
                 client.unlink_user_rich_menu(@uid)
@@ -76,27 +68,13 @@ module Line
     end
 
     def reaction_text(event)
-      require 'net/http'
-      require 'uri'
-      require 'json'
-      require 'date'
-
-      client = Line::Bot::Client.new do |config|
-        config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
-        config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
-      end
-
       case event.message['text']
       when "アカウント連携"
-        @uid = event['source']['userId']
-        response = client.create_link_token(@uid).body
-        link_token = JSON.parse(response)
-        uri = URI("https://subani.net/line/link")
-        uri.query = URI.encode_www_form({ linkToken: link_token["linkToken"] })
+        link_token = create_token(@uid)
+        create_uri(link_token)
         "下記のリンクよりログインしてアカウント連携を行ってください。\n#{uri}"
       when "連携解除"
-        @uid = event['source']['userId']
-        if User.find_by(uid: @uid).blank?
+        if @user.blank?
           client.unlink_user_rich_menu(@uid)
           "アカウントが見つかりませんでした"
         else
@@ -123,7 +101,6 @@ module Line
           client.reply_message(event['replyToken'], message)
         end
       when "ログイン"
-        @user = User.find_by(uid: event['source']['userId'])
         if @user.present?
           client.link_user_rich_menu(@user.uid, "richmenu-58b637b2558383201e55591654b3fc66")
           "ログインしました"
@@ -131,8 +108,6 @@ module Line
           "【アカウントが見つかりません】\nサイトからLINEログイン、もしくはアカウント連携を行ってください"
         end
       when "ログアウト"
-        @uid = event['source']['userId']
-        @user = User.find_by(uid: @uid)
         client.unlink_user_rich_menu(@uid)
         if @user.present?
           "ログアウトしました"
@@ -140,8 +115,6 @@ module Line
           "アカウントが見つかりませんでした"
         end
       when "今日のアニメ"
-        @uid = event['source']['userId']
-        @user = User.find_by(uid: @uid)
         if @user.present?
           today = Date.today.strftime("%a")
           anime_lists = @user.schedules.where(day: today)
@@ -166,8 +139,6 @@ module Line
           client.unlink_user_rich_menu(@uid)
         end
       when "未視聴アニメ"
-        @uid = event['source']['userId']
-        @user = User.find_by(uid: @uid)
         if @user.present?
           ids = @user.schedules.pluck(:content_id)
           anime_lists = Content.where(id: ids).where(new_flag: true)
