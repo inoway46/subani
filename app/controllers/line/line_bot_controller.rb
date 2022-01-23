@@ -4,7 +4,7 @@ module Line
     include Day
     include AccountLinkCreate
     include ResponseTitle
-    include LinkComplete
+    include AccountLinkComplete
 
     protect_from_forgery except: :callback
 
@@ -28,10 +28,10 @@ module Line
             #連携解除で「はい」を選択
             case event['postback']['data']
             when "confirm"
-              message = if @user.present?
+              message = if @user.exists?
                           client.unlink_user_rich_menu(@uid)
                           @user.update(uid: nil)
-                          @user.destroy if @user.provider.present?
+                          @user.destroy if @user.provider.exists?
                           reply_text("LINEアカウントの連携を解除しました")
                         else
                           client.unlink_user_rich_menu(@uid)
@@ -74,7 +74,7 @@ module Line
           client.reply_message(event['replyToken'], unlink_message)
         end
       when "ログイン"
-        if @user.present?
+        if @user.exists?
           client.link_user_rich_menu(@user.uid, "richmenu-58b637b2558383201e55591654b3fc66")
           "ログインしました"
         else
@@ -82,20 +82,20 @@ module Line
         end
       when "ログアウト"
         client.unlink_user_rich_menu(@uid)
-        @user.present? ? "ログアウトしました" : "アカウントが見つかりませんでした"
+        @user.exists? ? "ログアウトしました" : "アカウントが見つかりませんでした"
       when "今日のアニメ"
-        if @user.present?
+        if @user.exists?
           anime_lists = @user.schedules.today
-          anime_lists.present? ? answer_titles_today(anime_lists) : "#{today_jp}曜日のアニメは時間割に登録されていません"
+          anime_lists.exists? ? answer_titles_today(anime_lists) : "#{today_jp}曜日のアニメは時間割に登録されていません"
         else
           "アカウントが見つかりませんでした"
           client.unlink_user_rich_menu(@uid)
         end
       when "未視聴アニメ"
-        if @user.present?
+        if @user.exists?
           ids = @user.schedules.pluck(:content_id)
           anime_lists = Content.where(id: ids).unwatched
-          anime_lists.present? ? answer_titles_unwatched(anime_lists) : "現在、未視聴のアニメはありません"
+          anime_lists.exists? ? answer_titles_unwatched(anime_lists) : "現在、未視聴のアニメはありません"
         else
           "アカウントが見つかりませんでした"
           client.unlink_user_rich_menu(@uid)

@@ -1,4 +1,4 @@
-module Line::LinkComplete
+module Line::AccountLinkComplete
   extend ActiveSupport::Concern
   included do
     def duplicated_user(uid)
