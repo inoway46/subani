@@ -10,15 +10,27 @@
   margin: 20px;
 }
 
-#top-row {
+.movie_block {
+  margin: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+#youtube_iframe {
+  border: 1px solid gray;
+}
+
+#top-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
 #top-card {
   max-width: 300px;
-  margin: 0 30px 20px;
+  margin: 0 30px 30px;
   display: block;
   background-color: rgb(220, 226, 233);
 }
