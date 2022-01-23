@@ -4,6 +4,7 @@ module Line
     include Day
     include AccountLinkCreate
     include ResponseTitle
+    include LinkComplete
 
     protect_from_forgery except: :callback
 
@@ -18,40 +19,30 @@ module Line
         @user = User.find_by(uid: @uid)
         case event
           when Line::Bot::Event::AccountLink
-            message= if event.result == "ok"
-                      @linking_user = User.find_by(line_nonce: event.nonce.to_s)
-                      if User.exists?(uid: @uid)
-                        reply_text("すでに同じLINE-IDが登録されています")
+            message = if event.result == "ok"
+                        duplicated_user(@uid) || link_user(event, @uid)
                       else
-                        @linking_user.update!(uid: @uid)
-                        #リッチメニューのリンク
-                        client.link_user_rich_menu(@uid, "richmenu-58b637b2558383201e55591654b3fc66")
-                        reply_text("アカウントの連携が完了しました")
+                        reply_text("アカウントの連携に失敗しました")
                       end
-                    else
-                      reply_text("アカウントの連携に失敗しました")
-                    end
           when Line::Bot::Event::Postback
             #連携解除で「はい」を選択
             case event['postback']['data']
             when "confirm"
-              if @user.present?
-                client.unlink_user_rich_menu(@uid)
-                @user.update!(uid: nil)
-                @user.destroy! if @user.provider.present?
-                message = reply_text("LINEアカウントの連携を解除しました")
-              else
-                client.unlink_user_rich_menu(@uid)
-                message = reply_text("アカウントは連携されていません")
-              end
+              message = if @user.present?
+                          client.unlink_user_rich_menu(@uid)
+                          @user.update(uid: nil)
+                          @user.destroy if @user.provider.present?
+                          reply_text("LINEアカウントの連携を解除しました")
+                        else
+                          client.unlink_user_rich_menu(@uid)
+                          reply_text("アカウントは連携されていません")
+                        end
             #連携解除で「いいえ」を選択
             when "cancel"
               message = reply_text("引き続きサブスク通知をお楽しみください")
             end
           when Line::Bot::Event::Message
-            message = { type: 'text', text: parse_message_type(event) }
-          else
-            message = { type: 'text', text: '........' }
+            message = reply_text(parse_message_type(event))
           end
         client.reply_message(event['replyToken'], message)
       end
@@ -80,27 +71,7 @@ module Line
           client.unlink_user_rich_menu(@uid)
           "アカウントが見つかりませんでした"
         else
-          message = {
-            type: "template",
-            altText: "連携解除の手続き",
-            template: {
-                type: "confirm",
-                text: "アカウント連携を解除しますか？\n※LINEログインでご利用の場合、サブスクアニメ時間割のアカウントも削除されます。",
-                actions: [
-                    {
-                      type: "postback",
-                      label: "はい",
-                      data: "confirm"
-                    },
-                    {
-                      type: "postback",
-                      label: "いいえ",
-                      data: "cancel"
-                    }
-                ]
-            }
-          }
-          client.reply_message(event['replyToken'], message)
+          client.reply_message(event['replyToken'], unlink_message)
         end
       when "ログイン"
         if @user.present?
@@ -111,11 +82,7 @@ module Line
         end
       when "ログアウト"
         client.unlink_user_rich_menu(@uid)
-        if @user.present?
-          "ログアウトしました"
-        else
-          "アカウントが見つかりませんでした"
-        end
+        @user.present? ? "ログアウトしました" : "アカウントが見つかりませんでした"
       when "今日のアニメ"
         if @user.present?
           anime_lists = @user.schedules.today
@@ -138,6 +105,29 @@ module Line
 
     def reply_text(text)
       { type: 'text', text: text }
+    end
+
+    def unlink_message
+      {
+        type: "template",
+        altText: "連携解除の手続き",
+        template: {
+            type: "confirm",
+            text: "アカウント連携を解除しますか？\n※LINEログインでご利用の場合、サブスクアニメ時間割のアカウントも削除されます。",
+            actions: [
+                {
+                  type: "postback",
+                  label: "はい",
+                  data: "confirm"
+                },
+                {
+                  type: "postback",
+                  label: "いいえ",
+                  data: "cancel"
+                }
+            ]
+        }
+      }
     end
   end
 end
