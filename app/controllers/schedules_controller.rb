@@ -2,10 +2,6 @@ class SchedulesController < ApplicationController
   before_action :authenticate_user!
   def new
     @schedule = Schedule.new
-    respond_to do |format|
-      format.js
-    end
-
     @contents = current_user.contents.unregistered
   end
 
@@ -31,9 +27,6 @@ class SchedulesController < ApplicationController
   def edit
     @contents = current_user.contents
     @schedule = current_user.schedules.find(params[:id])
-    respond_to do |format|
-      format.js
-    end
   end
 
   def update
