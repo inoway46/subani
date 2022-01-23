@@ -1,7 +1,9 @@
 # アプリ名：サブスクアニメ時間割
-![sample_table](https://user-images.githubusercontent.com/65857152/147870101-3c139bfa-9cca-4c3c-b4fd-891672f07647.png)
+> ▼画像をクリックするとアプリ説明の1分動画（Youtube）に遷移します
 
-【公開中】https://subani.net/
+[![](https://img.youtube.com/vi/Ip7KysRyO40/0.jpg)](https://www.youtube.com/watch?v=Ip7KysRyO40)
+
+【公開URL】https://subani.net/
 
 # サービス概要
 
