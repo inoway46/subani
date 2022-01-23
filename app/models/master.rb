@@ -1,5 +1,4 @@
 class Master < ApplicationRecord
-  include Day
   has_many :contents, dependent: :destroy
   has_many :line_notifications
 
@@ -13,7 +12,7 @@ class Master < ApplicationRecord
 
   scope :media_titles, ->(media) { where(media: media) }
   scope :now_streaming, -> { where(season: "now") }
-  scope :today, -> { where(update_day: day_of_week) }
+  scope :today, -> { where(update_day: Date.today.strftime("%a")) }
   scope :onair, -> { where.not(episode: 0) }
 
   def self.total_line_notification
