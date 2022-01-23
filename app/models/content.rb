@@ -15,6 +15,7 @@ class Content < ApplicationRecord
 
   scope :registered, -> { where(registered: true) }
   scope :unregistered, -> { where(registered: false) }
+  scope :unwatched, -> { where(new_flag: true) }
 
   def register
     update(registered: true)
