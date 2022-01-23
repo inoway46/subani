@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :line_flag_contents, through: :line_flags, source: :content
 
   def social_profile(provider)
-    social_profiles.select { |sp| sp.provider == provider.to_s }.first
+    social_profiles.find { |sp| sp.provider == provider.to_s }
   end
 
   def set_values(omniauth)
@@ -33,7 +33,7 @@ class User < ApplicationRecord
   end
 
   def limit_position(day)
-    self.schedules.where(position: 5).where(day: day).exists?
+    self.schedules.where(position: 5).exists?(day: day)
   end
 
   def add_line_flag(content)
