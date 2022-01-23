@@ -1,6 +1,5 @@
 module Day
   extend ActiveSupport::Concern
-
   included do
     def day_of_week
       Date.today.strftime("%a")
@@ -16,6 +15,10 @@ module Day
 
     def last_month
       Date.today.last_month.strftime("%m月")
+    end
+
+    def today_jp
+      %w[日 月 火 水 木 金 土][Date.today.wday]
     end
 
     def yesterday

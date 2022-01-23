@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Content', type: :system do
-let(:user) { create(:user) }
-let(:master) { create(:master) }
-let(:content) { create(:content) }
+  let(:user) { create(:user) }
+  let(:master) { create(:master) }
+  let(:content) { create(:content) }
 
   describe 'Content一覧' do
     context '正常系' do
