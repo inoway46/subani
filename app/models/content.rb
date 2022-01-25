@@ -3,6 +3,7 @@ class Content < ApplicationRecord
   has_many :user_contents, dependent: :destroy
   has_many :users, through: :user_contents
   has_many :line_flags, dependent: :destroy
+  has_many :line_notifications
   belongs_to :master
 
   enum stream: { default: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 }
@@ -35,5 +36,13 @@ class Content < ApplicationRecord
 
   def line_off
     update(line_flag: false)
+  end
+
+  def self.total_line_notification
+    all.sum(:line_notifications_count)
+  end
+
+  def self.reset_counter
+    update_all(line_notifications_count: 0)
   end
 end

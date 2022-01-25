@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_25_023304) do
+ActiveRecord::Schema.define(version: 2022_01_25_025052) do
 
   create_table "contents", force: :cascade do |t|
     t.string "title", null: false
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2022_01_25_023304) do
     t.string "season"
     t.integer "dummy_episode", default: 0
     t.string "update_day"
+    t.integer "line_notifications_count", default: 0, null: false
   end
 
   create_table "line_flags", force: :cascade do |t|
@@ -39,11 +40,11 @@ ActiveRecord::Schema.define(version: 2022_01_25_023304) do
   end
 
   create_table "line_notifications", force: :cascade do |t|
-    t.integer "master_id"
+    t.integer "content_id"
     t.integer "month", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["master_id"], name: "index_line_notifications_on_master_id"
+    t.index ["content_id"], name: "index_line_notifications_on_content_id"
   end
 
   create_table "masters", force: :cascade do |t|
@@ -56,7 +57,6 @@ ActiveRecord::Schema.define(version: 2022_01_25_023304) do
     t.integer "episode", default: 0
     t.string "season"
     t.string "update_day"
-    t.integer "line_notifications_count", default: 0, null: false
     t.integer "dummy_episode", default: 0
     t.integer "media", default: 0, null: false
   end
