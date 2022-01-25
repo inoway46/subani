@@ -101,6 +101,7 @@ group :development, :test do
   gem 'rubocop-rails', require:false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rubycw', require: false
+  gem 'faker'
 end
 
 group :development do
@@ -118,7 +119,6 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'webdrivers'
-  gem 'faker'
 end
 
 group :production do
