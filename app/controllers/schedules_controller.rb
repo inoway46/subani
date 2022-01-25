@@ -1,12 +1,12 @@
 class SchedulesController < ApplicationController
   before_action :authenticate_user!
+  def index
+    @schedules = current_user.schedules.preload(:content)
+  end
+
   def new
     @schedule = Schedule.new
     @contents = current_user.contents.unregistered
-  end
-
-  def index
-    @schedules = current_user.schedules.preload(:content)
   end
 
   def create
