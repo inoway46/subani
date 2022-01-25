@@ -13,9 +13,20 @@ RSpec.describe 'Content', type: :system do
         fill_in "パスワード", with: user.password
         click_button "ログイン"
       end
+
+      it 'ログイン後ページがContent一覧であること' do
+        expect(current_path).to eq contents_path
+      end
+
       it 'Contentが表示されること' do
-        visit contents_path
-        expect(page).to have_content user_content
+        expect(page).to have_content content.title
+      end
+
+      it 'Contentを削除できること' do
+        expect(page).to have_content content.title
+        delete_button = find(".fa-trash-alt")
+        delete_button.click
+        expect(page).not_to have_content content.title
       end
     end
   end
