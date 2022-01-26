@@ -75,7 +75,7 @@ module Line
         end
       when "ログイン"
         if @user.present?
-          client.link_user_rich_menu(@user.uid, "richmenu-58b637b2558383201e55591654b3fc66")
+          client.link_user_rich_menu(@user.uid, after_login_menu)
           "ログインしました"
         else
           "【アカウントが見つかりません】\nサイトからLINEログイン、もしくはアカウント連携を行ってください"
@@ -101,33 +101,6 @@ module Line
           client.unlink_user_rich_menu(@uid)
         end
       end
-    end
-
-    def reply_text(text)
-      { type: 'text', text: text }
-    end
-
-    def unlink_message
-      {
-        type: "template",
-        altText: "連携解除の手続き",
-        template: {
-            type: "confirm",
-            text: "アカウント連携を解除しますか？\n※LINEログインでご利用の場合、サブスクアニメ時間割のアカウントも削除されます。",
-            actions: [
-                {
-                  type: "postback",
-                  label: "はい",
-                  data: "confirm"
-                },
-                {
-                  type: "postback",
-                  label: "いいえ",
-                  data: "cancel"
-                }
-            ]
-        }
-      }
     end
   end
 end
