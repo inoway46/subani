@@ -14,10 +14,6 @@ RSpec.describe 'Content', type: :system do
         click_button "ログイン"
       end
 
-      it 'ログイン後ページがContent一覧であること' do
-        expect(current_path).to eq contents_path
-      end
-
       it 'Contentが表示されること' do
         expect(page).to have_content content.title
       end
