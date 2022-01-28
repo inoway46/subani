@@ -9,7 +9,7 @@ module Line
       def link_user(event, uid)
         @link_user = User.find_by(line_nonce: event.nonce.to_s)
         @link_user.update(uid: uid)
-        client.link_user_rich_menu(uid, "richmenu-58b637b2558383201e55591654b3fc66")
+        client.link_user_rich_menu(uid, after_login_menu)
         reply_text("アカウントの連携が完了しました")
       end
     end
