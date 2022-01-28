@@ -63,18 +63,15 @@ namespace :scraping_episode do
         @titles << node.text
       end
 
-      #取得したタイトルからPVやスペシャル回を除去
       ngword = ['PV', 'スペシャル', 'アニメ']
       @titles.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} || x =~ %r{^.*#{ngword[2]}.*} }
 
-      #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
       new_episode = @titles.size
       if current_episode < new_episode
         master.update(episode: new_episode, update_day: day_of_week)
         p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
       end
 
-      #デバッグ用
       p "#{master.title}:master=#{master.episode}話"
     end
 
@@ -169,8 +166,6 @@ namespace :scraping_episode do
     p "#{Time.current}:スクレイピングを開始します"
 
     netflixs.each do |master|
-      current_episode = master.dummy_episode
-
       sleep 1
 
       driver.navigate.to(master.url)
@@ -190,15 +185,15 @@ namespace :scraping_episode do
         @titles << node.text
       end
 
-      #取得したタイトル数が現在のエピソード数より多ければ最新話フラグをオンに
+      current_episode = master.dummy_episode
       new_episode = @titles.size
-      if current_episode < new_episode
+
+      if new_episode > current_episode
         master.episode += 1
         master.update(episode: master.episode, dummy_episode: new_episode)
         p "#{master.title}:フラグオン、Masterを#{new_episode}話に更新しました"
       end
 
-      #デバッグ用
       p "#{master.title}:master=#{master.episode}話"
     end
 
