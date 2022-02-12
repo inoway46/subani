@@ -1,6 +1,6 @@
 class LineNotification < ApplicationRecord
-  belongs_to :master
-  counter_culture :master
+  belongs_to :content
+  counter_culture :content
 
   scope :monthly_total, -> { where(month: Date.today.month) }
 
@@ -8,7 +8,7 @@ class LineNotification < ApplicationRecord
     monthly_total.size < 1000
   end
 
-  def self.create_record(master, month)
-    create(master_id: master.id, month: month)
+  def self.create_record(content, month)
+    create(content_id: content.id, month: month)
   end
 end
