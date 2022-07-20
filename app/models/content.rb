@@ -36,4 +36,15 @@ class Content < ApplicationRecord
   def line_off
     update(line_flag: false)
   end
+
+  def self.create_from_masters(master_ids, current_user)
+    master_ids.each do |master_id|
+      master = Master.find(master_id.to_i)
+      content = current_user.contents.create!(title: master.title, media: master.media, url: master.url, stream: master.stream, registered: false, new_flag: true, episode: master.episode, master_id: master.id)
+      unless current_user.limit_position(content.stream)
+        current_user.schedules.create(content_id: content.id, day: content.stream)
+        content.register
+      end
+    end
+  end
 end
