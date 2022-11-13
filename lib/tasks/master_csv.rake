@@ -79,7 +79,7 @@ namespace :master_csv do
       }
     end
 
-    #Master更新
+    # Master更新
     lists.each do |list|
       if Master.find_by(id: list[:id]).present?
         target = Master.find(list[:id])
@@ -104,14 +104,14 @@ namespace :master_csv do
       end
     end
 
-    #LINE通知
+    # LINE通知
     client = Line::Bot::Client.new do |config|
       config.channel_id = ENV["LINE_CHANNEL_ID"]
       config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
       config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     end
 
-    #月に1000件以上プッシュ通知を送ると課金されるため通知数を管理
+    # 課金防止のためプッシュ通知を1000件以内に制限
     line_notification = LineNotification.new
     line_notification.total_count = LineNotification.monthly_total.size
 
@@ -142,7 +142,7 @@ namespace :master_csv do
       end
     end
 
-    #Content更新
+    # Content更新
     masters.each do |master|
       @contents = Content.where(master_id: master.id)
       if @contents.present?
