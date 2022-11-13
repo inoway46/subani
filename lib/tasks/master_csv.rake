@@ -118,24 +118,24 @@ namespace :master_csv do
     catch(:exit) do
       masters.each do |master|
         @contents = Content.where(master_id: master.id, line_flag: true)
-        if @contents.present?
-          @contents.each do |content|
-            if content.episode < master.episode
-              line_users = content.users.where.not(uid: nil)
-              line_users.each do |user|
-                if line_notification.can_notify?
-                  message = {
-                    type: 'text',
-                    text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
-                  }
-                  client.push_message(user.uid, message)
-                  LineNotification.create_record(master, month)
-                  p "LINE通知:#{content.title}をuser_id:#{user.id}さんに送信しました"
-                  line_notification.total_count += 1
-                else
-                  throw :exit
-                end
-              end
+        next if @contents.empty?
+
+        @contents.each do |content|
+          next unless content.episode < master.episode
+
+          line_users = content.users.where.not(uid: nil)
+          line_users.each do |user|
+            if line_notification.can_notify?
+              message = {
+                type: 'text',
+                text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
+              }
+              client.push_message(user.uid, message)
+              LineNotification.create_record(master, month)
+              p "LINE通知:#{content.title}をuser_id:#{user.id}さんに送信しました"
+              line_notification.total_count += 1
+            else
+              throw :exit
             end
           end
         end
