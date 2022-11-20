@@ -56,8 +56,8 @@ namespace :master_csv do
 
     masters = Master.all
 
-    file = s3.get_object(bucket: bucket, key: key)
-    lines = CSV.parse(file.body.read)
+    file = s3.get_object(bucket: bucket, key: key).body.read
+    lines = CSV.parse(file)
 
     keys = lines[0]
     data = lines[1...].map { |line| keys.zip(line).to_h }
