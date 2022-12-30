@@ -19,7 +19,7 @@ namespace :master_csv do
     masters = Master.all
 
     CSV.open("master.csv", "w") do |csv|
-      column_names = %w(id title media url stream update_day episode dummy_episode season rank)
+      column_names = %w[id title media url stream update_day episode dummy_episode season rank]
       csv << column_names
       masters.each do |master|
         column_values = [
@@ -56,8 +56,8 @@ namespace :master_csv do
 
     masters = Master.all
 
-    file = s3.get_object(bucket: bucket, key: key)
-    lines = CSV.parse(file.body.read)
+    file = s3.get_object(bucket: bucket, key: key).body.read
+    lines = CSV.parse(file)
 
     keys = lines[0]
     data = lines[1...].map { |line| keys.zip(line).to_h }
@@ -79,7 +79,7 @@ namespace :master_csv do
       }
     end
 
-    #Master更新
+    # Master更新
     lists.each do |list|
       if Master.find_by(id: list[:id]).present?
         target = Master.find(list[:id])
@@ -104,34 +104,45 @@ namespace :master_csv do
       end
     end
 
-    #LINE通知
+    # LINE通知
     client = Line::Bot::Client.new do |config|
       config.channel_id = ENV["LINE_CHANNEL_ID"]
       config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
       config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     end
 
-    masters.each do |master|
-      @contents = Content.where(master_id: master.id, line_flag: true)
-      if @contents.present?
+    # 課金防止のためプッシュ通知を1000件以内に制限
+    line_notification = LineNotification.new
+    line_notification.total_count = LineNotification.monthly_total.size
+
+    catch(:exit) do
+      masters.each do |master|
+        @contents = Content.where(master_id: master.id, line_flag: true)
+        next if @contents.empty?
+
         @contents.each do |content|
-          if content.episode < master.episode
-            line_users = content.users.where.not(uid: nil)
-            line_users.each do |user|
+          next unless content.episode < master.episode
+
+          line_users = content.users.where.not(uid: nil)
+          line_users.each do |user|
+            if line_notification.can_notify?
               message = {
                 type: 'text',
                 text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
               }
-              client.push_message(user.uid, message) if LineNotification.can_notify?
+              client.push_message(user.uid, message) unless Rails.env.test?
               LineNotification.create_record(master, month)
               p "LINE通知:#{content.title}をuser_id:#{user.id}さんに送信しました"
+              line_notification.total_count += 1
+            else
+              throw :exit
             end
           end
         end
       end
     end
 
-    #Content更新
+    # Content更新
     masters.each do |master|
       @contents = Content.where(master_id: master.id)
       if @contents.present?
