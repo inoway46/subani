@@ -19,7 +19,7 @@ namespace :master_csv do
     masters = Master.all
 
     CSV.open("master.csv", "w") do |csv|
-      column_names = %w(id title media url stream update_day episode dummy_episode season rank)
+      column_names = %w[id title media url stream update_day episode dummy_episode season rank]
       csv << column_names
       masters.each do |master|
         column_values = [
