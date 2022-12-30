@@ -130,7 +130,7 @@ namespace :master_csv do
                 type: 'text',
                 text: "#{master.title}の#{master.episode}話が公開されました！\n#{master.url}"
               }
-              client.push_message(user.uid, message)
+              client.push_message(user.uid, message) unless Rails.env.test?
               LineNotification.create_record(master, month)
               p "LINE通知:#{content.title}をuser_id:#{user.id}さんに送信しました"
               line_notification.total_count += 1
