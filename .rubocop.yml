@@ -6,8 +6,8 @@ require:
   - rubocop-rubycw
 
 AllCops:
-  TargetRubyVersion: 2.6
-  TargetRailsVersion: 5.2
+  TargetRubyVersion: 3.2.0
+  TargetRailsVersion: 7.0.4
   Exclude:
     - 'vendor/**/*'
     - 'bin/**/*'
