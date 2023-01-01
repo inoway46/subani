@@ -7,8 +7,8 @@ key = "master.csv"
 
 s3 = Aws::S3::Client.new(
   region: region,
-  access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-  secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+  access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID', nil),
+  secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY', nil)
 )
 
 namespace :master_csv do
@@ -106,9 +106,9 @@ namespace :master_csv do
 
     # LINE通知
     client = Line::Bot::Client.new do |config|
-      config.channel_id = ENV["LINE_CHANNEL_ID"]
-      config.channel_secret =ENV["LINE_CHANNEL_SECRET"]
-      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+      config.channel_id = ENV.fetch("LINE_CHANNEL_ID", nil)
+      config.channel_secret =ENV.fetch("LINE_CHANNEL_SECRET", nil)
+      config.channel_token = ENV.fetch("LINE_CHANNEL_TOKEN", nil)
     end
 
     # 課金防止のためプッシュ通知を1000件以内に制限
