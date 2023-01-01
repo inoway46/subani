@@ -9,6 +9,11 @@ class SchedulesController < ApplicationController
     @contents = current_user.contents.unregistered
   end
 
+  def edit
+    @contents = current_user.contents
+    @schedule = current_user.schedules.find(params[:id])
+  end
+
   def create
     @contents = current_user.contents.unregistered
     @schedule = current_user.schedules.build(schedule_params)
@@ -22,11 +27,6 @@ class SchedulesController < ApplicationController
       flash[:success] = "「#{@schedule.content.title}」を時間割登録しました"
       redirect_to schedules_path
     end
-  end
-
-  def edit
-    @contents = current_user.contents
-    @schedule = current_user.schedules.find(params[:id])
   end
 
   def update
@@ -48,11 +48,10 @@ class SchedulesController < ApplicationController
     if schedule.destroy
       @content.unregister
       flash[:info] = "「#{@content.title}」を時間割から削除しました"
-      redirect_to schedules_path
     else
       flash[:danger] = "削除に失敗しました"
-      redirect_to schedules_path
     end
+    redirect_to schedules_path
   end
 
   private
