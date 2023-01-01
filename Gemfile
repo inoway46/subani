@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.0'
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '7.0.4'
 # Use sqlite3 as the database for Active Record
@@ -31,58 +30,43 @@ gem 'sidekiq'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap'
-
-#bootstrapの導入
+# bootstrapの導入
 gem 'bootstrap'
 gem 'jquery-rails'
-
-#enumの日本語化
+# enumの日本語化
 gem 'enum_help'
 gem 'rails-i18n'
-
-#ログイン機能の実装
+# ログイン機能の実装
 gem 'devise'
 gem 'devise-i18n'
-
-#管理画面の実装
+# 管理画面の実装
 gem 'rails_admin'
 gem 'rails_admin-i18n'
 gem 'cancancan'
-
-#GraphQLの導入
+# GraphQLの導入
 gem 'graphql-client'
-
-#時間割の自動配置
+# 時間割の自動配置
 gem 'acts_as_list'
-
-#rake_taskの定期実行
+# rake_taskの定期実行
 gem 'whenever'
-
-#スクレイピング用
+# スクレイピング用
 gem 'selenium-webdriver'
 gem 'webdrivers'
 gem 'capybara'
-
-#環境変数の管理
+# 環境変数の管理
 gem 'dotenv-rails'
-
-#S3へのアップロード
+# S3へのアップロード
 gem 'aws-sdk-s3'
-
-#LINEで最新話の更新を通知する
+# LINEで最新話の更新を通知する
 gem 'line-bot-api'
-
-#LINEログイン用
+# LINEログイン用
 gem 'omniauth-line'
 gem "omniauth-rails_csrf_protection"
-
-#デコレーターの導入
+# デコレーターの導入
 gem 'draper'
-
-#LINE通知数のカウント
+# LINE通知数のカウント
 gem 'counter_culture'
-
-#OGPの設定
+# OGPの設定
 gem 'meta-tags'
 
 group :development, :test do
@@ -107,6 +91,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen'
+  # i18nの整理用
+  gem 'i18n-tasks'
 end
 
 group :test do
@@ -119,11 +105,6 @@ end
 
 group :production do
   gem 'pg'
-end
-
-group :development, :production, :test do
-  gem 'devise'
-  gem 'jquery-rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
