@@ -10,7 +10,7 @@ class Master < ApplicationRecord
   validates :url, presence: true, length: { maximum: 2048 }
   validates :stream, presence: true
 
-  scope :media_titles, ->(media) { where(media: media) }
+  scope :media_titles, ->(media) { where(media:) }
   scope :now_streaming, -> { where(season: "now") }
   scope :today, -> { where(update_day: Date.today.strftime("%a")) }
   scope :onair, -> { where.not(episode: 0) }
