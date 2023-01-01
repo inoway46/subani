@@ -1,0 +1,25 @@
+base_locale: ja
+data:
+  read:
+    - config/locales/**/%{locale}.yml
+search:
+  paths:
+    - app
+  exclude:
+    - app/assets/images
+    - app/assets/fonts
+    - app/assets/videos
+  strict: false
+ignore:
+  - will_paginate.*
+  - validation.*
+  - simple_form.*
+  - devise.*
+  - activerecord.*
+  - date.*
+  - datetime.*
+  - errors.*
+  - helpers.*
+  - number.*
+  - support.*
+  - time.*
