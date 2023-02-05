@@ -7,7 +7,7 @@ class Schedule < ApplicationRecord
   validates :day, presence: true
   validates :content_id, uniqueness: true
 
-  scope :today, -> { where(day: Date.today.strftime("%a")) }
+  scope :today, -> { where(day: Time.zone.today.strftime("%a")) }
 
   def no_position_error
     self.errors.add(:base, "時間割に空きがありません")

@@ -6,7 +6,7 @@ module Line
         @content.line_on
         current_user.add_line_flag(@content)
       else
-        flash[:info] = "LINE通知は5タイトルまで登録できます"
+        flash[:info] = t('.create.info')
         redirect_to contents_path
       end
     end
@@ -16,7 +16,7 @@ module Line
       if @content.line_off
         current_user.remove_line_flag(@content)
       else
-        flash[:danger] = "処理が失敗しました"
+        flash[:danger] = t('.destroy.danger')
         redirect_to contents_path
       end
     end

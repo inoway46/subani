@@ -7,7 +7,7 @@ class LineNotification < ApplicationRecord
   scope :monthly_total, -> { where(month: Time.zone.today.month) }
 
   def self.create_record(master, month)
-    create(master_id: master.id, month: month)
+    create(master_id: master.id, month:)
   end
 
   def can_notify?

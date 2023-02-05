@@ -18,32 +18,32 @@ module Line
         @uid = event['source']['userId']
         @user = User.find_by(uid: @uid)
         case event
-          when Line::Bot::Event::AccountLink
-            message = if event.result == "ok"
-                        duplicated_user(@uid) || link_user(event, @uid)
+        when Line::Bot::Event::AccountLink
+          message = if event.result == "ok"
+                      duplicated_user(@uid) || link_user(event, @uid)
+                    else
+                      reply_text("アカウントの連携に失敗しました")
+                    end
+        when Line::Bot::Event::Postback
+          # 連携解除で「はい」を選択
+          case event['postback']['data']
+          when "confirm"
+            message = if @user.present?
+                        client.unlink_user_rich_menu(@uid)
+                        @user.update(uid: nil)
+                        @user.destroy if @user.provider.present?
+                        reply_text("LINEアカウントの連携を解除しました")
                       else
-                        reply_text("アカウントの連携に失敗しました")
+                        client.unlink_user_rich_menu(@uid)
+                        reply_text("アカウントは連携されていません")
                       end
-          when Line::Bot::Event::Postback
-            #連携解除で「はい」を選択
-            case event['postback']['data']
-            when "confirm"
-              message = if @user.present?
-                          client.unlink_user_rich_menu(@uid)
-                          @user.update(uid: nil)
-                          @user.destroy if @user.provider.present?
-                          reply_text("LINEアカウントの連携を解除しました")
-                        else
-                          client.unlink_user_rich_menu(@uid)
-                          reply_text("アカウントは連携されていません")
-                        end
-            #連携解除で「いいえ」を選択
-            when "cancel"
-              message = reply_text("引き続きサブスク通知をお楽しみください")
-            end
-          when Line::Bot::Event::Message
-            message = reply_text(parse_message_type(event))
+          # 連携解除で「いいえ」を選択
+          when "cancel"
+            message = reply_text("引き続きサブスク通知をお楽しみください")
           end
+        when Line::Bot::Event::Message
+          message = reply_text(parse_message_type(event))
+        end
         client.reply_message(event['replyToken'], message)
       end
       head :ok
@@ -88,8 +88,8 @@ module Line
           anime_lists = @user.schedules.today
           anime_lists.exists? ? answer_titles_today(anime_lists) : "#{today_jp}曜日のアニメは時間割に登録されていません"
         else
-          "アカウントが見つかりませんでした"
           client.unlink_user_rich_menu(@uid)
+          "アカウントが見つかりませんでした"
         end
       when "未視聴アニメ"
         if @user.present?
@@ -97,8 +97,8 @@ module Line
           anime_lists = Content.where(id: ids).unwatched
           anime_lists.exists? ? answer_titles_unwatched(anime_lists) : "現在、未視聴のアニメはありません"
         else
-          "アカウントが見つかりませんでした"
           client.unlink_user_rich_menu(@uid)
+          "アカウントが見つかりませんでした"
         end
       end
     end

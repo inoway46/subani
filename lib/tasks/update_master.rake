@@ -6,13 +6,13 @@ region = 'ap-northeast-1'.freeze
 key = "master.csv"
 
 s3 = Aws::S3::Client.new(
-  region: region,
-  access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-  secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+  region:,
+  access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID', nil),
+  secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY', nil)
 )
 
 def master_params(row)
-  master_params = {
+  {
     id: row["id"].to_i,
     title: row["title"],
     media: row["media"],
@@ -63,7 +63,7 @@ namespace :update_master do
 
   desc 'S3上のmaster.csvをHerokuDBにインポート'
   task heroku_import: :environment do
-    file = s3.get_object(bucket: bucket, key: key)
+    file = s3.get_object(bucket:, key:)
     lines = CSV.parse(file.body.read)
     keys = lines[0]
     data = lines[1...].map { |line| keys.zip(line).to_h }

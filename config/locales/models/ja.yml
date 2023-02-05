@@ -1,0 +1,6 @@
+ja:
+  activerecord:
+    models:
+      user: 'ユーザー'
+      content: 'コンテンツ'
+      schedule: 'スケジュール'

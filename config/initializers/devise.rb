@@ -10,7 +10,7 @@
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
   #LINEログイン
-  config.omniauth :line, ENV['LINE_KEY'], ENV['LINE_SECRET']
+  config.omniauth :line, ENV.fetch('LINE_KEY', nil), ENV.fetch('LINE_SECRET', nil)
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.

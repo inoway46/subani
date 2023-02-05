@@ -33,7 +33,7 @@ class User < ApplicationRecord
   end
 
   def limit_position(day)
-    self.schedules.where(position: 5).exists?(day: day)
+    self.schedules.where(position: 5).exists?(day:)
   end
 
   def add_line_flag(content)

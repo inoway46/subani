@@ -7,10 +7,10 @@ class ProfilesController < ApplicationController
 
   def update
     if @user.update(user_params)
-      flash[:success] = "プロフィールを更新しました"
+      flash[:success] = t('.update.success')
       redirect_to profile_path
     else
-      flash.now[:danger] = "プロフィールの更新に失敗しました"
+      flash.now[:danger] = t('.update.failure')
       render :edit
     end
   end
