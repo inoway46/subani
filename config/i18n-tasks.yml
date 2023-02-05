@@ -1,7 +1,11 @@
 base_locale: ja
 data:
   read:
-    - config/locales/**/%{locale}.yml
+    - config/locales/activerecord/%{locale}.yml
+    - config/locales/views/%{locale}.yml
+    - config/locales/devise.en.yml
+    - config/locales/devise.views.ja.yml
+    - config/locales/en.yml
 search:
   paths:
     - app
