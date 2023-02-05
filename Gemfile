@@ -91,8 +91,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen'
-  # i18nの整理用
-  gem 'i18n-tasks'
+  gem 'i18n-tasks' # i18nの整理用
+  gem 'localhost' # localhostにhttpsで接続
 end
 
 group :test do
