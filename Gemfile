@@ -68,6 +68,7 @@ gem 'draper'
 gem 'counter_culture'
 # OGPの設定
 gem 'meta-tags'
+gem 'graphql'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -93,6 +94,8 @@ group :development do
   gem 'spring-watcher-listen'
   gem 'i18n-tasks' # i18nの整理用
   gem 'localhost' # localhostにhttpsで接続
+  gem 'graphiql-rails'
+  gem 'sass-rails'
 end
 
 group :test do
