@@ -12,7 +12,7 @@ s3 = Aws::S3::Client.new(
 )
 
 def master_params(row)
-  master_params = {
+  {
     id: row["id"].to_i,
     title: row["title"],
     media: row["media"],
