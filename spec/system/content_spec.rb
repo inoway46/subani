@@ -12,7 +12,7 @@ RSpec.describe 'Content', type: :system do
         fill_in "メールアドレス", with: user.email
         fill_in "パスワード", with: user.password
         click_button "ログイン"
-        master = create(:master)
+        create(:master)
       end
 
       it 'Contentが表示されること' do

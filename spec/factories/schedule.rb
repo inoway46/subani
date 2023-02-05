@@ -1,4 +1,4 @@
 FactoryBot.define do
-  factory :schedule do
-  end
+  # factory :schedule do
+  # end
 end
