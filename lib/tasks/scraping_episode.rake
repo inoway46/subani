@@ -35,7 +35,7 @@ namespace :scraping_episode do
     Selenium::WebDriver::Chrome.path = chrome_bin_path if chrome_bin_path
 
     driver = driver_init
-    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+    wait = Selenium::WebDriver::Wait.new(timeout: 10)
 
     abemas = Master.media_titles(0).now_streaming
 
@@ -48,7 +48,7 @@ namespace :scraping_episode do
 
       driver.navigate.to(master.url)
 
-      wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size > 0 }
+      wait.until { driver.find_elements(:class, 'com-video-EpisodeList__title').size.positive? }
 
       3.times do
         sleep(1)
@@ -64,7 +64,7 @@ namespace :scraping_episode do
       end
 
       ngword = ['PV', 'スペシャル', 'アニメ']
-      @titles.delete_if { |x| x =~ %r{^.*#{ngword[0]}.*} || x =~ %r{^.*#{ngword[1]}.*} || x =~ %r{^.*#{ngword[2]}.*} }
+      @titles.delete_if { |title| title =~ /^.*#{ngword[0]}.*/ || title =~ /^.*#{ngword[1]}.*/ || title =~ /^.*#{ngword[2]}.*/ }
 
       new_episode = @titles.size
       if current_episode < new_episode
@@ -86,9 +86,8 @@ namespace :scraping_episode do
     Selenium::WebDriver::Chrome.path = chrome_bin_path if chrome_bin_path
 
     driver = driver_init
-    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-    amazons =  Master.media_titles(1).now_streaming
+    amazons = Master.media_titles(1).now_streaming
 
     p "#{Time.current}:Amazonスクレイピングを開始します"
 
@@ -126,7 +125,7 @@ namespace :scraping_episode do
       @danime = []
 
       dtext = driver.find_elements(:class, "_28Bfau")
-      
+
       if dtext.present?
         dtext.each do |node|
           @danime << node.text
