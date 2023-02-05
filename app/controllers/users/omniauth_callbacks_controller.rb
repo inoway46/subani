@@ -13,7 +13,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @profile.set_values(@omniauth)
       sign_in(:user, @profile)
     end
-    flash[:notice] = "ログインしました"
+    flash[:notice] = t('.basic_action.success')
     redirect_to contents_path
   end
 

@@ -1,0 +1,24 @@
+ja:
+  homes:
+    guest_sign_in:
+      success: 'ゲストユーザーとしてログインしました。'
+  line:
+    flags:
+      create:
+        info: 'LINE通知は5タイトルまで登録できます'
+      destroy:
+        danger: '処理が失敗しました'
+  profiles:
+    update:
+      success: 'プロフィールを更新しました'
+      failure: 'プロフィールの更新に失敗しました'
+  schedules:
+    update:
+      success: "「%{title}」の時間割を変更しました"
+    destroy:
+      success: "「%{title}」を時間割から削除しました"
+      failure: '削除に失敗しました'
+  users:
+    omniauth_callbacks:
+      basic_action:
+        success: 'ログインしました'

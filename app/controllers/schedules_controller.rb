@@ -37,7 +37,7 @@ class SchedulesController < ApplicationController
       render :edit
     else
       @schedule.update(schedule_params)
-      flash[:success] = "「#{@schedule.content.title}」の時間割を変更しました"
+      flash[:success] = t('.update.success', title: @schedule.content.title)
       redirect_to schedules_path
     end
   end
@@ -47,9 +47,9 @@ class SchedulesController < ApplicationController
     @content = current_user.contents.find(schedule.content_id)
     if schedule.destroy
       @content.unregister
-      flash[:info] = "「#{@content.title}」を時間割から削除しました"
+      flash[:info] = t('.destroy.success', title: @content.title)
     else
-      flash[:danger] = "削除に失敗しました"
+      flash[:danger] = t('.destroy.failure')
     end
     redirect_to schedules_path
   end
