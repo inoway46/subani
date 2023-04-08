@@ -15,9 +15,21 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2.0'
-      - name: Install dependencies
-        run: bundle install
-      - name: RSpec
+          bundler-cache: true
+      - name: DB initialize
+        run: |
+          bundle exec rails db:create
+          bundle exec rake db:migrate
+      - name: Run RSpec
         run: bundle exec rspec
-      - name: Rubocop
+  rubocop:
+    runs-on: ubuntu-latest
+    setps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+          bundler-cache: true
+      - name: Run Rubocop
         run: bundle exec rubocop
