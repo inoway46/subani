@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  if Rails.env.development?
-    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql#execute"
-  end
+  mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql#execute" if Rails.env.development?
   post "/graphql", to: "graphql#execute"
   namespace :line do
     get 'authentications/link'
