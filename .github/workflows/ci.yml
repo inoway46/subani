@@ -14,7 +14,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.0'
+          bundler-cache: true
       - name: Install dependencies
         run: bundle install
       - name: DB initialize
@@ -30,6 +30,6 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.0'
+          bundler-cache: true
       - name: Run Rubocop
         run: bundle exec rubocop
