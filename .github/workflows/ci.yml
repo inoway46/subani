@@ -24,7 +24,7 @@ jobs:
         run: bundle exec rspec
   rubocop:
     runs-on: ubuntu-latest
-    setps:
+    steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
