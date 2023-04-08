@@ -22,7 +22,7 @@ jobs:
       - name: DB initialize
         run: |
           bundle exec rails db:create
-          bundle exec rails db:migrate
+          bundle exec rails db:migrate RAILS_ENV=test
       - name: Run RSpec
         run: bundle exec rspec
   rubocop:
