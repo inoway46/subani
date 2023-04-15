@@ -3,6 +3,9 @@ name: Auto Assign
 on:
   pull_request_target:
     types: [opened, reopened]
+  push:
+    branches:
+      - master
 
 jobs:
   if: ${{ toJSON(github.event.pull_request.assignees) == '[]' }}
