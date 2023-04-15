@@ -1,22 +1,23 @@
-name: pullreqの自動assign
+name: Auto Assign
+
 on:
   pull_request_target:
-    types: [opened, reopen]
+    types: [opened, reopened]
+  push:
+    branches:
+      - master
 
 jobs:
-  random-assign-codeowners:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v3
-      - run: |
-          head -n 1 .github/CODEOWNERS |
-            tr -d '@' |
-            sed s/^\*\ // |
-            sed s/\ /\\n/g |
-            shuf -n 1 |
-            xargs gh pr edit $NUMBER --add-assignee
-        env:
-          NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: ${{ toJSON(github.event.pull_request.assignees) == '[]' }}
+  if: ${{ toJSON(github.event.pull_request.assignees) == '[]' }}
+  call-workflow-passing-data:
+    permissions:
+      contents: write
+      issues: write
+      repository-projects: write
+      pull-requests: write
+    uses: inoway46/random-assign/.github/workflows/random-assign.yml@main
+    with:
+      path: .github/CODEOWNERS
+      number: ${{ github.event.pull_request.number }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
