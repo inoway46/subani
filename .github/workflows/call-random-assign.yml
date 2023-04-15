@@ -9,11 +9,6 @@ on:
 
 jobs:
   call-workflow-passing-data:
-    permissions:
-      contents: write
-      issues: write
-      repository-projects: write
-      pull-requests: write
     uses: inoway46/random-assign/.github/workflows/random-assign.yml@main
     with:
       user: ${{ github.event.pull_request.user.login }}
