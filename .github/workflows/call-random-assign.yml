@@ -1,0 +1,22 @@
+name: pullreqの自動assign
+on:
+  pull_request_target:
+    types: [opened, reopen]
+
+jobs:
+  random-assign-codeowners:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          head -n 1 .github/CODEOWNERS |
+            tr -d '@' |
+            sed s/^\*\ // |
+            sed s/\ /\\n/g |
+            shuf -n 1 |
+            xargs gh pr edit $NUMBER --add-assignee
+        env:
+          NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: ${{ toJSON(github.event.pull_request.assignees) == '[]' }}
