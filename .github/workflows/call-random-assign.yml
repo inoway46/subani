@@ -15,5 +15,6 @@ jobs:
     uses: inoway46/random-assign/.github/workflows/random-assign.yml@main
     with:
       path: .github/CODEOWNERS
+      number: ${{ github.event.pull_request.number }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
