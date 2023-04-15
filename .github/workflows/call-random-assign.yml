@@ -1,0 +1,23 @@
+name: Auto Assign
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - 'opened'
+      - 'reopened'
+
+jobs:
+  call-workflow-passing-data:
+    permissions:
+      contents: write
+      issues: write
+      repository-projects: write
+      pull-requests: write
+    uses: inoway46/random-assign/.github/workflows/random-assign.yml@main
+    with:
+      user: ${{ github.event.pull_request.user.login }}
+      repo: ${{ github.repository }}
+      number: ${{ github.event.pull_request.number }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
