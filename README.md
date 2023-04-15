@@ -1,4 +1,5 @@
 # アプリ名：サブスクアニメ時間割
+test
 > ▼画像をクリックするとアプリ説明の1分動画（Youtube）に遷移します
 
 [![](https://img.youtube.com/vi/Ip7KysRyO40/0.jpg)](https://www.youtube.com/watch?v=Ip7KysRyO40)
