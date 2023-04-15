@@ -16,8 +16,6 @@ jobs:
       pull-requests: write
     uses: inoway46/random-assign/.github/workflows/random-assign.yml@main
     with:
-      user: ${{ github.event.pull_request.user.login }}
-      repo: ${{ github.repository }}
       number: ${{ github.event.pull_request.number }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
