@@ -33,4 +33,8 @@ Rails.application.routes.draw do
     resources :flags, only: %i[create destroy]
     resources :notifications, only: %i[create]
   end
+
+  namespace :api do
+    resources :contents, only: [:index]
+  end
 end
